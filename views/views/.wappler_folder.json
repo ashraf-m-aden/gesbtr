@@ -1,0 +1,10 @@
+{
+  "tournee.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "bordereau.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

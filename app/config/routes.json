@@ -1,0 +1,25 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "page": "index",
+      "routeType": "page",
+      "layout": "main"
+    },
+    {
+      "path": "/views/tournee",
+      "page": "views/tournee",
+      "layout": "main"
+    },
+    {
+      "path": "/views/bordereau",
+      "page": "views/bordereau",
+      "layout": "main"
+    },
+    {
+      "path": "/auth/login",
+      "page": "auth/login",
+      "layout": "deconnected"
+    }
+  ]
+}
