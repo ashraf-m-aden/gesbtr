@@ -31,6 +31,13 @@ input{
     color:  #3B71CA  !important;
     
 }
+.list-group-item{
+    border: none;
+}
+.sidebar{
+    border-right: black 1px solid;
+
+}
  /* APPAREILS */
  .app-row{
     height: 100%;

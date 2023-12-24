@@ -5,7 +5,7 @@
   <base href="/">
   <script src="/dmxAppConnect/dmxAppConnect.js"></script>
   <meta charset="UTF-8">
-  <title></title>
+  <title><%=_('title')%></title>
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,17 +22,20 @@
   <script src="/dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer></script>
   <link rel="stylesheet" href="/css/custom.css" />
   <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap5TableGenerator/dmxBootstrap5TableGenerator.css" />
+  <script src="/dmxAppConnect/dmxBootstrap5PagingGenerator/dmxBootstrap5PagingGenerator.js" defer></script>
 </head>
 
 <body is="dmx-app" id="main">
-  <div class="wappler-block container-fluid">
+  <div class="wappler-block container-fluid pt-2">
     <div class="row">
       <div class="col">
         <%- await include('/partials/main/navbar', Object.assign({}, locals)) %>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 col-md-4 col-xl-3"></div>
+    <div class="row pt-4">
+      <div class="col-12 col-md-4 col-xl-3">
+        <%- await include('/partials/main/sidebar', Object.assign({}, locals)) %>
+      </div>
       <div class="col-12 col-md-8 col-xl-9">
         <div is="dmx-view" id="content">
           <%- await include(content, locals); %>

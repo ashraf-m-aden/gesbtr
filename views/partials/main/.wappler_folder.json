@@ -6,5 +6,9 @@
   "footer.ejs": {
     "description": "",
     "layoutPage": "main"
+  },
+  "sidebar.ejs": {
+    "description": "",
+    "layoutPage": "main"
   }
 }

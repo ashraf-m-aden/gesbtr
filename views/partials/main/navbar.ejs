@@ -1,22 +1,35 @@
 <!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{}}" head-page="layouts/main" -->
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
-<header class="shadow-sm placeholder-glow bg-white">
+<header class="placeholder-glow bg-white">
     <nav class="navbar navbar-expand-lg text-black-50 bg-body ps-2 pe-2">
+
+
         <a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/"><img src="/assets/images/edd.png" loading="lazy" id="logo" class="small" width="50" height="50"></a>
+        <h5>Application de Gestion des Bordereaux</h5>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarnavges">
 
             <div class="navbar-nav text-white nav-tabs">
+                <div class="nav-item dropdown">
 
-                <a class="nav-item nav-link text-white" href="/views/bordereau">Bordereaux</a>
-                <a class="nav-item nav-link text-white" href="/views/tournee">Tournees</a>
-                <a class="nav-item nav-link text-white">Releve</a>
-                <a class="nav-item nav-link btn-danger" href="/auth/login"><button id="btnDeco" class="btn btn-danger text-white" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</button></a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><small class="text-muted" dmx-text="connectedUser.data.nom"></small>
+                        <img src="/assets/user.png" width="30"></a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown1">
+                        <a class="nav-item nav-link " href="/auth/login" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</a>
+                    </div>
+                </div>
+
+                <a class="nav-item nav-link text-white d-md-none" href="/views/bordereau">Bordereaux</a>
+                <a class="nav-item nav-link text-white d-md-none" href="/views/tournee">Tournees</a>
+                <a class="nav-item nav-link text-white d-md-none">Releve</a>
+                <a class="nav-item nav-link btn-danger d-md-none" href="/auth/login"><button id="btnDeco" class="btn btn-danger text-white" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</button></a>
 
             </div>
 
         </div>
+
+
     </nav>
 </header>
