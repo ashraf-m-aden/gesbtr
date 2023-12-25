@@ -23,20 +23,18 @@
   <link rel="stylesheet" href="/css/custom.css" />
   <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap5TableGenerator/dmxBootstrap5TableGenerator.css" />
   <script src="/dmxAppConnect/dmxBootstrap5PagingGenerator/dmxBootstrap5PagingGenerator.js" defer></script>
+  <script src="/dmxAppConnect/dmxMasonry/dmxMasonry.js" defer></script>
 </head>
 
 <body is="dmx-app" id="main">
-  <div class="wappler-block container-fluid pt-2">
+  <div class="wappler-block pt-2 container-fluid">
     <div class="row">
       <div class="col">
         <%- await include('/partials/main/navbar', Object.assign({}, locals)) %>
       </div>
     </div>
     <div class="row pt-4">
-      <div class="col-12 col-md-4 col-xl-3">
-        <%- await include('/partials/main/sidebar', Object.assign({}, locals)) %>
-      </div>
-      <div class="col-12 col-md-8 col-xl-9">
+      <div class="col-12 ">
         <div is="dmx-view" id="content">
           <%- await include(content, locals); %>
         </div>

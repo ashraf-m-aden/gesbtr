@@ -26,11 +26,6 @@
       "path": "/auth/login",
       "page": "auth/login",
       "layout": "deconnected"
-    },
-    {
-      "path": "/views/test",
-      "page": "views/test",
-      "layout": "main"
     }
   ],
   "layouts": {

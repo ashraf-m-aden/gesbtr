@@ -38,6 +38,11 @@ input{
     border-right: black 1px solid;
 
 }
+
+.login{
+    background-color: black !important;
+    opacity: 1;
+}
  /* APPAREILS */
  .app-row{
     height: 100%;

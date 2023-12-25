@@ -10,5 +10,9 @@
   "test.ejs": {
     "layoutPage": "main",
     "description": ""
+  },
+  "Releve.ejs": {
+    "layoutPage": "main",
+    "description": ""
   }
 }
