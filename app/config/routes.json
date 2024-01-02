@@ -15,14 +15,6 @@
       }
     },
     {
-      "path": "/views/bordereau",
-      "page": "views/bordereau",
-      "layout": "main",
-      "data": {
-        "title": "Bordereaux"
-      }
-    },
-    {
       "path": "/auth/login",
       "page": "auth/login",
       "layout": "deconnected"
