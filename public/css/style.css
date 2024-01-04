@@ -1,0 +1,171 @@
+/* GENERAL */
+
+:root {
+    --green-color: #036306;
+    --blue-color: #3B71CA;
+    --custom-pink:  #dedaeb;
+}
+
+.clicked {
+    background: var(--custom-pink) !important;
+    color: black;
+}
+
+.clicked:hover {
+    background: var(--custom-pink) !important;
+
+}
+
+.card {
+    padding: 10px;
+}
+
+.cnavbar {
+    background: var(--custom-pink) !important;
+}
+
+.cnavbar2 {
+    background: var(--custom-pink) !important;
+}
+
+.cnavbar2>.nav-tabs {
+    font-weight: 500;
+    border-top: 1px solid grey;
+}
+
+input {
+    border: 1px solid gainsboro !important;
+}
+
+.heading-text {
+    margin-bottom: 20px;
+    color: var(--green-color)
+}
+
+.nav-item {
+    color: white !important
+}
+.table-row,.table-head{
+    font-size: small;
+}
+.nav-item:hover, .table-row:hover {
+    color: white !important;
+    cursor: pointer;
+}
+.list-group-item {
+    border: none;
+}
+
+
+
+.login {
+    background-color: black !important;
+    opacity: 1;
+}
+
+/* APPAREILS */
+.app-row {
+    height: 100%;
+
+}
+
+.app-sidebar {
+    border: 1px solid var(--green-color);
+    background-color: white !important;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 5px;
+    color: var(--green-color);
+
+}
+.list-group-item-action, .form-check-input{
+    color: var(--green-color);
+
+}
+
+
+
+.card {
+    border: 1px solid var(--green-color);
+    background-color: white;
+    padding-top: 15px;
+    border-radius: 5px;
+    
+
+}
+
+.app-nodata {
+    border: 1px solid gainsboro;
+    background-color: white;
+    border-radius: 5px;
+    height: 500px;
+    display: inline-block;
+    background-image: url('../assets/images/edd.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100px;
+}
+
+.tab-pane {
+    background-color: white;
+    padding: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid grey;
+    border-top: none;
+    border-top-right-radius: none;
+    border-top-left-radius: none;
+    position: static;
+    width: 100%;
+}
+
+
+.header{
+    background: var(--green-color) !important
+}
+
+/* MODEL */
+
+.model-sidebar {
+    border: 1px solid gainsboro;
+    background-color: white;
+    padding-top: 15px;
+    border-radius: 5px;
+    min-height: 100vh
+}
+
+.model-img {
+    max-width: 300px;
+    max-height: 200px;
+}
+
+/*   PAGINATION */
+
+.pagination > li > a
+{
+    background-color: white;
+    color: var(--green-color);
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: white;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: var(--green-color) !Important;
+    border: solid 1px var(--green-color) !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: var(--green-color) !Important;
+    border: solid 1px var(--green-color);
+}

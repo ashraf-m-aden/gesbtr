@@ -2,27 +2,28 @@
 <dmx-value id="actualPage" dmx-bind:value="content.browser1.location.pathname?content.browser1.location.pathname:''"></dmx-value>
 <div is="dmx-browser" id="browser1"></div>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
-<div class="sidebar d-flex flex-column justify-content-around ps-4 pe-4">
+<div class="app-sidebar d-flex flex-column ps-4 pe-4 justify-content-between">
     <div class="list-group ">
-        <a href="#" class="list-group-item list-group-item-action" dmx-on:click="browser1.goto('/views/bordereau',true,'Bordereau');actualPage.setValue('/views/bordereau')">
+        <a href="#" class="list-group-item list-group-item-action" dmx-on:click="browser1.goto('/',true,'Bordereau');actualPage.setValue('/views/bordereau')">
             <div class="d-flex w-100 justify-content-between align-items-center">
-                <h5 class="mb-1">Bordereaux</h5>
+                <div class="d-flex align-items-center justify-content-around">
+                    <i class="fas fa-scroll" dmx-style=""></i>
+                    <h5 class="ms-2">Bordereaux</h5>
+                </div>
 
-                <i class="fas fa-arrow-right" dmx-show="actualPage.value==('/views/bordereau'||'')"></i>
+
+                <i class="fas fa-arrow-right" dmx-show="actualPage.value=='/'"></i>
             </div>
         </a>
         <a href="#" class="list-group-item list-group-item-action" dmx-on:click="browser1.goto('/views/tournee',true,'Tournées');actualPage.setValue('/views/tournee')">
             <div class="d-flex w-100 justify-content-between align-items-center">
-                <h5 class="mb-1">Tournee</h5>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-route"></i>
+                    <h5 class="ms-2">Tournee</h5>
+                </div>
+
 
                 <i class="fas fa-arrow-right" dmx-show="actualPage.value=='/views/tournee'"></i>
-            </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action" dmx-on:click="browser1.goto();actualPage.setValue('releve')">
-            <div class="d-flex w-100 justify-content-between align-items-center">
-                <h5 class="mb-1">Releve</h5>
-
-                <i class="fas fa-arrow-right" dmx-show="actualPage.value=='releve'"></i>
             </div>
         </a>
     </div>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" is="dmx-app">
 
 <head>
   <base href="/">
@@ -25,9 +25,10 @@
   <script src="/dmxAppConnect/dmxBootstrap5PagingGenerator/dmxBootstrap5PagingGenerator.js" defer></script>
   <script src="/dmxAppConnect/dmxMasonry/dmxMasonry.js" defer></script>
   <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer></script>
+  <script src="/dmxAppConnect/dmxFormRepeat/dmxFormRepeat.js" defer></script>
 </head>
 
-<body id="main" is="dmx-app">
+<body id="main">
   <div class="wappler-block pt-2 container-fluid bg-body-secondary" dmx-style:min-height="'100vh'">
     <div class="row">
       <div class="col">
@@ -35,7 +36,10 @@
       </div>
     </div>
     <div class="row pt-4 bg-body-secondary">
-      <div class="col-12 bg-body-secondary">
+      <div class="col-3 d-none d-lg-block">
+        <%- await include('/partials/main/sidebar', Object.assign({}, locals)) %>
+      </div>
+      <div class="col-12 col-lg-9 bg-body-secondary">
         <div is="dmx-view" id="content">
           <%- await include(content, locals); %>
         </div>

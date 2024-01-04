@@ -25,150 +25,154 @@
 <meta name="ac:route" content="/views/tournee" />
 <div class="container-fluid">
     <div class="row">
-        <div class="card col-12 col-md-6 ">
-            <h4>
-                Liste de toutes les tournées
-            </h4>
-            <form id="bordereauForm" class="w-100">
-                <div class="row justify-content-left">
-                    <div class="col-12 text-left pt-3">
-                        <div class="fdb-box fdb-touch">
-                            <div class="row">
-                                <div class="col border-black pb-3">
-                                    <div class="form-group mb-3 row">
-                                        <label for="lieugeographique" class="col-sm-2 form-label col-form-label">Lieu géographique</label>
-                                        <div class="col-sm-10 align-self-center">
-                                            <select id="lieugeographique" class="form-select form-control form-select-sm" dmx-bind:options="listLieuGeo.data" optiontext="Libelle" optionvalue="NumLieugeo" dmx-on:updated="selectedLieuGeoId.setValue(value);lotfacList.load({})">
-                                                <option selected="" value="">Aucun Lieu</option>
-                                            </select>
-                                            <button id="btn12" class="btn" dmx-show="periodeLoading.value">
-                                                <span class="spinner-border spinner-border-sm" role="status"></span>
-                                            </button>
+        <div class=" col-12 col-md-6 ">
+            <div class="card">
+                <h6 class="heading-text">
+                    Liste de toutes les tournées
+                </h6>
+                <form id="bordereauForm" class="w-100">
+                    <div class="row justify-content-left">
+                        <div class="col-12 text-left pt-3">
+                            <div class="fdb-box fdb-touch">
+                                <div class="row">
+                                    <div class="col border-black pb-3">
+                                        <div class="form-group mb-3 row">
+                                            <label for="lieugeographique" class="col-sm-2 form-label col-form-label">Lieu géographique</label>
+                                            <div class="col-sm-10 align-self-center">
+                                                <select id="lieugeographique" class="form-select form-control form-select-sm" dmx-bind:options="listLieuGeo.data" optiontext="Libelle" optionvalue="NumLieugeo" dmx-on:updated="selectedLieuGeoId.setValue(value);lotfacList.load({})">
+                                                    <option selected="" value="">Aucun Lieu</option>
+                                                </select>
+                                                <button id="btn12" class="btn" dmx-show="periodeLoading.value">
+                                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group mb-3 row">
-                                        <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
-                                        <div class="col-sm-10">
-                                            <select id="lotfac" class="form-select form-select-sm" dmx-bind:options="lotfacList.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="getTournees.load({})">
-                                                <option selected="" value="">Aucune cellule</option>
-                                            </select><button id="btn2" class="btn" dmx-show="lotfacLoading.value">
-                                                <span class="spinner-border spinner-border-sm" role="status"></span>
-                                            </button>
+                                        <div class="form-group mb-3 row">
+                                            <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
+                                            <div class="col-sm-10">
+                                                <select id="lotfac" class="form-select form-select-sm" dmx-bind:options="lotfacList.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="getTournees.load({})">
+                                                    <option selected="" value="">Aucune cellule</option>
+                                                </select><button id="btn2" class="btn" dmx-show="lotfacLoading.value">
+                                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                                                </button>
 
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="col-12 pt-3">
-
-                                    <h4 class="text-success fst-italic">
-                                        Liste des tournees
-                                    </h4>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>Num tourne</th>
-                                                    <th>Lieu geo</th>
-                                                    <th>Zone geo</th>
-                                                    <th>Lot fac</th>
-                                                    <th>Nombre pl</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="tourneeView.data" id="tableRepeat2">
-                                                <tr>
-                                                    <td dmx-text="NumTourne"></td>
-                                                    <td dmx-text="LieuGeo"></td>
-                                                    <td dmx-text="ZoneGeo"></td>
-                                                    <td dmx-text="LotFac"></td>
-                                                    <td dmx-text="NombrePl"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
                                     </div>
-                                    <ul class="pagination pagination-sm" dmx-dataview="tourneeView" dmx-generator="bs5paging">
-                                        <li class="page-item" dmx-class:disabled="tourneeView.page == 1" aria-label="First">
-                                            <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                                        </li>
-                                        <li class="page-item" dmx-class:disabled="tourneeView.page == 1" aria-label="Previous">
-                                            <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
-                                        </li>
-                                        <li class="page-item" dmx-class:active="title == tourneeView.page" dmx-class:disabled="!active" dmx-repeat="tourneeView.getDataViewPagination(2,1,'...')">
-                                            <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.select(page)">{{title)}}</a>
-                                        </li>
-                                        <li class="page-item" dmx-class:disabled="tourneeView.page == tourneeView.pages" aria-label="Next">
-                                            <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.next()"><span aria-hidden="true">&rsaquo;</span></a>
-                                        </li>
-                                        <li class="page-item" dmx-class:disabled="tourneeView.page == tourneeView.pages" aria-label="Last">
-                                            <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                                        </li>
-                                    </ul>
+                                    <div class="col-12 pt-3">
+
+                                        <h6 class="heading-text">
+                                            Liste des tournees
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Num tourne</th>
+                                                        <th>Lieu geo</th>
+                                                        <th>Zone geo</th>
+                                                        <th>Lot fac</th>
+                                                        <th>Nombre pl</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="tourneeView.data" id="tableRepeat2">
+                                                    <tr>
+                                                        <td dmx-text="NumTourne"></td>
+                                                        <td dmx-text="LieuGeo"></td>
+                                                        <td dmx-text="ZoneGeo"></td>
+                                                        <td dmx-text="LotFac"></td>
+                                                        <td dmx-text="NombrePl"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <ul class="pagination pagination-sm" dmx-dataview="tourneeView" dmx-generator="bs5paging">
+                                            <li class="page-item" dmx-class:disabled="tourneeView.page == 1" aria-label="First">
+                                                <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+                                            </li>
+                                            <li class="page-item" dmx-class:disabled="tourneeView.page == 1" aria-label="Previous">
+                                                <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+                                            </li>
+                                            <li class="page-item" dmx-class:active="title == tourneeView.page" dmx-class:disabled="!active" dmx-repeat="tourneeView.getDataViewPagination(2,1,'...')">
+                                                <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.select(page)">{{title)}}</a>
+                                            </li>
+                                            <li class="page-item" dmx-class:disabled="tourneeView.page == tourneeView.pages" aria-label="Next">
+                                                <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.next()"><span aria-hidden="true">&rsaquo;</span></a>
+                                            </li>
+                                            <li class="page-item" dmx-class:disabled="tourneeView.page == tourneeView.pages" aria-label="Last">
+                                                <a href="javascript:void(0)" class="page-link" dmx-on:click="tourneeView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-        <div class="col-12 col-md-6 card">
-            <h4>
-                Ajout d'une nouvelle tournée
-            </h4>
-            <form id="newtourneForm" is="dmx-api-form" method="post" action="http://localhost:5243/api/tournee/addTournee" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Nouvelle tournee crée');scheduler1.start()" dmx-on:error="notifies1.danger(lastError.response);loading.setValue(false)">
-                <div class="row">
-                    <small class="text-muted" dmx-text=""></small>
-                    <div class="col col-12 pt-3">
-                        <div class="form-group mb-3 row">
-                            <label for="xlieugeographique" class="form-label col-sm-2 col-form-label">Lieu géographique</label>
-                            <div class="col-sm-10 align-self-center">
-                                <select id="xlieugeographique" class="form-select form-control form-select-sm" dmx-bind:options="listLieuGeo.data" optiontext="Libelle" optionvalue="NumLieugeo" dmx-on:changed="selectedLieuGeoId.setValue(value);lotfacList.load({})" name="LieuGeo">
-                                    <option selected="" value="">Aucun Lieu</option>
-                                </select>
-                                <button id="xbtn1" class="btn" dmx-show="periodeLoading.value">
-                                    <span class="spinner-border spinner-border-sm" role="status"></span>
+        <div class="col-12 col-md-6">
+            <div class="card">
+                <h6 class="heading-text">
+                    Ajout d'une nouvelle tournée
+                </h6>
+                <form id="newtourneForm" is="dmx-api-form" method="post" action="http://localhost:5243/api/tournee/addTournee" dmx-header:authorization="connectedUser.data.token" dmx-on:success="notifies1.success('Nouvelle tournee crée');scheduler1.start()" dmx-on:error="notifies1.danger(lastError.response);loading.setValue(false)">
+                    <div class="row">
+                        <small class="text-muted" dmx-text=""></small>
+                        <div class="col col-12 pt-3">
+                            <div class="form-group mb-3 row">
+                                <label for="xlieugeographique" class="form-label col-sm-2 col-form-label">Lieu géographique</label>
+                                <div class="col-sm-10 align-self-center">
+                                    <select id="xlieugeographique" class="form-select form-control form-select-sm" dmx-bind:options="listLieuGeo.data" optiontext="Libelle" optionvalue="NumLieugeo" dmx-on:changed="selectedLieuGeoId.setValue(value);lotfacList.load({})" name="LieuGeo">
+                                        <option selected="" value="">Aucun Lieu</option>
+                                    </select>
+                                    <button id="xbtn1" class="btn" dmx-show="periodeLoading.value">
+                                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label for="xlotfac" class="form-label col-sm-2 col-form-label">Cellule</label>
+                                <div class="col-sm-10 align-self-center">
+                                    <select id="xlotfac" class="form-select form-select-sm" dmx-bind:options="lotfacList.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="selectedCelluleNum.setValue(value);listZoneGeo.load({numlotfac: value});lotfacValue.setValue(lotfacList.data[selectedIndex].NumLotFac)" name="numLotFac">
+                                        <option selected="" value="">Aucune cellule</option>
+                                    </select><button id="xbtn2" class="btn" dmx-show="lotfacLoading.value">
+                                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label for="zoneGeo" class="form-label col-sm-2 col-form-label">Zone géographique</label>
+                                <div class="col-sm-10 align-self-center">
+                                    <select id="xlozoneGeotfac" class="form-select form-select-sm" dmx-bind:options="listZoneGeo.data" optiontext="NumZone+' -- '+NomZone" optionvalue="NumZone" dmx-on:changed="tournePropose.load({numlotfac: xlotfac.value, numzone: value})" name="ZoneGeo">
+                                        <option selected="" value="">Aucune zone</option>
+                                    </select><button id="zbtn2" class="btn" dmx-show="lotfacLoading.value">
+                                        <span class="spinner-border spinner-border-sm" role="status"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3 row">
+                                <label for="NumTourne" class="form-label col-sm-2 col-form-label">Numero de tournée generé<br /></label>
+                                <div class="col-sm-10 align-self-center">
+                                    <input type="text" class="form-control form-control-sm" id="NumTourne" name="NumTourne" aria-describedby="input1_help" placeholder="Enter some text" readonly="true" dmx-bind:value="tournePropose.data">
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-3 justify-content-center"><button id="btn3" class="btn btn-primary btn-sm" type="submit" dmx-hide="loading.value==true" dmx-bind:disabled="!xlozoneGeotfac.value">
+                                    Enregistrer
+                                </button>
+                                <button id="btn1" class="btn btn-warning" dmx-show="loading.value==true">
+                                    <span class="spinner-border spinner-border-sm text-danger" role="status"></span>Chargement..
                                 </button>
                             </div>
-                        </div>
-                        <div class="form-group mb-3 row">
-                            <label for="xlotfac" class="form-label col-sm-2 col-form-label">Cellule</label>
-                            <div class="col-sm-10 align-self-center">
-                                <select id="xlotfac" class="form-select form-select-sm" dmx-bind:options="lotfacList.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="selectedCelluleNum.setValue(value);listZoneGeo.load({numlotfac: value});lotfacValue.setValue(lotfacList.data[selectedIndex].NumLotFac)" name="numLotFac">
-                                    <option selected="" value="">Aucune cellule</option>
-                                </select><button id="xbtn2" class="btn" dmx-show="lotfacLoading.value">
-                                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3 row">
-                            <label for="zoneGeo" class="form-label col-sm-2 col-form-label">Zone géographique</label>
-                            <div class="col-sm-10 align-self-center">
-                                <select id="xlozoneGeotfac" class="form-select form-select-sm" dmx-bind:options="listZoneGeo.data" optiontext="NumZone+' -- '+NomZone" optionvalue="NumZone" dmx-on:changed="tournePropose.load({numlotfac: xlotfac.value, numzone: value})" name="ZoneGeo">
-                                    <option selected="" value="">Aucune zone</option>
-                                </select><button id="zbtn2" class="btn" dmx-show="lotfacLoading.value">
-                                    <span class="spinner-border spinner-border-sm" role="status"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3 row">
-                            <label for="NumTourne" class="form-label col-sm-2 col-form-label">Numero de tournée generé<br /></label>
-                            <div class="col-sm-10 align-self-center">
-                                <input type="text" class="form-control form-control-sm" id="NumTourne" name="NumTourne" aria-describedby="input1_help" placeholder="Enter some text" readonly="true" dmx-bind:value="tournePropose.data">
-                            </div>
-                        </div>
-
-                        <div class="d-flex mt-3 justify-content-center"><button id="btn3" class="btn btn-primary btn-sm" type="submit" dmx-hide="loading.value==true" dmx-bind:disabled="!xlozoneGeotfac.value">
-                                Enregistrer
-                            </button>
-                            <button id="btn1" class="btn btn-warning" dmx-show="loading.value==true">
-                                <span class="spinner-border spinner-border-sm text-danger" role="status"></span>Chargement..
-                            </button>
-                        </div>
 
 
 
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

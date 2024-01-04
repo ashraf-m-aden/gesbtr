@@ -1,24 +1,24 @@
 <!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{},dmxBootstrap5TableGenerator:{}}" head-page="layouts/main" -->
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
-<header class="placeholder-glow bg-white">
-    <nav class="navbar d-flex navbar-expand-lg text-black-50 bg-body ps-2 pe-2 flex-row align-items-center justify-content-between">
+<header class="placeholder-glow header">
+    <nav class="navbar header d-flex navbar-expand-lg bg-body ps-2 pe-2 flex-row align-items-center justify-content-between">
 
 
 
         <div class="d-flex align-items-center">
             <a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/"><img src="/assets/images/edd.png" loading="lazy" id="logo" class="small" width="50" height="50"></a>
-            <h5 class="text-justify">Application de Gestion des Bordereaux</h5>
+            <h5 class="text-justify text-light">Application de Gestion des Bordereaux</h5>
         </div>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnavges" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse flex-row justify-content-center" id="navbarnavges">
+        <div class="collapse navbar-collapse flex-row justify-content-center d-lg-none" id="navbarnavges">
 
-            <div class="navbar-nav text-white">
+            <div class="navbar-nav text-white d-lg-none">
 
 
-                <a class="nav-item nav-link text-center" href="/">Bordereaux</a>
+                <a class="nav-item nav-link text-center text-white" href="/">Bordereaux</a>
                 <a class="nav-item nav-link text-white text-center" href="/views/tournee">Tournees</a>
 
 
@@ -30,11 +30,14 @@
             <div class="navbar-nav w-100">
                 <div class="nav-item dropdown">
 
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><small class="text-muted" dmx-text="connectedUser.data.nom"></small>
-                        <img src="/assets/user.png" width="30"></a>
+
+                    <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown">
+                        <small class="text-light" dmx-text="connectedUser.data.nom"></small>
+                    </a>
                     <div class="dropdown-menu" aria-labelledby="dropdown1">
                         <a class="nav-item nav-link " href="/auth/login" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</a>
                     </div>
+
                 </div>
             </div>
         </div>
