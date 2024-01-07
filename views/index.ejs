@@ -1,11 +1,13 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{},dmxFormatter:{},dmxFormRepeat:{}}" dmx-on:load="selectedAnomalies.empty()" -->
+<dmx-serverconnect id="serverconnect1" url="/api/update"></dmx-serverconnect>
+
 
 
 
 
 <meta name="ac:route" content="/">
 <dmx-data-view id="releveView" dmx-bind:data="getReleve.data" pagesize="5" filter="Anomalie=='PA'"></dmx-data-view>
-<dmx-data-view id="releveErreur" dmx-bind:data="getReleve.data" pagesize="5" filter="Anomalie!='PA'"></dmx-data-view>
+<dmx-data-view id="releveErreur" dmx-bind:data="selectedReleveCorrection.items" pagesize="5"></dmx-data-view>
 
 <dmx-data-view id="logBordereauView" dmx-bind:data="lotsuivibordereau.data" pageSize="5"></dmx-data-view>
 <dmx-data-view id="suiviebOrdereauView" dmx-bind:data="suiviBordereauApi.data" pageSize="5"></dmx-data-view>
@@ -44,14 +46,14 @@
 
 
 
-<dmx-array id="selectedAnomalies"></dmx-array>
-<dmx-array id="selectedReleveCorrection" dmx-bind:items="getReleve.data.where(`Anomalie`, selectedAnomalies.items, 'inArray').NumReleve"></dmx-array>
+<dmx-array id="selectedReleveCorrection" dmx-bind:items="getReleve.data.where(`Anomalie`, 'PA', '!==')"></dmx-array>
 <dmx-value id="selectedBordereau"></dmx-value>
 <dmx-value id="numLotFac"></dmx-value>
 <dmx-value id="releveurloading" dmx-bind:value="false"></dmx-value>
 <dmx-value id="lotfacLoading" dmx-bind:value="false"></dmx-value>
 <dmx-value id="periodeLoading" dmx-bind:value="true"></dmx-value>
 
+<dmx-api-action id="updateReleve" noload="true" method="post" url="http://localhost:5243/api/releve" dmx-param:list_releve="JSON.stringify(selectedReleveCorrection.items)" dmx-param:matricule="connectedUser.data.matricule" data-type="json"></dmx-api-action>
 <dmx-api-datasource id="getReleve" is="dmx-fetch" url="http://localhost:5243/api/releve" dmx-header:authorization="connectedUser.data.token" dmx-param:num_tourne="selectedBordereau.value.tournee" dmx-param:id_periode="selectedBordereau.value.periode" dmx-param:num_bordereaux="selectedBordereau.value.bordereau" noload="true"></dmx-api-datasource>
 <dmx-api-datasource id="getAnomalieReleve" is="dmx-fetch" url="http://localhost:5243/api/releve/anomalie" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
@@ -401,11 +403,11 @@
                                         <td dmx-text="PeriodeDuree"></td>
                                         <td dmx-text="Consommation"></td>
                                         <td>
-                                            <input id="indexA" name="indexA" type="text" class="form-control" dmx-bind:value="IndexA">
+                                            <input id="indexA" name="indexA" type="text" class="form-control correct-input" dmx-bind:value="IndexA" dmx-on:changed="run({runJS:{function:'updateDataIndex',args:[`$index`,`value`],name:'updateData',outputType:'text'}})">
                                         </td>
                                         <td dmx-text="DateReleve.formatDate('dd-MMM-yyyy')"></td>
                                         <td>
-                                            <select id="libelleAnomalie" class="form-select" dmx-bind:options="getAnomalieReleve.data" optiontext="Libelle" optionvalue="Code" dmx-bind:value="Anomalie">
+                                            <select id="libelleAnomalie" class="form-select correct-input" dmx-bind:options="getAnomalieReleve.data" optiontext="Libelle" optionvalue="Code" dmx-bind:value="Anomalie" dmx-on:changed="run({runJS:{function:'updateDataAnomalie',args:[`$index`,`value`],outputType:'text'}})">
                                             </select>
                                         </td>
                                         <td dmx-text="Matricule"></td>
@@ -432,7 +434,7 @@
                                 <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Last">
                                     <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
                                 </li>
-                            </ul><button id="correctBtn" class="btn btn-sm btn-success">Corriger tout</button>
+                            </ul><button id="correctBtn" class="btn btn-sm btn-success" dmx-on:click="serverconnect1.load({})">Corriger tout</button>
                         </div>
 
                     </div>
@@ -441,3 +443,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    function showErreurCorrection(){
+          
+    console.log(dmx.app.data.content.selectedReleveCorrection.items)
+
+    }
+     function updateDataIndex(index,newIndex){
+        console.log('avant:' + dmx.app.data.content.selectedReleveCorrection.items[index].IndexA);
+        console.log('data avant:' +  newIndex);
+        dmx.app.data.content.selectedReleveCorrection.items[index].IndexA = newIndex;
+        console.log('apres:' +  dmx.app.data.content.selectedReleveCorrection.items[index].IndexA)
+    }
+        function updateDataAnomalie(index,newAnomalie){
+        console.log('avant:' + dmx.app.data.content.selectedReleveCorrection.items[index].Anomalie);
+        console.log('data avant:' +  newAnomalie);
+        dmx.app.data.content.selectedReleveCorrection.items[index].Anomalie = newAnomalie;
+        console.log('apres:' +  dmx.app.data.content.selectedReleveCorrection.items[index].Anomalie)
+    }
+</script>

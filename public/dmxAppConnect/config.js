@@ -703,180 +703,7 @@ dmx.config({
       "outputType": "array"
     },
     "releveErreur": {
-      "meta": [
-        {
-          "type": "number",
-          "name": "NumReleve"
-        },
-        {
-          "type": "text",
-          "name": "Nom"
-        },
-        {
-          "type": "text",
-          "name": "AdrPhysique"
-        },
-        {
-          "type": "number",
-          "name": "IdPl"
-        },
-        {
-          "type": "number",
-          "name": "NumTourne"
-        },
-        {
-          "type": "number",
-          "name": "IdPeriode"
-        },
-        {
-          "type": "text",
-          "name": "Codepl"
-        },
-        {
-          "type": "text",
-          "name": "NumOrdrePl"
-        },
-        {
-          "type": "number",
-          "name": "EtatPl"
-        },
-        {
-          "type": "number",
-          "name": "AccesCompteur"
-        },
-        {
-          "type": "number",
-          "name": "NumCpteur"
-        },
-        {
-          "type": "number",
-          "name": "IndexA"
-        },
-        {
-          "type": "text",
-          "name": "DateReleve"
-        },
-        {
-          "type": "number",
-          "name": "Matricule"
-        },
-        {
-          "type": "number",
-          "name": "Consommation"
-        },
-        {
-          "type": "number",
-          "name": "MoyConsommation"
-        },
-        {
-          "type": "text",
-          "name": "Anomalie"
-        },
-        {
-          "type": "text",
-          "name": "Coment"
-        },
-        {
-          "type": "text",
-          "name": "Libelle"
-        },
-        {
-          "type": "text",
-          "name": "Accescompteur"
-        },
-        {
-          "type": "text",
-          "name": "Etatpl"
-        },
-        {
-          "type": "number",
-          "name": "IdPeriodePrec"
-        },
-        {
-          "type": "text",
-          "name": "IndexR"
-        },
-        {
-          "type": "text",
-          "name": "IpmReleve"
-        },
-        {
-          "type": "text",
-          "name": "Reactive"
-        },
-        {
-          "type": "number",
-          "name": "NumBordereaux"
-        },
-        {
-          "type": "text",
-          "name": "Chkbox"
-        },
-        {
-          "type": "text",
-          "name": "Qualite"
-        },
-        {
-          "type": "text",
-          "name": "Affichable"
-        },
-        {
-          "type": "number",
-          "name": "IndexA2"
-        },
-        {
-          "type": "text",
-          "name": "DateReleve2"
-        },
-        {
-          "type": "text",
-          "name": "IndexR2"
-        },
-        {
-          "type": "text",
-          "name": "IpmReleve2"
-        },
-        {
-          "type": "text",
-          "name": "MaxIndex"
-        },
-        {
-          "type": "text",
-          "name": "CodeCpteur"
-        },
-        {
-          "type": "number",
-          "name": "IdContrat"
-        },
-        {
-          "type": "text",
-          "name": "Fmontant"
-        },
-        {
-          "type": "text",
-          "name": "NumCpteurR"
-        },
-        {
-          "type": "text",
-          "name": "CodeCpteurR"
-        },
-        {
-          "type": "text",
-          "name": "MaxIndexR"
-        },
-        {
-          "type": "text",
-          "name": "ConsR"
-        },
-        {
-          "type": "text",
-          "name": "PsAtteinte"
-        },
-        {
-          "type": "text",
-          "name": "CoeffMultIpm"
-        }
-      ],
+      "meta": null,
       "outputType": "array"
     },
     "suiviBordereauApi": [
@@ -1118,6 +945,195 @@ dmx.config({
         {
           "type": "text",
           "name": "Affichable"
+        }
+      ],
+      "outputType": "array"
+    },
+    "selectedReleveCorrection": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "NumReleve"
+        },
+        {
+          "type": "text",
+          "name": "Nom"
+        },
+        {
+          "type": "text",
+          "name": "AdrPhysique"
+        },
+        {
+          "type": "number",
+          "name": "IdPl"
+        },
+        {
+          "type": "number",
+          "name": "NumTourne"
+        },
+        {
+          "type": "number",
+          "name": "IdPeriode"
+        },
+        {
+          "type": "text",
+          "name": "Codepl"
+        },
+        {
+          "type": "text",
+          "name": "NumOrdrePl"
+        },
+        {
+          "type": "number",
+          "name": "EtatPl"
+        },
+        {
+          "type": "number",
+          "name": "AccesCompteur"
+        },
+        {
+          "type": "number",
+          "name": "NumCpteur"
+        },
+        {
+          "type": "number",
+          "name": "IndexA"
+        },
+        {
+          "type": "text",
+          "name": "DateReleve"
+        },
+        {
+          "type": "number",
+          "name": "Matricule"
+        },
+        {
+          "type": "number",
+          "name": "Consommation"
+        },
+        {
+          "type": "number",
+          "name": "MoyConsommation"
+        },
+        {
+          "type": "text",
+          "name": "Anomalie"
+        },
+        {
+          "type": "text",
+          "name": "Coment"
+        },
+        {
+          "type": "text",
+          "name": "Libelle"
+        },
+        {
+          "type": "text",
+          "name": "Accescompteur"
+        },
+        {
+          "type": "text",
+          "name": "Etatpl"
+        },
+        {
+          "type": "number",
+          "name": "IdPeriodePrec"
+        },
+        {
+          "type": "text",
+          "name": "IndexR"
+        },
+        {
+          "type": "text",
+          "name": "IpmReleve"
+        },
+        {
+          "type": "text",
+          "name": "Reactive"
+        },
+        {
+          "type": "number",
+          "name": "NumBordereaux"
+        },
+        {
+          "type": "text",
+          "name": "Chkbox"
+        },
+        {
+          "type": "text",
+          "name": "Qualite"
+        },
+        {
+          "type": "text",
+          "name": "Affichable"
+        },
+        {
+          "type": "number",
+          "name": "IndexA2"
+        },
+        {
+          "type": "text",
+          "name": "DateReleve2"
+        },
+        {
+          "type": "text",
+          "name": "IndexR2"
+        },
+        {
+          "type": "text",
+          "name": "IpmReleve2"
+        },
+        {
+          "type": "text",
+          "name": "MaxIndex"
+        },
+        {
+          "type": "text",
+          "name": "CodeCpteur"
+        },
+        {
+          "type": "number",
+          "name": "IdContrat"
+        },
+        {
+          "type": "text",
+          "name": "Fmontant"
+        },
+        {
+          "type": "text",
+          "name": "NumCpteurR"
+        },
+        {
+          "type": "text",
+          "name": "CodeCpteurR"
+        },
+        {
+          "type": "text",
+          "name": "MaxIndexR"
+        },
+        {
+          "type": "text",
+          "name": "ConsR"
+        },
+        {
+          "type": "text",
+          "name": "PsAtteinte"
+        },
+        {
+          "type": "text",
+          "name": "CoeffMultIpm"
+        },
+        {
+          "type": "number",
+          "name": "PreIndexA"
+        },
+        {
+          "type": "text",
+          "name": "PreDateReleve"
+        },
+        {
+          "type": "text",
+          "name": "PeriodeDuree"
         }
       ],
       "outputType": "array"

@@ -1,3 +1,27 @@
 {
-  "exec": {}
+  "meta": {
+    "$_PARAM": [
+      {
+        "type": "array",
+        "name": "list_releve"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "api",
+      "module": "api",
+      "action": "send",
+      "options": {
+        "params": {
+          "": "{{$_PARAM.list_releve}}"
+        },
+        "dataType": "json",
+        "data": "{{$_PARAM.list_releve}}",
+        "method": "POST",
+        "url": "http://localhost:5243/api/releve"
+      },
+      "output": true
+    }
+  }
 }
