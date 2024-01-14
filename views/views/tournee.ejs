@@ -37,7 +37,7 @@
                                 <div class="row">
                                     <div class="col border-black pb-3">
                                         <div class="form-group mb-3 row">
-                                            <label for="lieugeographique" class="col-sm-2 form-label col-form-label">Lieu géographique</label>
+                                            <label for="lieugeographique" class="col-sm-2 form-label col-form-label col-form-label-sm">Lieu géographique</label>
                                             <div class="col-sm-10 align-self-center">
                                                 <select id="lieugeographique" class="form-select form-control form-select-sm" dmx-bind:options="listLieuGeo.data" optiontext="Libelle" optionvalue="NumLieugeo" dmx-on:updated="selectedLieuGeoId.setValue(value);lotfacList.load({})">
                                                     <option selected="" value="">Aucun Lieu</option>
@@ -48,7 +48,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group mb-3 row">
-                                            <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
+                                            <label for="lotfac" class="form-label col-sm-2 col-form-label col-form-label-sm">Lot facturation:</label>
                                             <div class="col-sm-10">
                                                 <select id="lotfac" class="form-select form-select-sm" dmx-bind:options="lotfacList.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="getTournees.load({})">
                                                     <option selected="" value="">Aucune cellule</option>
@@ -122,7 +122,7 @@
                         <small class="text-muted" dmx-text=""></small>
                         <div class="col col-12 pt-3">
                             <div class="form-group mb-3 row">
-                                <label for="xlieugeographique" class="form-label col-sm-2 col-form-label">Lieu géographique</label>
+                                <label for="xlieugeographique" class="form-label col-sm-2 col-form-label col-form-label-sm">Lieu géographique</label>
                                 <div class="col-sm-10 align-self-center">
                                     <select id="xlieugeographique" class="form-select form-control form-select-sm" dmx-bind:options="listLieuGeo.data" optiontext="Libelle" optionvalue="NumLieugeo" dmx-on:changed="selectedLieuGeoId.setValue(value);lotfacList.load({})" name="LieuGeo">
                                         <option selected="" value="">Aucun Lieu</option>
@@ -159,7 +159,7 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex mt-3 justify-content-center"><button id="btn3" class="btn btn-primary btn-sm" type="submit" dmx-hide="loading.value==true" dmx-bind:disabled="!xlozoneGeotfac.value">
+                            <div class="d-flex mt-3 justify-content-center"><button id="btn3" class="btn btn-sm btn-success" type="submit" dmx-hide="loading.value==true" dmx-bind:disabled="!xlozoneGeotfac.value">
                                     Enregistrer
                                 </button>
                                 <button id="btn1" class="btn btn-warning" dmx-show="loading.value==true">

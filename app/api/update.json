@@ -1,25 +1,26 @@
 {
   "meta": {
-    "$_PARAM": [
+    "$_GET": [
       {
-        "type": "array",
-        "name": "list_releve"
+        "type": "text",
+        "name": "jsonrelevecorrection"
+      },
+      {
+        "type": "text",
+        "name": "matricule"
       }
     ]
   },
   "exec": {
     "steps": {
-      "name": "api",
+      "name": "updateReleves",
       "module": "api",
       "action": "send",
       "options": {
-        "params": {
-          "": "{{$_PARAM.list_releve}}"
-        },
-        "dataType": "json",
-        "data": "{{$_PARAM.list_releve}}",
+        "data": "{{$GET.list_releve}}",
         "method": "POST",
-        "url": "http://localhost:5243/api/releve"
+        "url": "http://localhost:5243/api/releve",
+        "dataType": "json"
       },
       "output": true
     }

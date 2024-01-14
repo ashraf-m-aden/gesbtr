@@ -365,6 +365,10 @@ dmx.config({
             "name": "IndexA"
           },
           {
+            "type": "number",
+            "name": "IndexC"
+          },
+          {
             "type": "text",
             "name": "DateReleve"
           },
@@ -383,6 +387,10 @@ dmx.config({
           {
             "type": "text",
             "name": "Anomalie"
+          },
+          {
+            "type": "text",
+            "name": "AnomalieC"
           },
           {
             "type": "text",
@@ -1134,6 +1142,270 @@ dmx.config({
         {
           "type": "text",
           "name": "PeriodeDuree"
+        }
+      ],
+      "outputType": "array"
+    },
+    "logReleveCorrection": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "IdLog"
+          },
+          {
+            "type": "number",
+            "name": "NumReleve"
+          },
+          {
+            "type": "number",
+            "name": "IndexAncien"
+          },
+          {
+            "type": "number",
+            "name": "UserCrea"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "text",
+            "name": "DatePf"
+          },
+          {
+            "type": "text",
+            "name": "Anomalie"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ],
+    "historiqueReleve": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "IdLog"
+        },
+        {
+          "type": "number",
+          "name": "NumReleve"
+        },
+        {
+          "type": "number",
+          "name": "IndexAncien"
+        },
+        {
+          "type": "number",
+          "name": "UserCrea"
+        },
+        {
+          "type": "text",
+          "name": "DateCrea"
+        },
+        {
+          "type": "text",
+          "name": "DatePf"
+        },
+        {
+          "type": "text",
+          "name": "Anomalie"
+        }
+      ],
+      "outputType": "array"
+    }
+  },
+  "releve": {
+    "suiviBordereauApi": [
+      {
+        "type": "array",
+        "name": "data",
+        "sub": [
+          {
+            "type": "number",
+            "name": "Tournee"
+          },
+          {
+            "type": "number",
+            "name": "Periode"
+          },
+          {
+            "type": "number",
+            "name": "Bordereau"
+          },
+          {
+            "type": "number",
+            "name": "NbrCpteur"
+          },
+          {
+            "type": "number",
+            "name": "Compteurrelevee"
+          },
+          {
+            "type": "number",
+            "name": "Reste"
+          },
+          {
+            "type": "number",
+            "name": "UserCrea"
+          },
+          {
+            "type": "text",
+            "name": "DateCrea"
+          },
+          {
+            "type": "number",
+            "name": "UserMaj"
+          },
+          {
+            "type": "text",
+            "name": "DateMaj"
+          },
+          {
+            "type": "number",
+            "name": "Matricule"
+          },
+          {
+            "type": "number",
+            "name": "Numtsp"
+          },
+          {
+            "type": "number",
+            "name": "NumLotFac"
+          },
+          {
+            "type": "text",
+            "name": "SuivieAnomalie"
+          },
+          {
+            "type": "number",
+            "name": "Statut"
+          },
+          {
+            "type": "text",
+            "name": "UserSt"
+          },
+          {
+            "type": "text",
+            "name": "DateSt"
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "server"
+          }
+        ]
+      }
+    ],
+    "suiviebOrdereauView": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "Tournee"
+        },
+        {
+          "type": "number",
+          "name": "Periode"
+        },
+        {
+          "type": "number",
+          "name": "Bordereau"
+        },
+        {
+          "type": "number",
+          "name": "NbrCpteur"
+        },
+        {
+          "type": "number",
+          "name": "Compteurrelevee"
+        },
+        {
+          "type": "number",
+          "name": "Reste"
+        },
+        {
+          "type": "number",
+          "name": "UserCrea"
+        },
+        {
+          "type": "text",
+          "name": "DateCrea"
+        },
+        {
+          "type": "number",
+          "name": "UserMaj"
+        },
+        {
+          "type": "text",
+          "name": "DateMaj"
+        },
+        {
+          "type": "number",
+          "name": "Matricule"
+        },
+        {
+          "type": "number",
+          "name": "Numtsp"
+        },
+        {
+          "type": "number",
+          "name": "NumLotFac"
+        },
+        {
+          "type": "text",
+          "name": "SuivieAnomalie"
+        },
+        {
+          "type": "number",
+          "name": "Statut"
+        },
+        {
+          "type": "text",
+          "name": "UserSt"
+        },
+        {
+          "type": "text",
+          "name": "DateSt"
         }
       ],
       "outputType": "array"

@@ -18,6 +18,11 @@
       "path": "/auth/login",
       "page": "auth/login",
       "layout": "deconnected"
+    },
+    {
+      "path": "/views/releve",
+      "page": "views/releve",
+      "layout": "main"
     }
   ],
   "layouts": {

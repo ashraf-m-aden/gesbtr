@@ -1,182 +1,196 @@
 /* GENERAL */
 
 :root {
-    --green-color: #036306;
-    --blue-color: #3B71CA;
-    --custom-pink:  #dedaeb;
+  --green-color: #036306;
+  --blue-color: #3b71ca;
+  --custom-pink: #dedaeb;
+}
+html{
+  font-size: medium;
+}
+a:link{
+  color: var(--green-color) !important;
 }
 
 .clicked {
-    background: var(--custom-pink) !important;
-    color: black;
+  background: var(--custom-pink) !important;
+  color: black;
 }
 
 .clicked:hover {
-    background: var(--custom-pink) !important;
-
+  background: var(--custom-pink) !important;
 }
 
 .card {
-    padding: 10px;
+  padding: 10px;
 }
 
 .cnavbar {
-    background: var(--custom-pink) !important;
+  background: var(--custom-pink) !important;
 }
 
 .cnavbar2 {
-    background: var(--custom-pink) !important;
+  background: var(--custom-pink) !important;
 }
 
-.cnavbar2>.nav-tabs {
-    font-weight: 500;
-    border-top: 1px solid grey;
+.cnavbar2 > .nav-tabs {
+  font-weight: 500;
+  border-top: 1px solid grey;
 }
 
 input {
-    border: 1px solid gainsboro !important;
+  border: 1px solid gainsboro !important;
 }
 
 .heading-text {
-    margin-bottom: 20px;
-    color: var(--green-color)
+  margin-bottom: 20px;
+  color: var(--green-color);
 }
 
 .nav-item {
-    color: white !important
+  color: white !important;
 }
-.table-row,.table-head{
-    font-size: small;
+.table-row,
+.table-head {
+  font-size: small;
 }
-.nav-item:hover, .table-row:hover {
-    color: white !important;
-    cursor: pointer;
+.nav-item:hover,
+.table-row:hover {
+  color: white;
+  cursor: pointer;
 }
 .list-group-item {
-    border: none;
+  border: none;
 }
 
-
-
 .login {
-    background-color: black !important;
-    opacity: 1;
+  background-color: black !important;
+  opacity: 1;
 }
 
 /* APPAREILS */
 .app-row {
-    height: 100%;
-
+  height: 100%;
 }
 
 .app-sidebar {
-    border: 1px solid var(--green-color);
-    background-color: white !important;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border-radius: 5px;
-    color: var(--green-color);
-
+  border: 1px solid var(--green-color);
+  background-color: white !important;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 5px;
+  color: var(--green-color);
 }
-.list-group-item-action, .form-check-input{
-    color: var(--green-color);
-
+.list-group-item-action,
+.form-check-input {
+  color: var(--green-color);
 }
-select{
-    color: var(--green-color);
-
+select {
+  color: var(--green-color);
 }
 /* .bootstrap-select.btn-group .dropdown-menu li a:hover {
     color: var(--green-color) !important;
     background: white !important;
 } */
 .correct-input {
-    color: var(--green-color) !important;
-    background: white !important;
-    border: solid 1px var(--green-color);
+  color: var(--green-color) !important;
+  background: white !important;
+  border: 1px solid var(--green-color);
 }
 
 .card {
-    border: 1px solid var(--green-color);
-    background-color: white;
-    padding-top: 15px;
-    border-radius: 5px;
-    
-
+  border: 1px solid var(--green-color);
+  background-color: white;
+  padding-top: 15px;
+  border-radius: 5px;
 }
 
 .app-nodata {
-    border: 1px solid gainsboro;
-    background-color: white;
-    border-radius: 5px;
-    height: 500px;
-    display: inline-block;
-    background-image: url('../assets/images/edd.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100px;
+  border: 1px solid gainsboro;
+  background-color: white;
+  border-radius: 5px;
+  height: 500px;
+  display: inline-block;
+  background-image: url("../assets/images/edd.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100px;
 }
 
 .tab-pane {
-    background-color: white;
-    padding: 20px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border: 1px solid grey;
-    border-top: none;
-    border-top-right-radius: none;
-    border-top-left-radius: none;
-    position: static;
-    width: 100%;
+  background-color: white;
+  padding: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 1px solid grey;
+  border-top: none;
+  border-top-right-radius: none;
+  border-top-left-radius: none;
+  position: static;
+  width: 100%;
 }
 
-
-.header{
-    background: var(--green-color) !important
+.header {
+  background: var(--green-color) !important;
 }
 
 /* MODEL */
 
 .model-sidebar {
-    border: 1px solid gainsboro;
-    background-color: white;
-    padding-top: 15px;
-    border-radius: 5px;
-    min-height: 100vh
+  border: 1px solid gainsboro;
+  background-color: white;
+  padding-top: 15px;
+  border-radius: 5px;
+  min-height: 100vh;
 }
 
 .model-img {
-    max-width: 300px;
-    max-height: 200px;
+  max-width: 300px;
+  max-height: 200px;
 }
 
 /*   PAGINATION */
 
-.pagination > li > a
-{
-    background-color: white;
-    color: var(--green-color);
+.pagination > li > a {
+  background-color: white;
+  color: var(--green-color);
 }
 
 .pagination > li > a:focus,
 .pagination > li > a:hover,
 .pagination > li > span:focus,
-.pagination > li > span:hover
-{
-    color: white;
-    background-color: #eee;
-    border-color: #ddd;
+.pagination > li > span:hover {
+  color: white;
+  background-color: #eee;
+  border-color: #ddd;
 }
 
-.pagination > .active > a
-{
-    color: white;
-    background-color: var(--green-color) !Important;
-    border: solid 1px var(--green-color) !Important;
+.pagination > .active > a {
+  color: white;
+  background-color: var(--green-color) !important;
+  border: 1px solid var(--green-color) !important;
 }
 
-.pagination > .active > a:hover
-{
-    background-color: var(--green-color) !Important;
-    border: solid 1px var(--green-color);
+.pagination > .active > a:hover {
+  background-color: var(--green-color) !important;
+  border: 1px solid var(--green-color);
+}
+
+.bg-success{
+    background-color: var(--green-color);
+}
+
+.login-header{
+  text-align: center;
+  background-color: var(--green-color);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+}
+.login-form{
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: auto;
 }

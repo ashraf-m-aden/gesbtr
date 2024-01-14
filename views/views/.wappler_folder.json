@@ -14,5 +14,9 @@
   "Releve.ejs": {
     "layoutPage": "main",
     "description": ""
+  },
+  "releve.ejs": {
+    "layoutPage": "main",
+    "description": ""
   }
 }
