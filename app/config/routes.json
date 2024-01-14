@@ -4,7 +4,10 @@
       "path": "/",
       "page": "index",
       "routeType": "page",
-      "layout": "main"
+      "layout": "main",
+      "data": {
+        "title": "Bordereaux"
+      }
     },
     {
       "path": "/views/tournee",

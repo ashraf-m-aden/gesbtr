@@ -30,12 +30,13 @@
 
 <body id="main">
   <div class="wappler-block pt-2 container-fluid bg-body-secondary" dmx-style:min-height="'100vh'">
+
     <div class="row">
       <div class="col">
         <%- await include('/partials/main/navbar', Object.assign({}, locals)) %>
       </div>
     </div>
-    <div class="row pt-4 bg-body-secondary">
+    <div class="row bg-body-secondary mb-5 pt-4">
       <div class="col-3 d-none d-lg-block">
         <%- await include('/partials/main/sidebar', Object.assign({}, locals)) %>
       </div>
@@ -43,6 +44,11 @@
         <div is="dmx-view" id="content">
           <%- await include(content, locals); %>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%- await include('/partials/main/footer', Object.assign({}, locals)) %>
       </div>
     </div>
   </div>
