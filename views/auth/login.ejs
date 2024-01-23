@@ -8,7 +8,7 @@
             </p>
         </div>
         <div class="col-12 col-md-6  login-form">
-            <form is="dmx-api-form" id="loginform" method="post" action="http://localhost:5243/api/employe/login" post-data="json" dmx-on:success="notifies1.success('Utilisateur connecté');token.set('token','Bearer '+data.Token);browser1.goto('/');token.set('nom',data.Nom);token.set('matricule',data.Matricule)" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)">
+            <form is="dmx-api-form" id="loginform" method="post" action="http://localhost:5243/api/employe/login" post-data="json" dmx-on:success="notifies1.success('Utilisateur connecté');token.set('token','Bearer '+data.Token);browser1.goto('/');token.set('nom',data.Nom);token.set('matricule',data.Matricule)" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)" dmx-on:forbidden="">
                 <div class="d-flex flex-column align-items-center"><input type="text" id="matricule" name="matricule" class="form-control mb-3" placeholder="matricule"><input type="password" id="password" name="password" class="form-control mb-3" placeholder="Mot de passe">
                     <div class="d-flex"><button id="loadingBtn" class="btn btn-sm text-danger btn-success" dmx-show="loading.value">
                             <span class="spinner-border spinner-border-sm" role="status"></span>

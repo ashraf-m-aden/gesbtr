@@ -2,7 +2,7 @@
 <meta name="ac:route" content="/views/releve">
 
 
-<dmx-data-view id="releveView" dmx-bind:data="getReleve.data" pagesize="5" filter="Anomalie=='PA'"></dmx-data-view>
+<dmx-data-view id="releveView" dmx-bind:data="getReleve.data" pagesize="5"></dmx-data-view>
 <dmx-data-view id="releveErreur" dmx-bind:data="selectedReleveCorrection.items" pagesize="5"></dmx-data-view>
 
 <dmx-data-view id="logBordereauView" dmx-bind:data="lotsuivibordereau.data" pageSize="5"></dmx-data-view>
@@ -144,7 +144,7 @@
 
                 <ul class="nav nav-tabs" id="anomaliNav" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="sans_tab" data-bs-toggle="tab" href="#" data-bs-target="#Sans" role="tab" aria-controls="navTabs1_1" aria-selected="true">Sans Anomalies</a>
+                        <a class="nav-link active" id="sans_tab" data-bs-toggle="tab" href="#" data-bs-target="#Sans" role="tab" aria-controls="navTabs1_1" aria-selected="true">Toutes les releves</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="avec_tab" data-bs-toggle="tab" href="#" data-bs-target="#Avec" role="tab" aria-controls="navTabs1_2" aria-selected="false">Avec Anomalies</a>

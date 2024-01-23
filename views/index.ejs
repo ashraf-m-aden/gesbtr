@@ -132,6 +132,7 @@
                             </tr>
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="bordereauNonAttribu.data" id="tableRepeat1">
+
                             <tr class="table-row">
                                 <td dmx-text="Periode"></td>
                                 <td dmx-text="Tournee"></td>
@@ -157,6 +158,15 @@
                                         </button>
                                     </form>
                                 </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive" dmx-show="!bordereauNonAttribu.data.hasItems()">
+                    <table class="table table-hover table-sm">
+                        <tbody>
+                            <tr>
+                                <td colspan="7">Aucune données</td>
                             </tr>
                         </tbody>
                     </table>
@@ -291,208 +301,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
-        <div class=" col-12  pt-2">
-            <div class="card">
-
-
-                <ul class="nav nav-tabs" id="anomaliNav" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="sans_tab" data-bs-toggle="tab" href="#" data-bs-target="#Sans" role="tab" aria-controls="navTabs1_1" aria-selected="true">Sans Anomalies</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="avec_tab" data-bs-toggle="tab" href="#" data-bs-target="#Avec" role="tab" aria-controls="navTabs1_2" aria-selected="false">Avec Anomalies</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="navTabs1_content">
-                    <div class="tab-pane fade show active" id="Sans" role="tabpanel">
-                        <h6 class="heading-text">Les releves sans anomalies du bordereau</h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover table-sm">
-                                <thead>
-                                    <tr class="table-head">
-                                        <th>Nom</th>
-                                        <th>Addresse</th>
-                                        <th>Numero PL</th>
-                                        <th>Numéro Compteur</th>
-                                        <th>Index Precedent</th>
-                                        <th>Date Releve Precedente</th>
-                                        <th>Durée Periode</th>
-                                        <th>Consommation</th>
-                                        <th>Index Active</th>
-                                        <th>Date releve</th>
-                                        <th>Anomalie</th>
-                                        <th>Releveur</th>
-                                        <th>Consommation Moyenne</th>
-                                        <th>Montant Fd</th>
-                                    </tr>
-                                </thead>
-                                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveView.data" id="tableRepeat5">
-                                    <tr class="table-row" dmx-class:table-success="$value==selectedReleve.value" dmx-on:click="selectedReleve.setValue($value);logReleveCorrection.load({num_releve: NumReleve})">
-                                        <td dmx-text="Nom"></td>
-                                        <td dmx-text="AdrPhysique"></td>
-                                        <td dmx-text="Codepl"></td>
-                                        <td dmx-text="NumCpteur"></td>
-                                        <td dmx-text="PreIndexA"></td>
-                                        <td dmx-text="PreDateReleve.formatDate('dd-MMM-yyyy')"></td>
-                                        <td dmx-text="PeriodeDuree"></td>
-                                        <td dmx-text="Consommation"></td>
-                                        <td dmx-text="IndexA"></td>
-                                        <td dmx-text="DateReleve.formatDate('dd-MMM-yyyy')"></td>
-                                        <td dmx-text="Libelle"></td>
-                                        <td dmx-text="Matricule"></td>
-                                        <td dmx-text="MoyConsommation"></td>
-                                        <td dmx-text="Fmontant"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <ul class="pagination pagination-sm" dmx-dataview="releveView" dmx-generator="bs5paging">
-                            <li class="page-item" dmx-class:disabled="releveView.page == 1" aria-label="First">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.first()"><span aria-hidden="true">‹‹</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="releveView.page == 1" aria-label="Previous">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.prev()"><span aria-hidden="true">‹</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:active="title == releveView.page" dmx-class:disabled="!active" dmx-repeat="releveView.getDataViewPagination(2,1,'...')">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.select(page)">{{title)}}</a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="releveView.page == releveView.pages" aria-label="Next">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.next()"><span aria-hidden="true">›</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="releveView.page == releveView.pages" aria-label="Last">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.last()"><span aria-hidden="true">››</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tab-pane fade" id="Avec" role="tabpanel">
-                        <div class="d-flex flex-column">
-                            <h6 class="heading-text">Les releves avec anomalies du bordereau</h6>
-                            <div class="table-responsive">
-                                <table class="table table-sm">
-                                    <thead>
-                                        <tr class="table-head">
-                                            <th>Nom</th>
-                                            <th>Addresse</th>
-                                            <th>Numero PL</th>
-                                            <th>Numéro Compteur</th>
-                                            <th>Index Precedent</th>
-                                            <th>Date Releve Precedente</th>
-                                            <th>Durée Periode</th>
-                                            <th>Consommation</th>
-                                            <th>Index Active</th>
-                                            <th>Date releve</th>
-                                            <th>Anomalie</th>
-                                            <th>Releveur</th>
-                                            <th>Consommation Moyenne</th>
-                                            <th>Montant Fd</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveErreur.data" id="tableRepeat3">
-                                        <tr dmx-class:table-success="selectedReleve.value==$value" class=" table-row" dmx-on:click="selectedReleve.setValue($value);logReleveCorrection.load({num_releve: NumReleve})">
-                                            <td dmx-text="Nom"></td>
-                                            <td dmx-text="AdrPhysique"></td>
-                                            <td dmx-text="Codepl"></td>
-                                            <td dmx-text="NumCpteur"></td>
-                                            <td dmx-text="PreIndexA"></td>
-                                            <td dmx-text="PreDateReleve.formatDate('dd-MMM-yyyy')"></td>
-                                            <td dmx-text="PeriodeDuree"></td>
-                                            <td dmx-text="Consommation"></td>
-                                            <td>
-                                                <input id="indexA" name="indexA" type="text" class="form-control correct-input" dmx-bind:value="IndexA" dmx-on:changed="run({runJS:{function:'updateDataIndex',args:[`$index`,`value`],name:'updateData',outputType:'text'}})">
-                                            </td>
-                                            <td dmx-text="DateReleve.formatDate('dd-MMM-yyyy')"></td>
-                                            <td>
-                                                <select id="libelleAnomalie" class="form-select correct-input" dmx-bind:options="getAnomalieReleve.data" optiontext="Libelle" optionvalue="Code" dmx-bind:value="Anomalie" dmx-on:changed="run({runJS:{function:'updateDataAnomalie',args:[`$index`,`value`],outputType:'text'}})">
-                                                </select>
-                                            </td>
-                                            <td dmx-text="Matricule"></td>
-                                            <td dmx-text="MoyConsommation"></td>
-                                            <td dmx-text="Fmontant"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-start">
-                                <ul class="pagination pagination-sm" dmx-dataview="releveErreur" dmx-generator="bs5paging">
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == 1" aria-label="First">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                                    </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == 1" aria-label="Previous">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.prev()"><span aria-hidden="true">&lsaquo;</span></a>
-                                    </li>
-                                    <li class="page-item" dmx-class:active="title == releveErreur.page" dmx-class:disabled="!active" dmx-repeat="releveErreur.getDataViewPagination(2,1,'...')">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.select(page)">{{title)}}</a>
-                                    </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Next">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.next()"><span aria-hidden="true">&rsaquo;</span></a>
-                                    </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Last">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                                    </li>
-                                </ul><button id="correctBtn" class="btn btn-sm btn-success" dmx-on:click="run([{runJS:{function:'releveToJson',name:'releveToJson',outputType:'text'}},{run:{action:`updateReleve.load({jsonrelevecorrection: jsonReleveCorrection.value, matricule: connectedUser.data.matricule});getReleve.load({num_tourne: selectedBordereau.value.Tournee, id_periode: selectedBordereau.value.Periode, num_bordereaux: selectedBordereau.value.Bordereau})`,outputType:'text'}}])">Corriger tout</button>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-
-
-
-
-
-            </div>
-            <div class="card">
-                <div class="d-flex flex-column">
-                    <h6 class="heading-text">Historique du relevé</h6>
-                    <div class="table-responsive">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Numero de la releve</th>
-                                    <th>Ancien Index</th>
-                                    <th>Corrigé par</th>
-                                    <th>Date</th>
-                                    <th>Date Prime Fixe</th>
-                                    <th>Ancienne anomalie</th>
-                                </tr>
-                            </thead>
-                            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="historiqueReleve.data" id="tableRepeat4">
-                                <tr>
-                                    <td dmx-text="NumReleve"></td>
-                                    <td dmx-text="IndexAncien"></td>
-                                    <td dmx-text="UserCrea"></td>
-                                    <td dmx-text="DateCrea.formatDate('dd-MM-yyyy')"></td>
-                                    <td dmx-text="DatePf.formatDate('dd-MM-yyyy')"></td>
-                                    <td dmx-text="Anomalie"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <ul class="pagination pagination-sm" dmx-dataview="historiqueReleve" dmx-generator="bs5paging">
-                        <li class="page-item" dmx-class:disabled="historiqueReleve.page == 1" aria-label="First">
-                            <a href="javascript:void(0)" class="page-link" dmx-on:click="historiqueReleve.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                        </li>
-                        <li class="page-item" dmx-class:disabled="historiqueReleve.page == 1" aria-label="Previous">
-                            <a href="javascript:void(0)" class="page-link" dmx-on:click="historiqueReleve.prev()"><span aria-hidden="true">&lsaquo;</span></a>
-                        </li>
-                        <li class="page-item" dmx-class:active="title == historiqueReleve.page" dmx-class:disabled="!active" dmx-repeat="historiqueReleve.getDataViewPagination(2,1,'...')">
-                            <a href="javascript:void(0)" class="page-link" dmx-on:click="historiqueReleve.select(page)">{{title)}}</a>
-                        </li>
-                        <li class="page-item" dmx-class:disabled="historiqueReleve.page == historiqueReleve.pages" aria-label="Next">
-                            <a href="javascript:void(0)" class="page-link" dmx-on:click="historiqueReleve.next()"><span aria-hidden="true">&rsaquo;</span></a>
-                        </li>
-                        <li class="page-item" dmx-class:disabled="historiqueReleve.page == historiqueReleve.pages" aria-label="Last">
-                            <a href="javascript:void(0)" class="page-link" dmx-on:click="historiqueReleve.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
 
         </div>
     </div>

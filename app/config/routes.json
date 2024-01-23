@@ -26,6 +26,11 @@
       "path": "/views/releve",
       "page": "views/releve",
       "layout": "main"
+    },
+    {
+      "path": "/test",
+      "page": "test",
+      "layout": "deconnected"
     }
   ],
   "layouts": {
