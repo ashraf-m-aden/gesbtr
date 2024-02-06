@@ -1410,5 +1410,128 @@ dmx.config({
       ],
       "outputType": "array"
     }
+  },
+  "rapport": {
+    "releveView": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_periode"
+        },
+        {
+          "type": "text",
+          "name": "code_support"
+        },
+        {
+          "type": "number",
+          "name": "num_tourne"
+        },
+        {
+          "type": "number",
+          "name": "rang_branch"
+        },
+        {
+          "type": "number",
+          "name": "num_ordre_pl"
+        },
+        {
+          "type": "text",
+          "name": "adr_physique"
+        },
+        {
+          "type": "text",
+          "name": "nom"
+        },
+        {
+          "type": "text",
+          "name": "accesscnt"
+        },
+        {
+          "type": "number",
+          "name": "num_releve"
+        },
+        {
+          "type": "text",
+          "name": "code_cpteur"
+        },
+        {
+          "type": "text",
+          "name": "nom_cellule"
+        },
+        {
+          "type": "number",
+          "name": "index_a"
+        },
+        {
+          "type": "datetime",
+          "name": "date_releve"
+        },
+        {
+          "type": "text",
+          "name": "coment"
+        },
+        {
+          "type": "text",
+          "name": "qualite"
+        },
+        {
+          "type": "text",
+          "name": "libelle"
+        },
+        {
+          "type": "text",
+          "name": "anom_code"
+        },
+        {
+          "type": "text",
+          "name": "nom_periode"
+        },
+        {
+          "type": "text",
+          "name": "nom_lotfac"
+        },
+        {
+          "type": "text",
+          "name": "nom_employe"
+        },
+        {
+          "type": "number",
+          "name": "consommation"
+        },
+        {
+          "type": "number",
+          "name": "moy_consommation"
+        },
+        {
+          "type": "text",
+          "name": "releve_type"
+        },
+        {
+          "type": "number",
+          "name": "index_p"
+        },
+        {
+          "type": "number",
+          "name": "num_bordereaux"
+        },
+        {
+          "type": "number",
+          "name": "num_lot_fac"
+        },
+        {
+          "type": "number",
+          "name": "matricule"
+        },
+        {
+          "type": "datetime",
+          "name": "date_saisie"
+        }
+      ],
+      "outputType": "array"
+    },
+    "sql": {
+      "meta": null,
+      "outputType": "text"
+    }
   }
 });

@@ -1,0 +1,280 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="rapport" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{}}" jquery_slim_35="cdn" moment_2="cdn" -->
+<div class="modal" id="modal1" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal text-center" is="dmx-bs5-modal" tabindex="-1" id="releveModal">
+
+    <div class="modal-dialog modal-xl modal-fullscreen" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center border-bottom border-1 border-success">
+
+
+
+                <button id="btnPrint" class="btn btn-success"><i class="fas fa-print"></i>
+                    Imprimer</button><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="relevePrint">
+                <div class="d-flex justify-content-center">
+
+                    <h3 class="">TRAITEMENT DES ANOMALIES</h3>
+                </div>
+                <div class="d-flex flex-row justify-content-around border-bottom border-1 border-success mb-3">
+                    <p>Cellule: {{lotfac1.selectedText}}</p>
+                    <p>Journée du : {{releveDate.value}}</p>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Numéro Compteur</th>
+                                <th>Numero PL</th>
+                                <th>Addresse</th>
+                                <th>Anomalie</th>
+                                <th>Index Active</th>
+                                <th>Observation sur le terrain</th>
+                            </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.tous.hasItems()?getreleve.data.tous:getreleve.data.anomalie" id="tableRepeat3">
+                            <tr>
+                                <td dmx-text="nom"></td>
+                                <td dmx-text="code_cpteur"></td>
+                                <td dmx-text="num_ordre_pl"></td>
+                                <td dmx-text="adr_physique"></td>
+                                <td dmx-text="libelle"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<dmx-value id="sql" dmx-bind:value="'SELECT   VCI.*, RV.index_a AS pre_index_a, RV.date_releve AS pre_date_releve, VCI.date_releve - RV.date_releve AS periode_duree  FROM view_correction_index VCI, tsptest.releve RV  WHERE VCI.id_periode_prec= RV.num_releve   AND VCI.id_periode = '+periode1.value+(anomaliesSelect.value==null?'':'AND VCI.anomalie = '+anomaliesSelect.value)+'and VCI.date_releve '+conditionDate.value+' '+releveDate.value+' AND VCI.num_bordereaux in (select bordereau from tsptest.suiviebordereau where suiviebordereau.num_lot_fac = '+lotfac1.value+' )  ORDER BY VCI.num_ordre_pl, VCI.codepl '"></dmx-value>
+<dmx-datetime id="date"></dmx-datetime>
+<dmx-serverconnect id="getreleve" url="/api/rapports/getReleve" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="allAnomalies" url="/api/rapports/getAnomalies"></dmx-serverconnect>
+<meta name="ac:route" content="/views/rapport">
+
+
+
+
+<dmx-data-view id="releveView" pagesize="5" dmx-bind:data="getreleve.data.tous.hasItems()?getreleve.data.tous:getreleve.data.anomalie"></dmx-data-view>
+<dmx-data-view id="releveErreur" dmx-bind:data="selectedReleveCorrection.items" pagesize="5"></dmx-data-view>
+
+
+
+
+<div is="dmx-browser" id="browser1"></div>
+<dmx-notifications id="notifies1"></dmx-notifications>
+
+
+
+
+
+
+<dmx-value id="numLotFac"></dmx-value>
+<dmx-value id="lotfacLoading" dmx-bind:value="false"></dmx-value>
+<dmx-value id="periodeLoading" dmx-bind:value="true"></dmx-value>
+
+<dmx-api-datasource id="getReleve" is="dmx-fetch" url="http://localhost:5243/api/releve" dmx-header:authorization="connectedUser.data.token" dmx-param:num_tourne="selectedBordereau.value.Tournee" dmx-param:id_periode="selectedBordereau.value.Periode" dmx-param:num_bordereaux="selectedBordereau.value.bordereau" noload="true"></dmx-api-datasource>
+<dmx-local-manager id="connectedUser"></dmx-local-manager>
+<dmx-api-datasource id="lotfacApi" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/lotFacturationByIdPeriod" dmx-param:id="periode1.value" dmx-on:success="lotfacLoading.setValue(false)" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<dmx-api-datasource id="periodeApi" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/periods" dmx-on:success="periodeLoading.setValue(false)" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
+<div class="wappler-block container-fluid">
+    <div class="row ">
+        <div class=" col-12 col-lg-6 col-md-8">
+
+            <div class="card">
+                <h6 class="heading-text">Recuperer les bordereaux avec les filtres ci-dessous</h6>
+
+                <div class="form-group row">
+                    <label for="periodeReset" class="form-label col-sm-2 col-form-label">Période:</label>
+                    <div class="col-sm-10 align-self-center">
+                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="periodeApi.data" optiontext="NomPeriode" optionvalue="IdPeriode" dmx-on:changed="lotfacLoading.setValue(true);lotfacApi.load({});showlotbordereau.setValue(false);showBordereau.setValue(false);releveurs.setValue()">
+                            <option selected="" value="">Aucune periode</option>
+                        </select>
+                        <button id="btn11" class="btn" dmx-show="periodeLoading.value">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
+
+                    <div class="col-sm-10 align-self-center">
+                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="lotfacApi.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="numLotFac.setValue(value);suiviBordereauApi.load({})">
+                            <option selected="" value="">Aucune cellule</option>
+                        </select>
+                        <button id="btn21" class="btn" dmx-show="lotfacLoading.value">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="lotfac" class="form-label col-sm-2 col-form-label">Anomalies</label>
+
+                    <div class="col-sm-10 align-self-center">
+                        <select id="anomaliesSelect" class="form-select form-select-sm" dmx-bind:options="allAnomalies.data.anomalies" optiontext="libelle" optionvalue="code" dmx-on:changed="numLotFac.setValue(value);suiviBordereauApi.load({})" name="anomalie">
+                            <option value="tous">Tous</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="lotfac" class="form-label col-sm-2 col-form-label">Date</label>
+
+                    <div class="col-sm-10 align-self-center d-flex justify-content-start flex-row">
+                        <select id="conditionDate" class="form-select form-select-sm">
+                            <option value="=">=</option>
+                            <option value="<">&lt;</option>
+                            <option value=">">&gt;</option>
+                            <option value="<=">=&lt;</option>
+                            <option value=">=">=&gt;</option>
+                        </select>
+                        <input id="releveDate" name="releveDate" is="dmx-date-picker" dmx-bind:value="date.datetime">
+                    </div>
+
+                </div><button id="btn1" class="btn w-100 text-light btn-success mt-5 btn-sm" dmx-on:click="getreleve.load({periode: periode1.value, lotfac: lotfac1.value, anomalie: anomaliesSelect.value, date: releveDate.value, conditiondate: conditionDate.value},true)"><i class="fas fa-file-invoice"></i>
+                    Generer rapport</button>
+                <button id="showModalBtn" class="btn w-100 text-light mt-5 btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#releveModal"><i class="fas fa-print"></i>
+                    Imprimer&nbsp;</button>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12  pt-2">
+
+            <div class="card">
+
+
+                <div class="table-responsive" id="releveBody">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Numéro Compteur</th>
+                                <th>Numero PL</th>
+                                <th>Addresse</th>
+                                <th>Anomalie</th>
+                                <th>Index Active</th>
+                                <th>Observation sur le terrain</th>
+                            </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveView.data" id="tableRepeat2">
+                            <tr>
+                                <td dmx-text="nom"></td>
+                                <td dmx-text="code_cpteur"></td>
+                                <td dmx-text="num_ordre_pl"></td>
+                                <td dmx-text="adr_physique"></td>
+                                <td dmx-text="libelle"></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+            </div>
+            <ul class="pagination pagination-sm" dmx-dataview="releveView" dmx-generator="bs5paging">
+                <li class="page-item" dmx-class:disabled="releveView.page == 1" aria-label="First">
+                    <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+                </li>
+                <li class="page-item" dmx-class:disabled="releveView.page == 1" aria-label="Previous">
+                    <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+                </li>
+                <li class="page-item" dmx-class:active="title == releveView.page" dmx-class:disabled="!active" dmx-repeat="releveView.getDataViewPagination(2,1,'...')">
+                    <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.select(page)">{{title)}}</a>
+                </li>
+                <li class="page-item" dmx-class:disabled="releveView.page == releveView.pages" aria-label="Next">
+                    <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.next()"><span aria-hidden="true">&rsaquo;</span></a>
+                </li>
+                <li class="page-item" dmx-class:disabled="releveView.page == releveView.pages" aria-label="Last">
+                    <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+                </li>
+            </ul>
+
+
+        </div>
+    </div>
+</div>
+
+<script style="">
+    document.getElementById("btnPrint").onclick = function () {
+printElement(document.getElementById('relevePrint'));
+}
+
+function printElement(elem) {
+var domClone = elem.cloneNode(true);
+
+var $printSection = document.getElementById("printSection");
+
+if (!$printSection) {
+$printSection = document.createElement("div");
+$printSection.id = "printSection";
+document.body.appendChild($printSection);
+}
+
+$printSection.innerHTML = "";
+$printSection.appendChild(domClone);
+
+// Add an event listener for 'afterprint' to clean up the print section
+window.addEventListener('afterprint', function () {
+document.body.removeChild($printSection);
+});
+
+// Print the content
+window.print();
+}
+
+</script>
+<style>
+    /* Add your print styles here */
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #printSection,
+        #printSection * {
+            visibility: visible;
+
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            max-height: 100%;
+        }
+    }
+</style>

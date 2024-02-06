@@ -38,6 +38,9 @@ a:link{
   border-top: 1px solid grey;
 }
 
+.checkbox{
+  outline: 1px solid green;
+}
 input {
   border: 1px solid gainsboro !important;
 }
@@ -194,3 +197,4 @@ select {
   padding: 10px;
   margin: auto;
 }
+

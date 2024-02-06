@@ -32,6 +32,7 @@
       "dbms_sql",
       "dbms_utility",
       "msg_prop_t",
+      "pelerinage",
       "sys",
       "topology",
       "tsptest",
@@ -45,36 +46,275 @@
       "utl_url"
     ],
     "tables": {
+      "sys.dual": {
+        "db": {
+          "schema": "sys"
+        }
+      },
+      "sys.callback_queue_table": {
+        "db": {
+          "schema": "sys",
+          "comment": "equal"
+        }
+      },
       "tsptest.spatial_ref_sys": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "srid": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "auth_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 256,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "auth_srid": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "srtext": {
+            "db": {
+              "type": "string",
+              "maxLength": 2048,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "proj4text": {
+            "db": {
+              "type": "string",
+              "maxLength": 2048,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.anomalie_releve": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "code": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "qualite": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "affichable": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
         }
       },
       "tsptest.compl_r_mt": {
         "db": {
           "schema": "tsptest"
-        }
-      },
-      "tsptest.modele_tsp": {
-        "db": {
-          "schema": "tsptest"
+        },
+        "columns": {
+          "index_r": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ipm_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_releve": {
+            "db": {
+              "type": "reference",
+              "primary": true,
+              "unique": true,
+              "nullable": false,
+              "references": "num_releve",
+              "inTable": "releve",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_cpteur": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_cpteur",
+              "inTable": "compteur",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "consommation": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ps_atteinte": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cos_phi": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "cos_phi_itron": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
         }
       },
       "tsptest.tables_valeurs": {
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "code_table": {
+            "db": {
+              "type": "string",
+              "maxLength": 4,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "id_ligne": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "lib_court": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "lib_long": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "nom_table": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "code_ligne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "code_suppr": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_parent": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.section_employe": "section",
+          "tsptest.suiviebordereau": "statut",
           "tsptest.role": "type_role",
           "tsptest.suivi_tournee": "statut_tournee",
           "tsptest.releve": "nature_releve",
-          "tsptest.suiviebordereau": "statut",
           "tsptest.cellule_clientele": "type_cellule",
           "tsptest.log_suiviebordereau": "statut",
           "tsptest.lot_fac_periode": "methodefact",
@@ -84,63 +324,917 @@
           "tsptest.modele_compteur": "fabricant"
         }
       },
+      "tsptest.modele_tsp": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_modele": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 25,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ref_model": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "model_annee": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "img": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_appareil": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "prix": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ref_court": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
       "tsptest.employe": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "matricule": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_client": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "a_init": {
+            "db": {
+              "type": "string",
+              "default": "O",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_machine": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "poste_mobile": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "connecte": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "poste_encours": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dern_conn": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dern_deconn": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mess": {
+            "db": {
+              "type": "string",
+              "maxLength": 140,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_mess": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mess_lu": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "inst_vers": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "inst_urgence": {
+            "db": {
+              "type": "string",
+              "maxLength": 10,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "droit_au_quota": {
+            "db": {
+              "type": "string",
+              "default": "O",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "equipe": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "app_version": {
+            "db": {
+              "type": "string",
+              "default": "1",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_visite": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "person_visite": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_tsptest": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "motpasse": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "password_salt": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "password_hash": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.section_employe": "employe",
           "tsptest.compte": "user_crea",
           "tsptest.tsp": "releveur",
-          "tsptest.group_user": "id_matricule",
           "tsptest.suiviebordereau": "user_maj",
-          "tsptest.affectation_appareil_mobiles": "employe_id",
+          "tsptest.tourne_rp": "matricule",
           "tsptest.log_affectation_appareil_mobiles": "employe_id",
+          "tsptest.group_user": "id_matricule",
           "tsptest.cellule_clientele": "mat_respo",
           "tsptest.log_suiviebordereau": "user_crea",
           "tsptest.client": "id_utilis_maj",
           "tsptest.att_section_emp": "mat",
           "tsptest.point_livraison": "id_utilis_maj",
-          "tsptest.compteur": "id_utilis_maj"
+          "tsptest.compteur": "id_utilis_maj",
+          "tsptest.affectation_appareil_mobiles": "employe_id"
         }
       },
       "tsptest.section_employe": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "section": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "employe": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "poste_pince": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.appareil_probleme": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_probleme": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "id_tsp": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "repare": {
+            "db": {
+              "type": "\"char\"",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_repare": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_repare": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.compte": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_client": {
+            "db": {
+              "type": "reference",
+              "primary": true,
+              "unique": true,
+              "nullable": false,
+              "references": "id_client",
+              "inTable": "client",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "password": {
+            "db": {
+              "type": "string",
+              "maxLength": 16,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "login": {
+            "db": {
+              "type": "string",
+              "maxLength": 6,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 128,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "active": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mobile": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.sim_mobile": {
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "id_sim": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "num_tel": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "pin": {
+            "db": {
+              "type": "string",
+              "maxLength": 10,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "puk": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
+        },
         "refs": {
-          "tsptest.affectation_appareil_mobiles": "sim_mobile_id",
-          "tsptest.log_affectation_appareil_mobiles": "sim_id"
+          "tsptest.log_affectation_appareil_mobiles": "sim_id",
+          "tsptest.affectation_appareil_mobiles": "sim_mobile_id"
         }
       },
       "tsptest.tsp": {
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "id_tsp": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "code_tsp": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "default": "RELEVE BT",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "releveur": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "syns_path": {
+            "db": {
+              "type": "string",
+              "default": "C:\\Documents and Settings\\bouni\\Mes documents\\TSP0 My Documents\\tsptest",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "archive_path": {
+            "db": {
+              "type": "string",
+              "default": "\\\\192.168.0.3\\TSP\\ARCHIVE\\TSP1",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "syns_path_win7": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "pin": {
+            "db": {
+              "type": "string",
+              "maxLength": 4,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "puk": {
+            "db": {
+              "type": "string",
+              "maxLength": 8,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_tel": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "modele_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "equipe_id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "sect_emp": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_serie": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_achat": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "annee_production": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.suiviebordereau": "numtsp",
-          "tsptest.affectation_appareil_mobiles": "tsp_id",
-          "tsptest.log_affectation_appareil_mobiles": "tsp_id"
+          "tsptest.log_affectation_appareil_mobiles": "tsp_id",
+          "tsptest.affectation_appareil_mobiles": "tsp_id"
         }
       },
       "tsptest.supports": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "code_support": {
+            "db": {
+              "type": "string",
+              "maxLength": 6,
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "coment": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_zonegeo": {
+            "db": {
+              "type": "reference",
+              "maxLength": 3,
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "num_zone",
+              "inTable": "zone_geographique",
+              "referenceType": "string",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "code_poste": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "code_poste",
+              "inTable": "poste",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "localisation": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "gps_lat": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "gps_lon": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_support": {
+            "db": {
+              "type": "string",
+              "maxLength": 3,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "support_prec": {
+            "db": {
+              "type": "string",
+              "maxLength": 6,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_transfo": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_departbt": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "supprimer": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.point_livraison": "code_support"
@@ -149,53 +1243,1164 @@
       "tsptest.log_releve_correction": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_log": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "num_releve": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "index_ancien": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "anomalie": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_pf": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.type_accessoire": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_type": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "ref_model": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "model_annee": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "img": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "prix": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.accessoire": {
         "db": {
           "schema": "tsptest"
         },
-        "sub": {
-          "tsptest.accessoire_affectations": "num_serie"
+        "columns": {
+          "num_serie": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_type": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_accessoire": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "quantite": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ref": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.suiviebordereau": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "tournee": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "bordereau": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "nbr_cpteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "compteurrelevee": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "reste": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_maj": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "numtsp": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_tsp",
+              "inTable": "tsp",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "suivie_anomalie": {
+            "db": {
+              "type": "string",
+              "default": "P",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "reference",
+              "default": 157,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "user_st": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_st": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.tourne_rp": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "num_tourne": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "num_tourne",
+              "inTable": "tourne_releve",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_bordereaux": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "impute": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.role": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_contrat": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_contrat",
+              "inTable": "contrat",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_client": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_client",
+              "inTable": "client",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "type_role": {
+            "db": {
+              "type": "reference",
+              "default": 26,
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          }
         }
       },
       "tsptest.accessoire_affectations": {
         "db": {
           "schema": "tsptest"
         },
-        "parent": "accessoire"
+        "columns": {
+          "id_affect": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "id_tsp": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_employe": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_accessoire": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
       },
       "tsptest.poste": {
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "code_poste": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "adr_poste": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "puissance": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_lieugeo": {
+            "db": {
+              "type": "reference",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_lieugeo",
+              "inTable": "lieu_geographique",
+              "referenceType": "string",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 55,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "code_depart": {
+            "db": {
+              "type": "string",
+              "default": 200,
+              "maxLength": 4000,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_depart": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "localisation": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "gps_lat": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "gps_lon": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "url_image": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_poste": {
+            "db": {
+              "type": "string",
+              "maxLength": 15,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "categorie": {
+            "db": {
+              "type": "string",
+              "maxLength": 15,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "eclairage_public": {
+            "db": {
+              "type": "string",
+              "maxLength": 3,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nombre_depart": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nbr_de_trsfo": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "remarque": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "poste_prec": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_zonegeo": {
+            "db": {
+              "type": "string",
+              "default": 0,
+              "maxLength": 3,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "ref_poste_bt": {
+            "db": {
+              "type": "string",
+              "maxLength": 10,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "supprimer": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.supports": "code_poste"
+        }
+      },
+      "tsptest.log_affectation_appareil_mobiles": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_log": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "sim_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_sim",
+              "inTable": "sim_mobile",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "employe_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "tsp_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_tsp",
+              "inTable": "tsp",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "deleted": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.suivi_tournee": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_suiv_tour": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "statut_tournee": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_bordereaux": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
         }
       },
       "tsptest.equipe_app_mobile": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "name": {
+            "db": {
+              "type": "string",
+              "maxLength": -5,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "description": {
+            "db": {
+              "type": "string",
+              "maxLength": -5,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.releve": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "index_a": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "fin_periode": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "consommation": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "moy_consommation": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_saisie": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "utilisateur_der_maj": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_der_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_cpteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "anomalie": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nature_releve": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment": {
+            "db": {
+              "type": "string",
+              "maxLength": 70,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_periode_prec": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "facture_faite": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_bordereaux": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "reprise": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_pf": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.compl_r_mt": "num_releve"
@@ -204,16 +2409,107 @@
       "tsptest.group_user": {
         "db": {
           "schema": "tsptest"
-        }
-      },
-      "tsptest.suiviebordereau": {
-        "db": {
-          "schema": "tsptest"
+        },
+        "columns": {
+          "id_liaison": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "id_group": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "group_id",
+              "inTable": "groupe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "id_matricule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          }
         }
       },
       "tsptest.groupe": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "group_id": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "group_libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "group_date_creat": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "group_date_modif": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "group_service": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "group_access": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "group_state": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.group_user": "id_group"
@@ -223,7 +2519,53 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "lieu_geo": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "zone_geo": {
+            "db": {
+              "type": "string",
+              "maxLength": 3,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "nombre_pl": {
+            "db": {
+              "type": "decimal",
+              "default": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
+          "tsptest.tourne_rp": "num_tourne",
           "tsptest.point_livraison": "num_tourne"
         }
       },
@@ -231,24 +2573,102 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "num_gr_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cc_cs": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "periodicite": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.lot_facturation": "num_gr_fac",
           "tsptest.zone_geographique": "groupe_fac"
         }
       },
-      "tsptest.affectation_appareil_mobiles": {
-        "db": {
-          "schema": "tsptest"
-        }
-      },
-      "tsptest.log_affectation_appareil_mobiles": {
-        "db": {
-          "schema": "tsptest"
-        }
-      },
       "tsptest.cellule_clientele": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_cellule": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom_cellule": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "type_cellule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "code_agence": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mat_respo": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          }
         },
         "refs": {
           "tsptest.lot_facturation": "num_cellule",
@@ -260,6 +2680,61 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "num_lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_gr_fac": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_gr_fac",
+              "inTable": "groupe_fac",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_cellule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_cellule",
+              "inTable": "cellule_clientele",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "impute": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.lot_fac_periode": "num_lot_fac"
         }
@@ -267,11 +2742,153 @@
       "tsptest.log_suiviebordereau": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_ligne": {
+            "db": {
+              "type": "integer",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "periode": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_periode",
+              "inTable": "periode",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "tournee": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "bordereau": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mat": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "statut_ano": {
+            "db": {
+              "type": "string",
+              "default": "P",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "supprimer": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.periode": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom_periode": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "duree": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_periode": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.log_suiviebordereau": "periode",
@@ -281,16 +2898,409 @@
       "tsptest.lot_fac_periode": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_periode": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_periode",
+              "inTable": "periode",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "num_lot_fac",
+              "inTable": "lot_facturation",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "methodefact": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "coment": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "impute": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.suivi_lot_fac": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "date_suivi": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "statut_groupe": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          }
         }
       },
       "tsptest.client": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_client": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "adresse": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "code_banque": {
+            "db": {
+              "type": "string",
+              "maxLength": 21,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_pieceid": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cheque_autoris": {
+            "db": {
+              "type": "string",
+              "default": "O",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "statut_social": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "boite_postal": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment1": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment2": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_utilis_maj": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "id_utilis_crea": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "qualite": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "type_piece": {
+            "db": {
+              "type": "decimal",
+              "default": 8,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_cellule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_cellule",
+              "inTable": "cellule_clientele",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "id_client_lien": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "anc_code_dest": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nat_jur": {
+            "db": {
+              "type": "decimal",
+              "default": 81,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_tel": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_fax": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nom_interloc": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 128,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_banque": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nbre_ex_factures": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "secteur_postal": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "regroupe": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_portable": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nni": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_naissance": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nom_mere": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.compte": "id_client",
@@ -300,11 +3310,388 @@
       "tsptest.att_section_emp": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "mat": {
+            "db": {
+              "type": "reference",
+              "primary": true,
+              "unique": true,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "devis_cellule": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "devis_cs": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "devis_cc": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "is_region": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "section_emp": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cpteur_lieu_geo": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.contrat": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "date_service": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_resiliation": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "avance_consommation": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "consom_moyen": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_ordre_contrat": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "id_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "num_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_pai_asc": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ancien_num_contr": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "solde_compte": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "id_utilis_maj": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment1": {
+            "db": {
+              "type": "string",
+              "maxLength": 120,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment2": {
+            "db": {
+              "type": "string",
+              "maxLength": 120,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mode_envoi": {
+            "db": {
+              "type": "decimal",
+              "default": 17,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "mode_regl": {
+            "db": {
+              "type": "decimal",
+              "default": 18,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "position": {
+            "db": {
+              "type": "decimal",
+              "default": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ps": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "groupe_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "sous_categ": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "montant_asc_paye": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "suivi_proc_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ancien_code_dest": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ancien_categ_tarif": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut_contrat": {
+            "db": {
+              "type": "decimal",
+              "default": 4,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "conso_cumul": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_souscription": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_dernier_avenant": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "descr_avenant": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nb_releves_inutil": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_pl_reprise": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_derniere_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "point_de_livraison": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_contx": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_cellule": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.role": "num_contrat",
@@ -315,6 +3702,305 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "rang_branchement": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "adr_physique": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_construction": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "detection_fraude": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_ordre_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment1": {
+            "db": {
+              "type": "string",
+              "maxLength": 120,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coment2": {
+            "db": {
+              "type": "string",
+              "maxLength": 120,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_utilis_maj": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "forme_energie": {
+            "db": {
+              "type": "reference",
+              "default": 31,
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "acces_compteur": {
+            "db": {
+              "type": "reference",
+              "default": 32,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "ps_permise": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "etat_coupure": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "etat_pl": {
+            "db": {
+              "type": "reference",
+              "default": 39,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "code_support": {
+            "db": {
+              "type": "reference",
+              "maxLength": 6,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "code_support",
+              "inTable": "supports",
+              "referenceType": "string",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_tourne": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_tourne",
+              "inTable": "tourne_releve",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "posit_ti": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "urgence_coupure": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_rapport_ti": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "den_rapport_ti": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_act": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_rea": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_ipm": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ancien_pl": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_dernier_contrat": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_contrat",
+              "inTable": "contrat",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "gps_lat": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "gps_lon": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.compteur": "num_pl"
         }
@@ -322,6 +4008,163 @@
       "tsptest.compteur": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_cpteur": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "inst_phys": {
+            "db": {
+              "type": "string",
+              "default": "O",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "commentaire": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_utilis_maj": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_pl": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_pl",
+              "inTable": "point_livraison",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "modele_cpteur": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "num_modele",
+              "inTable": "modele_compteur",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "etat_cpt": {
+            "db": {
+              "type": "reference",
+              "default": 294,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "annee_fab": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "numerateur_comptage": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_comptage_actif": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_comptage_react": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_bon": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "lieu_geo": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dern_type_mvt": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         },
         "refs": {
           "tsptest.compl_r_mt": "num_cpteur"
@@ -858,24 +4701,418 @@
           }
         }
       },
+      "tsptest.affectation_appareil_mobiles": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_affect": {
+            "db": {
+              "type": "bigInteger",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "sim_mobile_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_sim",
+              "inTable": "sim_mobile",
+              "referenceType": "integer",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "employe_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "tsp_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_tsp",
+              "inTable": "tsp",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "default": "sysdate",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "employe_section": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
       "tsptest.ligne_facture": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_lig_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 65,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "quantite": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "prix_unitaire": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_ligne_tarifaire": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_facture": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "montant": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_ano": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
         }
       },
       "tsptest.autre_mvt": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_autre_mvt": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_mvt": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "montant": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "type_mvt_portef": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "mat_employe": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_caisse_serv": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "mode_paiement": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "annulation": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "motif_mouvement": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_refdoc": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_mvt_trft": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "montant_ref": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "reprise": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_comptable": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "montant_tva": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "reprinted": {
+            "db": {
+              "type": "decimal",
+              "default": 0,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.ligne_mvt": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "id_autre_mvt": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "num_ligne_mvt": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "montant": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_echeance": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "nro_lettrage": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.zone_geographique": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_zone": {
+            "db": {
+              "type": "string",
+              "maxLength": 3,
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "num_lieugeo": {
+            "db": {
+              "type": "reference",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "num_lieugeo",
+              "inTable": "lieu_geographique",
+              "referenceType": "string",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_cellule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_cellule",
+              "inTable": "cellule_clientele",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "nom_zone": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "groupe_fac": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_gr_fac",
+              "inTable": "groupe_fac",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          }
         },
         "refs": {
           "tsptest.supports": "num_zonegeo"
@@ -884,6 +5121,26 @@
       "tsptest.lieu_geographique": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_lieugeo": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          }
         },
         "refs": {
           "tsptest.poste": "num_lieugeo",
@@ -894,6 +5151,140 @@
         "db": {
           "schema": "tsptest"
         },
+        "columns": {
+          "num_modele": {
+            "db": {
+              "type": "increments",
+              "default": "",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "lg_index": {
+            "db": {
+              "type": "decimal",
+              "default": 5,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "commentaire": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "type_compteur": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "fabricant": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "type_courant": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "voltage": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_rapport_comptage": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "den_rapport_comptage": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "coeff_lect_index": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "coeff_lect_ipm": {
+            "db": {
+              "type": "decimal",
+              "default": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "code_article": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
         "refs": {
           "tsptest.compteur": "modele_cpteur"
         }
@@ -903,36 +5294,1303 @@
       "tsptest.geography_columns": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "f_table_catalog": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "f_table_schema": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "f_table_name": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "f_geography_column": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coord_dimension": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "srid": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "type": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.geometry_columns": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "f_table_catalog": {
+            "db": {
+              "type": "string",
+              "maxLength": 256,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "f_table_schema": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "f_table_name": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "f_geometry_column": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coord_dimension": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "srid": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "type": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.raster_columns": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "r_table_catalog": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_table_schema": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_table_name": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_raster_column": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "srid": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "scale_x": {
+            "db": {
+              "type": "float",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "scale_y": {
+            "db": {
+              "type": "float",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "blocksize_x": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "blocksize_y": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "same_alignment": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "regular_blocking": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_bands": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "pixel_types": {
+            "db": {
+              "type": "ARRAY",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nodata_values": {
+            "db": {
+              "type": "ARRAY",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "out_db": {
+            "db": {
+              "type": "ARRAY",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "extent": {
+            "db": {
+              "type": "USER-DEFINED",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "spatial_index": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.raster_overviews": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "o_table_catalog": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "o_table_schema": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "o_table_name": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "o_raster_column": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_table_catalog": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_table_schema": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_table_name": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "r_raster_column": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "overview_factor": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.view_correction_index": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "adr_physique": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "codepl": {
+            "db": {
+              "type": "string",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_ordre_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etat_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "acces_compteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_cpteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_a": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "consommation": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "moy_consommation": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "anomalie": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coment": {
+            "db": {
+              "type": "string",
+              "maxLength": 70,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "accescompteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etatpl": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_periode_prec": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_r": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "ipm_releve": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "reactive": {
+            "db": {
+              "type": "string",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_bordereaux": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "chkbox": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "qualite": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "affichable": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_a2": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_releve2": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_r2": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "ipm_releve2": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "max_index": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "fmontant": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_cpteur_r": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur_r": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "max_index_r": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "cons_r": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "ps_atteinte": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_ipm": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.view_anomalie_rv1": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_support": {
+            "db": {
+              "type": "string",
+              "maxLength": 6,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "rang_branch": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_ordre_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "adr_physique": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "accesscnt": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_cellule": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_a": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coment": {
+            "db": {
+              "type": "string",
+              "maxLength": 70,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "qualite": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "anom_code": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_periode": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_lotfac": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_employe": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "consommation": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "moy_consommation": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "releve_type": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_p": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_bordereaux": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_saisie": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.view_details_pl": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "rang_branchement": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "adr_physique": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_construction": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "detection_fraude": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_ordre_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coment1": {
+            "db": {
+              "type": "string",
+              "maxLength": 120,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coment2": {
+            "db": {
+              "type": "string",
+              "maxLength": 120,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_utilis_maj": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "forme_energie": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "acces_compteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "ps_permise": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etat_coupure": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etat_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_support": {
+            "db": {
+              "type": "string",
+              "maxLength": 6,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "posit_ti": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "urgence_coupure": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_rapport_ti": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "den_rapport_ti": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_act": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_rea": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coeff_mult_ipm": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "ancien_pl": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_dernier_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "rappo_ti": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "formeng": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "accessc": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etatcp": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etatpl": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_zonegeo": {
+            "db": {
+              "type": "string",
+              "maxLength": 3,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_cellule": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "codepl": {
+            "db": {
+              "type": "string",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "lieu_geo": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_cellule": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "posit_ti_lib": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.view_details_cmpt": {
         "db": {
           "schema": "tsptest"
+        },
+        "columns": {
+          "num_cpteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "inst_phys": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "commentaire": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_utilis_maj": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "modele_cpteur": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "etat_cpt": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "annee_fab": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "numerateur_comptage": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_comptage_actif": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_comptage_react": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "lib_court": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "lg_index": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "voltage": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "type_crnt": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "type_cmpt": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "rapport_cmp": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          }
         }
       }
     }

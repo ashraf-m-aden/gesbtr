@@ -1,5 +1,8 @@
-<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="releve" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{}}" -->
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="releve" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{}}" -->
 <meta name="ac:route" content="/views/releve">
+<dmx-array id="selectedReleve"></dmx-array>
+<dmx-value id="allCheckBoxChecked" dmx-bind:value="false"></dmx-value>
+
 
 
 <dmx-data-view id="releveView" dmx-bind:data="getReleve.data" pagesize="5"></dmx-data-view>
@@ -43,9 +46,9 @@
 
 
 <dmx-array id="selectedReleveCorrection" dmx-bind:items="getReleve.data.where(`Anomalie`, 'PA', '!==')"></dmx-array>
+<dmx-array id="checkedReleve"></dmx-array>
 <dmx-value id="jsonReleveCorrection"></dmx-value>
 <dmx-value id="selectedBordereau"></dmx-value>
-<dmx-value id="selectedReleve"></dmx-value>
 <dmx-value id="numLotFac"></dmx-value>
 <dmx-value id="releveurloading" dmx-bind:value="false"></dmx-value>
 <dmx-value id="lotfacLoading" dmx-bind:value="false"></dmx-value>
@@ -174,7 +177,7 @@
                                     </tr>
                                 </thead>
                                 <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveView.data" id="tableRepeat5">
-                                    <tr class="table-row" dmx-class:table-success="$value==selectedReleve.value" dmx-on:click="selectedReleve.setValue($value);logReleveCorrection.load({num_releve: NumReleve})">
+                                    <tr>
                                         <td dmx-text="Nom"></td>
                                         <td dmx-text="AdrPhysique"></td>
                                         <td dmx-text="Codepl"></td>
@@ -217,7 +220,8 @@
                             <div class="table-responsive">
                                 <table class="table table-sm">
                                     <thead>
-                                        <tr class="table-head">
+                                        <tr>
+
                                             <th>Nom</th>
                                             <th>Addresse</th>
                                             <th>Numero PL</th>
@@ -234,8 +238,9 @@
                                             <th>Montant Fd</th>
                                         </tr>
                                     </thead>
-                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveErreur.data" id="tableRepeat3">
-                                        <tr dmx-class:table-success="selectedReleve.value==$value" class=" table-row" dmx-on:click="selectedReleve.setValue($value);logReleveCorrection.load({num_releve: NumReleve})">
+                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveErreur.data" id="tableRepeat1">
+                                        <tr dmx-class:table-success="(selectedReleve.items).contains($value)" dmx-on:dblclick="run({runJS:{function:'removeToSelectedReleveArray',args:[`$value`],name:'removeToSelectedReleveArray',outputType:'text'}})" dmx-on:click="run({runJS:{function:'addToSelectedReleveArray',args:[`$value`],name:'addToSelectedReleveArray',outputType:'text'}})" dmx-bind:id="NumReleve">
+
                                             <td dmx-text="Nom"></td>
                                             <td dmx-text="AdrPhysique"></td>
                                             <td dmx-text="Codepl"></td>
@@ -245,14 +250,17 @@
                                             <td dmx-text="PeriodeDuree"></td>
                                             <td dmx-text="Consommation"></td>
                                             <td>
-                                                <input id="indexA" name="indexA" type="text" class="form-control correct-input" dmx-bind:value="IndexA" dmx-on:changed="run({runJS:{function:'updateDataIndex',args:[`$index`,`value`],name:'updateData',outputType:'text'}})">
+
+                                                <input id="indexA" name="indexA" type="text" class="form-control correct-input" dmx-bind:value="IndexA" dmx-on:changed="run({runJS:{function:'updateDataIndex',args:[`$index`,`value`],name:'updateData',outputType:'text'}})" dmxorgdomid="d128772">
                                             </td>
                                             <td dmx-text="DateReleve.formatDate('dd-MMM-yyyy')"></td>
                                             <td>
-                                                <select id="libelleAnomalie" class="form-select correct-input" dmx-bind:options="getAnomalieReleve.data" optiontext="Libelle" optionvalue="Code" dmx-bind:value="Anomalie" dmx-on:changed="run({runJS:{function:'updateDataAnomalie',args:[`$index`,`value`],outputType:'text'}})">
+
+                                                <select id="libelleAnomalie" class="form-select correct-input" dmx-bind:options="getAnomalieReleve.data" optiontext="Libelle" optionvalue="Code" dmx-bind:value="Anomalie" dmx-on:changed="run({runJS:{function:'updateDataAnomalie',args:[`$value`,`$index`,`value`],outputType:'text'}})" dmxorgdomid="d128775">
                                                 </select>
-                                            </td>
                                             <td dmx-text="Matricule"></td>
+                                            </td>
+
                                             <td dmx-text="MoyConsommation"></td>
                                             <td dmx-text="Fmontant"></td>
                                         </tr>
@@ -268,9 +276,9 @@
                                         <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.prev()"><span aria-hidden="true">&lsaquo;</span></a>
                                     </li>
                                     <li class="page-item" dmx-class:active="title == releveErreur.page" dmx-class:disabled="!active" dmx-repeat="releveErreur.getDataViewPagination(2,1,'...')">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.select(page)">{{title)}}</a>
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="run([{runJS:{function:'clearData',outputType:'text'}},{run:{action:`releveErreur.select(page)`,outputType:'text'}}])">{{title)}}</a>
                                     </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Next">
+                                    <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Next" dmx-on:click="">
                                         <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.next()"><span aria-hidden="true">&rsaquo;</span></a>
                                     </li>
                                     <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Last">
@@ -344,18 +352,21 @@
 </div>
 
 <script>
-    function releveToJson(){
     var array = dmx.app.data.content.selectedReleveCorrection.items;
-    var jsonArray = [];
-        for(var i=0;i<array.length;i++){
-           if(array[i].IndexC == 0)array[i].IndexC = array[i].IndexA;
-           jsonArray.push( {
-                "NumReleve":array[i].NumReleve,
-                "IndexA":array[i].IndexA,
-                "IndexC":array[i].IndexC,
-                "Anomalie":array[i].Anomalie,
-                "AnomalieC":array[i].AnomalieC,
-            }
+    var checkedArray = dmx.app.data.content.allCheckBoxChecked.items;
+    function releveToJson(){
+
+        var array = dmx.app.data.content.selectedReleveCorrection.items;
+        var jsonArray = [];
+            for(var i=0;i<array.length;i++){
+                if(array[i].IndexC == 0)array[i].IndexC = array[i].IndexA;
+                    jsonArray.push( {
+                        "NumReleve":array[i].NumReleve,
+                        "IndexA":array[i].IndexA,
+                        "IndexC":array[i].IndexC,
+                        "Anomalie":array[i].Anomalie,
+                        "AnomalieC":array[i].AnomalieC,
+                }
             )
 
         }
@@ -364,12 +375,82 @@
 
     }
 
-     function updateDataIndex(index,newIndex){
-        dmx.app.data.content.selectedReleveCorrection.items[index].IndexC = newIndex;
+    function updateDataIndex(index,newIndex){
+        var array = dmx.app.data.content.selectedReleveCorrection.items;
+        array[index].IndexC = newIndex;
 
     }
 
-        function updateDataAnomalie(index,newAnomalie){
-        dmx.app.data.content.selectedReleveCorrection.items[index].AnomalieC = newAnomalie;
+    function addToSelectedReleveArray(value){
+                
+        const el = document.getElementById(value.NumReleve)
+        var array = dmx.app.data.content.selectedReleve.items;
+        const index = array.indexOf(value)
+        if(index== -1 ){
+            array.push(value)
+            el.classList.add("table-success")
+        } 
+
+
+    }
+    function removeToSelectedReleveArray(value){
+        const el = document.getElementById(value.NumReleve)
+
+        var array = dmx.app.data.content.selectedReleve.items;
+
+        const index = array.indexOf(value)
+
+        if(index !== -1 ){
+      
+          array.splice(index,1);
+
+          el.classList.remove("table-success")
+
+        }
+
+    }
+
+function clearData(){
+          var array = dmx.app.data.content.selectedReleveCorrection.items;
+        var checkedArray = dmx.app.data.content.selectedReleve.items;
+      
+         for(var i=0; i<checkedArray.length;i++){       
+            for(var y=0; y<array.length;y++){
+                                    const el = document.getElementById(array[y].NumReleve)
+                if(array[y].NumReleve == checkedArray[i].NumReleve ){
+                                        console.log(el)
+
+                    if(el){
+                                            el.classList.add("table-success")
+
+                    }
+                    } else{
+                    console.log(el)
+                   if(el){
+                     el.classList.remove("table-success")
+                   }
+
+                }
+            }
+         }
+}
+
+    function updateDataAnomalie(value,index,newAnomalie){
+        var array = dmx.app.data.content.selectedReleveCorrection.items;
+        var checkedArray = dmx.app.data.content.selectedReleve.items;
+      
+         for(var i=0; i<checkedArray.length;i++){       
+            for(var y=0; y<array.length;y++){
+                if(array[y].NumReleve == checkedArray[i].NumReleve){
+                    console.log("  index"+y+ " value= "+ array[y].AnomalieC)
+                    array[y].AnomalieC = newAnomalie;
+                    console.log( array[y].AnomalieC)
+                }
+            }
+                         
+
+           
+         }
+        
     }
 </script>

@@ -1,0 +1,353 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "number",
+        "name": "periode"
+      },
+      {
+        "type": "number",
+        "name": "lotfac"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "anomalie"
+      },
+      {
+        "type": "text",
+        "name": "date"
+      },
+      {
+        "type": "text",
+        "name": "conditiondate"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "",
+      "module": "core",
+      "action": "condition",
+      "options": {
+        "if": "{{$_GET.anomalie=='tous'}}",
+        "then": {
+          "steps": {
+            "name": "tous",
+            "module": "dbupdater",
+            "action": "custom",
+            "options": {
+              "connection": "edbdev",
+              "sql": {
+                "query": "select * from \"tsptest\".\"view_anomalie_rv1\" where \"tsptest\".\"view_anomalie_rv1\".\"id_periode\" = :P1 and \"tsptest\".\"view_anomalie_rv1\".\"num_lot_fac\" = :P2 and \nCASE \nwhen :P3 = '=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" = :P4\nwhen :P3 = '<=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" <= :P4\nwhen :P3 = '>=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" >= :P4\nwhen :P3 = '<' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" < :P4\nwhen :P3 = '>' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" > :P4\nEND\n",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "value": "{{$_GET.periode}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "value": "{{$_GET.lotfac}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "value": "{{$_GET.conditiondate}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "value": "{{$_GET.date}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "output": true,
+            "meta": [
+              {
+                "type": "number",
+                "name": "id_periode"
+              },
+              {
+                "type": "text",
+                "name": "code_support"
+              },
+              {
+                "type": "number",
+                "name": "num_tourne"
+              },
+              {
+                "type": "number",
+                "name": "rang_branch"
+              },
+              {
+                "type": "number",
+                "name": "num_ordre_pl"
+              },
+              {
+                "type": "text",
+                "name": "adr_physique"
+              },
+              {
+                "type": "text",
+                "name": "nom"
+              },
+              {
+                "type": "text",
+                "name": "accesscnt"
+              },
+              {
+                "type": "number",
+                "name": "num_releve"
+              },
+              {
+                "type": "text",
+                "name": "code_cpteur"
+              },
+              {
+                "type": "text",
+                "name": "nom_cellule"
+              },
+              {
+                "type": "number",
+                "name": "index_a"
+              },
+              {
+                "type": "datetime",
+                "name": "date_releve"
+              },
+              {
+                "type": "text",
+                "name": "coment"
+              },
+              {
+                "type": "text",
+                "name": "qualite"
+              },
+              {
+                "type": "text",
+                "name": "libelle"
+              },
+              {
+                "type": "text",
+                "name": "anom_code"
+              },
+              {
+                "type": "text",
+                "name": "nom_periode"
+              },
+              {
+                "type": "text",
+                "name": "nom_lotfac"
+              },
+              {
+                "type": "text",
+                "name": "nom_employe"
+              },
+              {
+                "type": "number",
+                "name": "consommation"
+              },
+              {
+                "type": "number",
+                "name": "moy_consommation"
+              },
+              {
+                "type": "text",
+                "name": "releve_type"
+              },
+              {
+                "type": "number",
+                "name": "index_p"
+              },
+              {
+                "type": "number",
+                "name": "num_bordereaux"
+              },
+              {
+                "type": "number",
+                "name": "num_lot_fac"
+              },
+              {
+                "type": "number",
+                "name": "matricule"
+              },
+              {
+                "type": "datetime",
+                "name": "date_saisie"
+              }
+            ],
+            "outputType": "array",
+            "type": "dbcustom_query"
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "anomalie",
+            "module": "dbupdater",
+            "action": "custom",
+            "options": {
+              "connection": "edbdev",
+              "sql": {
+                "query": "select * from \"tsptest\".\"view_anomalie_rv1\" where \"tsptest\".\"view_anomalie_rv1\".\"id_periode\" = :P1 and \"tsptest\".\"view_anomalie_rv1\".\"num_lot_fac\" = :P2 and \nCASE \nwhen :P3 = '=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" = :P4\nwhen :P3 = '<=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" <= :P4\nwhen :P3 = '>=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" >= :P4\nwhen :P3 = '<' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" < :P4\nwhen :P3 = '>' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" > :P4\nEND\nand \"tsptest\".\"view_anomalie_rv1\".\"anom_code\" = :P5  \n",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "value": "{{$_GET.periode}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "value": "{{$_GET.lotfac}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "value": "{{$_GET.conditiondate}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "value": "{{$_GET.date}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P5",
+                    "value": "{{$_GET.anomalie}}"
+                  }
+                ]
+              }
+            },
+            "output": true,
+            "meta": [
+              {
+                "type": "number",
+                "name": "id_periode"
+              },
+              {
+                "type": "text",
+                "name": "code_support"
+              },
+              {
+                "type": "number",
+                "name": "num_tourne"
+              },
+              {
+                "type": "number",
+                "name": "rang_branch"
+              },
+              {
+                "type": "number",
+                "name": "num_ordre_pl"
+              },
+              {
+                "type": "text",
+                "name": "adr_physique"
+              },
+              {
+                "type": "text",
+                "name": "nom"
+              },
+              {
+                "type": "text",
+                "name": "accesscnt"
+              },
+              {
+                "type": "number",
+                "name": "num_releve"
+              },
+              {
+                "type": "text",
+                "name": "code_cpteur"
+              },
+              {
+                "type": "text",
+                "name": "nom_cellule"
+              },
+              {
+                "type": "number",
+                "name": "index_a"
+              },
+              {
+                "type": "datetime",
+                "name": "date_releve"
+              },
+              {
+                "type": "text",
+                "name": "coment"
+              },
+              {
+                "type": "text",
+                "name": "qualite"
+              },
+              {
+                "type": "text",
+                "name": "libelle"
+              },
+              {
+                "type": "text",
+                "name": "anom_code"
+              },
+              {
+                "type": "text",
+                "name": "nom_periode"
+              },
+              {
+                "type": "text",
+                "name": "nom_lotfac"
+              },
+              {
+                "type": "text",
+                "name": "nom_employe"
+              },
+              {
+                "type": "number",
+                "name": "consommation"
+              },
+              {
+                "type": "number",
+                "name": "moy_consommation"
+              },
+              {
+                "type": "text",
+                "name": "releve_type"
+              },
+              {
+                "type": "number",
+                "name": "index_p"
+              },
+              {
+                "type": "number",
+                "name": "num_bordereaux"
+              },
+              {
+                "type": "number",
+                "name": "num_lot_fac"
+              },
+              {
+                "type": "number",
+                "name": "matricule"
+              },
+              {
+                "type": "datetime",
+                "name": "date_saisie"
+              }
+            ],
+            "outputType": "array",
+            "type": "dbcustom_query"
+          }
+        }
+      },
+      "outputType": "boolean"
+    }
+  }
+}

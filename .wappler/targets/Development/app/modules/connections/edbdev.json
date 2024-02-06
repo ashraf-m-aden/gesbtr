@@ -11,7 +11,10 @@
       "password": "tspuser",
       "database": "edbdev"
     },
-    "tz": "utc"
+    "tz": "utc",
+    "meta": {}
   },
-  "fileName": "edbdev.json"
+  "fileName": "edbdev.json",
+  "actionFilePath": "file:///C:/Users/47698/Documents/wappler/GesBtr/app/modules/connections/edbdev.json",
+  "serverType": "node"
 }

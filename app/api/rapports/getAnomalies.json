@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "anomalies",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "anomalie_releve",
+              "column": "code",
+              "schema": "tsptest"
+            },
+            {
+              "table": "anomalie_releve",
+              "column": "libelle",
+              "schema": "tsptest"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "anomalie_releve",
+            "schema": "tsptest"
+          },
+          "primary": "code",
+          "joins": [],
+          "query": "select \"code\", \"libelle\" from \"tsptest\".\"anomalie_releve\""
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "text",
+          "name": "code"
+        },
+        {
+          "type": "text",
+          "name": "libelle"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

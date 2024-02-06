@@ -25,12 +25,20 @@
     {
       "path": "/views/releve",
       "page": "views/releve",
-      "layout": "main"
+      "layout": "main",
+      "data": {
+        "title": "Releves"
+      }
     },
     {
       "path": "/test",
       "page": "test",
       "layout": "deconnected"
+    },
+    {
+      "path": "/views/rapport",
+      "page": "views/rapport",
+      "layout": "main"
     }
   ],
   "layouts": {

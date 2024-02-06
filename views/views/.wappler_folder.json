@@ -18,5 +18,9 @@
   "releve.ejs": {
     "layoutPage": "main",
     "description": ""
+  },
+  "rapport.ejs": {
+    "layoutPage": "main",
+    "description": ""
   }
 }
