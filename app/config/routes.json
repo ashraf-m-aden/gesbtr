@@ -38,7 +38,10 @@
     {
       "path": "/views/rapport",
       "page": "views/rapport",
-      "layout": "main"
+      "layout": "main",
+      "data": {
+        "title": "Rapport"
+      }
     }
   ],
   "layouts": {

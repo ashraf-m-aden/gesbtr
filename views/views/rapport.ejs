@@ -1,24 +1,7 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="rapport" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{}}" jquery_slim_35="cdn" moment_2="cdn" -->
-<div class="modal" id="modal1" is="dmx-bs5-modal" tabindex="-1">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="modal text-center" is="dmx-bs5-modal" tabindex="-1" id="releveModal">
 
-    <div class="modal-dialog modal-xl modal-fullscreen" role="document">
+    <div class="modal-dialog modal-fullscreen modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header text-center border-bottom border-1 border-success">
 
@@ -27,41 +10,44 @@
                 <button id="btnPrint" class="btn btn-success"><i class="fas fa-print"></i>
                     Imprimer</button><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" id="relevePrint">
-                <div class="d-flex justify-content-center">
+            <div class="modal-body " id="relevePrint">
+                <div class="d-flex justify-content-center border">
 
                     <h3 class="">TRAITEMENT DES ANOMALIES</h3>
                 </div>
-                <div class="d-flex flex-row justify-content-around border-bottom border-1 border-success mb-3">
+                <div class="d-flex flex-row  border justify-content-around border-bottom border-1 border-success mb-3">
+
                     <p>Cellule: {{lotfac1.selectedText}}</p>
-                    <p>Journée du : {{releveDate.value}}</p>
+                    <p>Periode: {{periode1.selectedText}}</p>
+                    <p dmx-text="conditionDate.value=='='?'Journée du: '+releveDate.value:conditionDate.value=='&gt;'?'A partir de la journée (exclue): '+releveDate.value:conditionDate.value=='&gt;='?'A partir de la journée (incluse): '+releveDate.value:conditionDate.value=='&lt;'?'Jusqu\'à la journée (exclue): '+releveDate.value:'Jusqu\'à la journée (incluse): '+releveDate.value; "></p>
+
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Numéro Compteur</th>
-                                <th>Numero PL</th>
-                                <th>Addresse</th>
-                                <th>Anomalie</th>
-                                <th>Index Active</th>
-                                <th>Observation sur le terrain</th>
-                            </tr>
-                        </thead>
-                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.tous.hasItems()?getreleve.data.tous:getreleve.data.anomalie" id="tableRepeat3">
-                            <tr>
-                                <td dmx-text="nom"></td>
-                                <td dmx-text="code_cpteur"></td>
-                                <td dmx-text="num_ordre_pl"></td>
-                                <td dmx-text="adr_physique"></td>
-                                <td dmx-text="libelle"></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-sm small">
+                    <thead>
+                        <tr lang="row">
+                            <th class="col">Contrat</th>
+                            <th class="col-2">Nom</th>
+                            <th class="col">Compteur</th>
+                            <th class="col">Numero PL</th>
+                            <th class="col-2">Addresse</th>
+                            <th class="col">Anomalie</th>
+                            <th class="col">Index Active</th>
+                            <th class="col-6">Observation sur le terrain</th>
+                        </tr>
+                    </thead>
+                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.tous.hasItems()?getreleve.data.tous:getreleve.data.anomalie" id="tableRepeat1">
+                        <tr>
+                            <td>0000</td>
+                            <td dmx-text="nom"></td>
+                            <td dmx-text="code_cpteur"></td>
+                            <td dmx-text="num_ordre_pl"></td>
+                            <td dmx-text="adr_physique"></td>
+                            <td dmx-text="anom_code"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
 
             </div>
@@ -100,7 +86,7 @@
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <dmx-api-datasource id="lotfacApi" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/lotFacturationByIdPeriod" dmx-param:id="periode1.value" dmx-on:success="lotfacLoading.setValue(false)" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-api-datasource id="periodeApi" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/periods" dmx-on:success="periodeLoading.setValue(false)" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<div class="wappler-block container-fluid">
+<div class="wappler-block container-fluid" id="releveContainer">
     <div class="row ">
         <div class=" col-12 col-lg-6 col-md-8">
 
@@ -263,10 +249,15 @@ window.print();
             visibility: hidden;
         }
 
+
+
         #printSection,
         #printSection * {
             visibility: visible;
+        }
 
+        #releveContainer {
+            display: none;
         }
 
         #printSection {
@@ -274,7 +265,10 @@ window.print();
             left: 0;
             top: 0;
             width: 100%;
-            max-height: 100%;
+            height: 100% !important;
+            max-height: 100% !important;
+            margin-bottom: 0;
+
         }
     }
 </style>
