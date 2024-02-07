@@ -1,4 +1,8 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="rapport" appConnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxDatePicker:{},dmxFormatter:{},dmxValidator:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{}}" jquery_slim_35="cdn" moment_2="cdn" -->
+<dmx-serverconnect id="getLotFac" noload="true" url="/api/globals/getLotFac" dmx-on:done="lotfacLoading.setValue(false)"></dmx-serverconnect>
+<dmx-serverconnect id="getPeriods" url="/api/globals/getPeriods"></dmx-serverconnect>
+<dmx-serverconnect id="getreleve" url="/api/rapports/getReleve" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="allAnomalies" url="/api/rapports/getAnomalies"></dmx-serverconnect>
 <div class="modal text-center" is="dmx-bs5-modal" tabindex="-1" id="releveModal">
 
     <div class="modal-dialog modal-fullscreen modal-xl" role="document">
@@ -25,22 +29,20 @@
                 <table class="table table-sm small">
                     <thead>
                         <tr lang="row">
-                            <th class="col">Contrat</th>
-                            <th class="col-2">Nom</th>
+                            <th class="col-3">Nom</th>
                             <th class="col">Compteur</th>
-                            <th class="col">Numero PL</th>
-                            <th class="col-2">Addresse</th>
+                            <th class="col-1">Code PL</th>
+                            <th class="col-3">Addresse</th>
                             <th class="col">Anomalie</th>
                             <th class="col">Index Active</th>
-                            <th class="col-6">Observation sur le terrain</th>
+                            <th class="col-5">Observation sur le terrain</th>
                         </tr>
                     </thead>
                     <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.tous.hasItems()?getreleve.data.tous:getreleve.data.anomalie" id="tableRepeat1">
                         <tr>
-                            <td>0000</td>
                             <td dmx-text="nom"></td>
                             <td dmx-text="code_cpteur"></td>
-                            <td dmx-text="num_ordre_pl"></td>
+                            <td dmx-text="codepl"></td>
                             <td dmx-text="adr_physique"></td>
                             <td dmx-text="anom_code"></td>
                             <td></td>
@@ -57,8 +59,8 @@
 
 <dmx-value id="sql" dmx-bind:value="'SELECT   VCI.*, RV.index_a AS pre_index_a, RV.date_releve AS pre_date_releve, VCI.date_releve - RV.date_releve AS periode_duree  FROM view_correction_index VCI, tsptest.releve RV  WHERE VCI.id_periode_prec= RV.num_releve   AND VCI.id_periode = '+periode1.value+(anomaliesSelect.value==null?'':'AND VCI.anomalie = '+anomaliesSelect.value)+'and VCI.date_releve '+conditionDate.value+' '+releveDate.value+' AND VCI.num_bordereaux in (select bordereau from tsptest.suiviebordereau where suiviebordereau.num_lot_fac = '+lotfac1.value+' )  ORDER BY VCI.num_ordre_pl, VCI.codepl '"></dmx-value>
 <dmx-datetime id="date"></dmx-datetime>
-<dmx-serverconnect id="getreleve" url="/api/rapports/getReleve" noload="true"></dmx-serverconnect>
-<dmx-serverconnect id="allAnomalies" url="/api/rapports/getAnomalies"></dmx-serverconnect>
+
+
 <meta name="ac:route" content="/views/rapport">
 
 
@@ -96,7 +98,7 @@
                 <div class="form-group row">
                     <label for="periodeReset" class="form-label col-sm-2 col-form-label">Période:</label>
                     <div class="col-sm-10 align-self-center">
-                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="periodeApi.data" optiontext="NomPeriode" optionvalue="IdPeriode" dmx-on:changed="lotfacLoading.setValue(true);lotfacApi.load({});showlotbordereau.setValue(false);showBordereau.setValue(false);releveurs.setValue()">
+                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="getPeriods.data.getPeriod" optiontext="nom_periode" optionvalue="id_periode" dmx-on:changed="lotfacLoading.setValue(true);getLotFac.load({idperiod: value},true)">
                             <option selected="" value="">Aucune periode</option>
                         </select>
                         <button id="btn11" class="btn" dmx-show="periodeLoading.value">
@@ -109,7 +111,7 @@
                     <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
 
                     <div class="col-sm-10 align-self-center">
-                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="lotfacApi.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="numLotFac.setValue(value);suiviBordereauApi.load({})">
+                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="getLotFac.data.getLotFac" optiontext="libelle" optionvalue="num_lot_fac" dmx-on:changed="numLotFac.setValue(value)">
                             <option selected="" value="">Aucune cellule</option>
                         </select>
                         <button id="btn21" class="btn" dmx-show="lotfacLoading.value">
@@ -142,9 +144,9 @@
                         <input id="releveDate" name="releveDate" is="dmx-date-picker" dmx-bind:value="date.datetime">
                     </div>
 
-                </div><button id="btn1" class="btn w-100 text-light btn-success mt-5 btn-sm" dmx-on:click="getreleve.load({periode: periode1.value, lotfac: lotfac1.value, anomalie: anomaliesSelect.value, date: releveDate.value, conditiondate: conditionDate.value},true)"><i class="fas fa-file-invoice"></i>
+                </div><button id="btn1" class="btn w-100 text-light btn-success mt-5 btn-sm" dmx-on:click="getreleve.load({periode: periode1.value, lotfac: lotfac1.value, anomalie: anomaliesSelect.value, date: releveDate.value, conditiondate: conditionDate.value},true)" dmx-class:disabled="!periode1.value||!lotfac1.value"><i class="fas fa-file-invoice"></i>
                     Generer rapport</button>
-                <button id="showModalBtn" class="btn w-100 text-light mt-5 btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#releveModal"><i class="fas fa-print"></i>
+                <button id="showModalBtn" class="btn w-100 text-light mt-5 btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#releveModal" dmx-class:disabled="(!getreleve.data.tous.hasItems() &amp;&amp; !getreleve.data.anomalie.hasItems())"><i class="fas fa-print"></i>
                     Imprimer&nbsp;</button>
 
 

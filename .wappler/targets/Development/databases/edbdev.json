@@ -6134,6 +6134,244 @@
               "primary": false,
               "nullable": true
             }
+          },
+          "codepl": {
+            "db": {
+              "type": "string",
+              "primary": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "tsptest.view_anomalies_rv1": {
+        "db": {
+          "schema": "tsptest"
+        },
+        "columns": {
+          "id_periode": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_support": {
+            "db": {
+              "type": "string",
+              "maxLength": 6,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_tourne": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "rang_branch": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_ordre_pl": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "adr_physique": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "accesscnt": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "code_cpteur": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_cellule": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_a": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "coment": {
+            "db": {
+              "type": "string",
+              "maxLength": 70,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "qualite": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "libelle": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "anom_code": {
+            "db": {
+              "type": "string",
+              "maxLength": 2,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_periode": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_lotfac": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "nom_employe": {
+            "db": {
+              "type": "string",
+              "maxLength": 60,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "consommation": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "moy_consommation": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "releve_type": {
+            "db": {
+              "type": "string",
+              "maxLength": 40,
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "index_p": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_bordereaux": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "date_saisie": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "codepl": {
+            "db": {
+              "type": "string",
+              "primary": false,
+              "nullable": true
+            }
+          },
+          "id_contrat": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "nullable": true
+            }
           }
         }
       },

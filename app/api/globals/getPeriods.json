@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getPeriod",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from \"tsptest\".\"periode\" order by \"id_periode\" DESC limit 3",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_periode",
+          "type": "number"
+        },
+        {
+          "name": "nom_periode",
+          "type": "text"
+        },
+        {
+          "name": "duree",
+          "type": "number"
+        },
+        {
+          "name": "date_periode",
+          "type": "datetime"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}
