@@ -1,0 +1,290 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "num_lot_fac"
+      },
+      {
+        "type": "text",
+        "name": "num_gr_fac"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "releveursList",
+        "module": "arraylist",
+        "action": "create",
+        "options": {},
+        "meta": [],
+        "outputType": "array"
+      },
+      {
+        "name": "getLotFac",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "edbdev",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "lot_facturation",
+                "column": "num_gr_fac",
+                "schema": "tsptest"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.num_lot_fac}}",
+                "test": "10"
+              }
+            ],
+            "table": {
+              "name": "lot_facturation",
+              "schema": "tsptest"
+            },
+            "primary": "num_lot_fac",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "tsptest.lot_facturation.num_lot_fac",
+                  "field": "tsptest.lot_facturation.num_lot_fac",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.num_lot_fac}}",
+                  "data": {
+                    "table": "lot_facturation",
+                    "column": "num_lot_fac",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "decimal",
+                      "primary": true,
+                      "unique": true,
+                      "nullable": false,
+                      "name": "num_lot_fac"
+                    },
+                    "schema": "tsptest"
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select \"num_gr_fac\" from \"tsptest\".\"lot_facturation\" where \"tsptest\".\"lot_facturation\".\"num_lot_fac\" = ?"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "number",
+            "name": "num_gr_fac"
+          }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{getLotFac.num_gr_fac==10}}",
+          "then": {
+            "steps": [
+              {
+                "name": "getReleveur5",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbdev",
+                  "sql": {
+                    "query": "Select emp.nom,emp.matricule from employe emp join att_section_emp att on emp.matricule=att.mat where att.section_emp=202 and  att.devis_cellule=5",
+                    "params": []
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "nom",
+                    "type": "text"
+                  },
+                  {
+                    "name": "matricule",
+                    "type": "number"
+                  }
+                ],
+                "type": "dbcustom_query"
+              },
+              {
+                "name": "repeat",
+                "module": "core",
+                "action": "repeat",
+                "options": {
+                  "repeat": "{{getReleveur5}}",
+                  "outputFields": [],
+                  "exec": {
+                    "steps": {
+                      "name": "",
+                      "module": "arraylist",
+                      "action": "add",
+                      "options": {
+                        "ref": "releveursList",
+                        "value": "{{$value}}"
+                      }
+                    }
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "$index",
+                    "type": "number"
+                  },
+                  {
+                    "name": "$number",
+                    "type": "number"
+                  },
+                  {
+                    "name": "$name",
+                    "type": "text"
+                  },
+                  {
+                    "name": "$value",
+                    "type": "object"
+                  },
+                  {
+                    "name": "nom",
+                    "type": "text"
+                  },
+                  {
+                    "name": "matricule",
+                    "type": "number"
+                  }
+                ],
+                "outputType": "array"
+              }
+            ]
+          },
+          "else": {
+            "steps": [
+              {
+                "name": "numgrfac",
+                "module": "core",
+                "action": "setvalue",
+                "options": {
+                  "key": "numgrfac",
+                  "value": "{{'%'+$_GET.num_gr_fac+'%'}}"
+                },
+                "meta": [],
+                "outputType": "text"
+              },
+              {
+                "name": "getAllRelveur",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbdev",
+                  "sql": {
+                    "query": "Select emp.nom,emp.matricule from employe emp join att_section_emp att on emp.matricule=att.mat where att.section_emp=202 and  att.cpteur_lieu_geo LIKE ?",
+                    "params": [
+                      {
+                        "name": "?",
+                        "value": "{{numgrfac}}",
+                        "test": "%2%",
+                        "recid": 1
+                      }
+                    ]
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "nom",
+                    "type": "text"
+                  },
+                  {
+                    "name": "matricule",
+                    "type": "number"
+                  }
+                ],
+                "type": "dbcustom_query"
+              },
+              {
+                "name": "repeat1",
+                "module": "core",
+                "action": "repeat",
+                "options": {
+                  "repeat": "{{getAllRelveur}}",
+                  "outputFields": [],
+                  "exec": {
+                    "steps": {
+                      "name": "",
+                      "module": "arraylist",
+                      "action": "add",
+                      "options": {
+                        "ref": "releveursList",
+                        "value": "{{$value}}"
+                      }
+                    }
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "$index",
+                    "type": "number"
+                  },
+                  {
+                    "name": "$number",
+                    "type": "number"
+                  },
+                  {
+                    "name": "$name",
+                    "type": "text"
+                  },
+                  {
+                    "name": "$value",
+                    "type": "object"
+                  },
+                  {
+                    "name": "nom",
+                    "type": "text"
+                  },
+                  {
+                    "name": "matricule",
+                    "type": "number"
+                  }
+                ],
+                "outputType": "array"
+              }
+            ]
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "getReleveurList",
+        "module": "arraylist",
+        "action": "value",
+        "options": {
+          "ref": "releveursList"
+        },
+        "output": true,
+        "meta": [],
+        "outputType": "array"
+      }
+    ]
+  }
+}

@@ -1,4 +1,11 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{},dmxFormatter:{},dmxFormRepeat:{}}" dmx-on:load="selectedAnomalies.empty()" style="" -->
+<dmx-serverconnect id="getLotSuivieBordereau" url="/api/bordereaux/get/getLotSuivieBordereau" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getSuivieBordereau" url="/api/bordereaux/get/getSuivieBordereau" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getSuivieBordereauNonAttrib" url="/api/bordereaux/get/getSuivieBordereauNonAttrib" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getReleveurs" url="/api/bordereaux/get/getReleveurs"></dmx-serverconnect>
+<dmx-serverconnect id="getAnomalies" url="/api/rapports/getAnomalies"></dmx-serverconnect>
+<dmx-serverconnect id="getPeriods" url="/api/globals/getPeriods"></dmx-serverconnect>
+<dmx-serverconnect id="getLotFac" url="/api/globals/getLotFac" noload="true"></dmx-serverconnect>
 <dmx-data-view id="historiqueReleve" dmx-bind:data="logReleveCorrection.data" pageSize="5"></dmx-data-view>
 
 
@@ -12,8 +19,8 @@
 <dmx-data-view id="releveView" dmx-bind:data="getReleve.data" pagesize="5" filter="Anomalie=='PA'"></dmx-data-view>
 <dmx-data-view id="releveErreur" dmx-bind:data="selectedReleveCorrection.items" pagesize="5"></dmx-data-view>
 
-<dmx-data-view id="logBordereauView" dmx-bind:data="lotsuivibordereau.data" pageSize="5"></dmx-data-view>
-<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="suiviBordereauApi.data" pageSize="5"></dmx-data-view>
+<dmx-data-view id="logBordereauView" dmx-bind:data="getLotSuivieBordereau.data.getLotSuivieBordereau" pagesize="5"></dmx-data-view>
+<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="getSuivieBordereau.data.getSuivieBordereau" pagesize="5"></dmx-data-view>
 <div class="modal" id="RESETBordereau" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -54,22 +61,12 @@
 <dmx-value id="selectedBordereau"></dmx-value>
 <dmx-value id="selectedReleve"></dmx-value>
 <dmx-value id="numLotFac"></dmx-value>
-<dmx-value id="releveurloading" dmx-bind:value="false"></dmx-value>
-<dmx-value id="lotfacLoading" dmx-bind:value="false"></dmx-value>
-<dmx-value id="periodeLoading" dmx-bind:value="true"></dmx-value>
 
 <dmx-api-datasource id="logReleveCorrection" is="dmx-fetch" dmx-param:num_releve="" url="http://localhost:5243/api/releve/logReleve" noload="true"></dmx-api-datasource>
 <dmx-api-action id="updateReleve" noload="true" url="http://localhost:5243/api/releve" method="post" dmx-data:jsonrelevecorrection="jsonReleveCorrection.value" dmx-data:matricule="connectedUser.data.matricule" data-type="json" dmx-on:success="notifies1.success('Corrections effectuées')" dmx-on:error="notifies1.danger(lastError.response)"></dmx-api-action>
 <dmx-api-datasource id="getReleve" is="dmx-fetch" url="http://localhost:5243/api/releve" dmx-header:authorization="connectedUser.data.token" dmx-param:num_tourne="selectedBordereau.value.tournee" dmx-param:id_periode="selectedBordereau.value.periode" dmx-param:num_bordereaux="selectedBordereau.value.bordereau" noload="true"></dmx-api-datasource>
-<dmx-api-datasource id="getAnomalieReleve" is="dmx-fetch" url="http://localhost:5243/api/releve/anomalie" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <dmx-api-action id="updateaffectBordereau" noload="true" url="http://localhost:5243/api/suiviBorderau/affecteBordereau" dmx-param:matricule="bodyNonAttribue[$index].releveurBordereauNonAttribList.value" dmx-param:periode="bodyNonAttribue[$index].Periode" dmx-param:tournee="bodyNonAttribue[$index].Tournee" dmx-param:bordereau="bodyNonAttribue[$index].Bordereau" dmx-header:authorization="connectedUser.data.token" dmx-on:success="bordereauNonAttribu.load({});suiviBordereauApi.load({});notifies1.success('Bordereau Affecté')" dmx-on:error="notifies1.danger('Une erreur est survenue')"></dmx-api-action>
-<dmx-api-datasource id="lotsuivibordereau" is="dmx-fetch" noload="true" url="http://localhost:5243/api/suiviBorderau/logBordereau" dmx-param:periode="selectedBordereau.value.Periode" dmx-param:tournee="selectedBordereau.value.Tournee" dmx-param:bordereau="selectedBordereau.value.Bordereau" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="bordereauNonAttribu" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/getSuivibordereauNonAttribue" dmx-param:numlotfac="bordereauForm.lotfac.value" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="suiviBordereauApi" is="dmx-fetch" noload="true" url="http://localhost:5243/api/suiviBorderau/getSuivibordereau" dmx-param:idreleveur="releveurs.value" dmx-param:periode="periode1.value" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="releveurApi" is="dmx-fetch" noload="true" url="http://localhost:5243/api/suiviBorderau/allReleveur" dmx-param:id="lotfac1.value+releveurs.value" dmx-on:done="releveurloading.setValue(false)" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="lotfacApi" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/lotFacturationByIdPeriod" dmx-param:id="periode1.value" dmx-on:success="lotfacLoading.setValue(false)" noload="true" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
-<dmx-api-datasource id="periodeApi" is="dmx-fetch" url="http://localhost:5243/api/suiviBorderau/periods" dmx-on:success="periodeLoading.setValue(false)" dmx-on:unauthorized="connectedUser.removeAll();browser1.goto('/auth/login')" dmx-header:authorization="connectedUser.data.token"></dmx-api-datasource>
 <div class="wappler-block container-fluid">
     <div class="row ">
         <div class=" col-12 col-md-5 ">
@@ -78,10 +75,10 @@
                 <div class="form-group row">
                     <label for="periodeReset" class="form-label col-sm-2 col-form-label">Période:</label>
                     <div class="col-sm-10 align-self-center">
-                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="periodeApi.data" optiontext="NomPeriode" optionvalue="IdPeriode" dmx-on:changed="lotfacLoading.setValue(true);lotfacApi.load({});showlotbordereau.setValue(false);showBordereau.setValue(false);releveurs.setValue()">
+                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="getPeriods.data.getPeriod" optiontext="nom_periode" optionvalue="id_periode" dmx-on:changed="getLotFac.load({idperiod: selectedValue},true);showlotbordereau.setValue(false);showBordereau.setValue(false);releveurs.setValue()">
                             <option selected="" value="">Aucune periode</option>
                         </select>
-                        <button id="btn11" class="btn" dmx-show="periodeLoading.value">
+                        <button id="btn11" class="btn" dmx-show="getPeriods.state.executing">
                             <span class="spinner-border spinner-border-sm" role="status"></span>
                         </button>
                     </div>
@@ -91,21 +88,10 @@
                     <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
 
                     <div class="col-sm-10 align-self-center">
-                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="lotfacApi.data" optiontext="Libelle" optionvalue="NumLotFac" dmx-on:changed="numLotFac.setValue(value);releveurApi.load({id: value});releveurloading.setValue(true);showlotbordereau.setValue(false);showBordereau.setValue(false);bordereauNonAttribu.load({numlotfac: value});showBordereauNonAttribue.setValue(true)">
+                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="getLotFac.data.getLotFac" optiontext="libelle" optionvalue="num_lot_fac" dmx-on:changed="numLotFac.setValue(value);getSuivieBordereau.load({id_periode: periode1.value, num_lot_fac: value});getSuivieBordereauNonAttrib.load({id_periode: periode1.value, num_lot_fac: value})">
                             <option selected="" value="">Aucune cellule</option>
                         </select>
-                        <button id="btn21" class="btn" dmx-show="lotfacLoading.value">
-                            <span class="spinner-border spinner-border-sm" role="status"></span>
-                        </button>
-                    </div>
-
-                </div>
-                <div class="form-group row">
-                    <label for="releveurs" class="form-label col-sm-2 col-form-label">Releveurs:</label>
-                    <div class="col-sm-10 align-self-center">
-                        <select id="releveurs" class="form-select form-select-sm" dmx-bind:options="releveurApi.data" optiontext="Nom" optionvalue="Matricule" dmx-on:changed="suiviBordereauApi.load({})">
-                            <option selected="" value="">Aucun releveur</option>
-                        </select><button id="btn3" class="btn" dmx-show="releveurloading.value">
+                        <button id="btn21" class="btn" dmx-show="getLotFac.state.executing">
                             <span class="spinner-border spinner-border-sm" role="status"></span>
                         </button>
                     </div>
@@ -191,9 +177,9 @@
                             </tr>
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="suiviebOrdereauView.data" id="bordereauxRow">
-                            <tr dmx-on:click="selectedBordereau.setValue($value);lotsuivibordereau.load({});getReleve.load({num_tourne: $value.Tournee, id_periode: $value.Periode, num_bordereaux: $value.Bordereau})" dmx-class:table-success="Bordereau==selectedBordereau.value.Bordereau" class="table-row">
-                                <td dmx-text="Bordereau"></td>
-                                <td dmx-text="Libcourt"></td>
+                            <tr dmx-on:click="selectedBordereau.setValue($value);getLotSuivieBordereau.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau" class="table-row">
+                                <td dmx-text="bordereau"></td>
+                                <td dmx-text="statut"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -226,12 +212,12 @@
                         <div class="d-flex justify-content-between">
                             <dl class="small">
                                 <dt>Tournee</dt>
-                                <dd>{{selectedBordereau.value.Tournee}}</dd>
+                                <dd>{{selectedBordereau.value.tournee}}</dd>
                                 <dt>Periode</dt>
 
-                                <dd>{{selectedBordereau.value.Periode}}</dd>
+                                <dd>{{selectedBordereau.value.periode}}</dd>
                                 <dt>Bordereau</dt>
-                                <dd>{{selectedBordereau.value.Bordereau}}</dd>
+                                <dd>{{selectedBordereau.value.bordereau}}</dd>
 
 
 
@@ -239,11 +225,11 @@
                             </dl>
                             <dl class="small">
                                 <dt>Agent</dt>
-                                <dd>{{selectedBordereau.value.Releveur.Nom}}</dd>
+                                <dd>{{selectedBordereau.value.nom+', '+selectedBordereau.value.matricule}}</dd>
                                 <dt>Date</dt>
-                                <dd>{{selectedBordereau.value.DateCrea}}</dd>
+                                <dd>{{selectedBordereau.value.date_crea.formatDate('dd-MM-yyyy')}}</dd>
                                 <dt>Statut</dt>
-                                <dd>{{selectedBordereau.value.Statut}}</dd>
+                                <dd>{{selectedBordereau.value.statut}}</dd>
 
 
 
@@ -273,10 +259,10 @@
                                 </thead>
                                 <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="logBordereauView.data" id="tableRepeat2">
                                     <tr>
-                                        <td dmx-text="Statut"></td>
-                                        <td dmx-text="DateCrea"></td>
-                                        <td dmx-text="Mat"></td>
-                                        <td dmx-text="UserCrea"></td>
+                                        <td dmx-text="statut"></td>
+                                        <td dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
+                                        <td dmx-text="mat"></td>
+                                        <td dmx-text="user_crea"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -313,11 +299,11 @@
         for(var i=0;i<array.length;i++){
            if(array[i].IndexC == 0)array[i].IndexC = array[i].IndexA;
            jsonArray.push( {
-                "NumReleve":array[i].NumReleve,
-                "IndexA":array[i].IndexA,
-                "IndexC":array[i].IndexC,
-                "Anomalie":array[i].Anomalie,
-                "AnomalieC":array[i].AnomalieC,
+                "NumReleve":array[i].numeleve,
+                "IndexA":array[i].index_a,
+                "IndexC":array[i].index_c,
+                "Anomalie":array[i].anomalie,
+                "AnomalieC":array[i].anomalie_c,
             }
             )
 

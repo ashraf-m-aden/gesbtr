@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "tournee"
+      },
+      {
+        "type": "text",
+        "name": "periode"
+      },
+      {
+        "type": "text",
+        "name": "bordereau"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getLotSuivieBordereau",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbtest",
+        "sql": {
+          "query": "select * from log_suiviebordereau where log_suiviebordereau.periode = ? and log_suiviebordereau.tournee = ? and log_suiviebordereau.bordereau = ?",
+          "params": [
+            {
+              "name": ":P1",
+              "value": "{{$_GET.periode}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "value": "{{$_GET.tournee}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "value": "{{$_GET.bordereau}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id_ligne"
+        },
+        {
+          "type": "number",
+          "name": "periode"
+        },
+        {
+          "type": "number",
+          "name": "tournee"
+        },
+        {
+          "type": "number",
+          "name": "bordereau"
+        },
+        {
+          "type": "number",
+          "name": "mat"
+        },
+        {
+          "type": "number",
+          "name": "statut"
+        },
+        {
+          "type": "datetime",
+          "name": "date_crea"
+        },
+        {
+          "type": "number",
+          "name": "user_crea"
+        },
+        {
+          "type": "text",
+          "name": "statut_ano"
+        },
+        {
+          "type": "text",
+          "name": "supprimer"
+        }
+      ],
+      "outputType": "array",
+      "type": "dbcustom_query"
+    }
+  }
+}

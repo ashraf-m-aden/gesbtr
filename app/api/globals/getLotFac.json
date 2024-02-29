@@ -16,35 +16,71 @@
     ]
   },
   "exec": {
-    "steps": {
-      "name": "getLotFac",
-      "module": "dbupdater",
-      "action": "custom",
-      "options": {
-        "connection": "edbdev",
-        "sql": {
-          "query": "select distinct \"tsptest\".\"lot_facturation\".num_lot_fac, \"tsptest\".\"lot_facturation\".libelle from \"tsptest\".\"lot_facturation\"  inner join \"tsptest\".\"suivi_lot_fac\" on \"tsptest\".\"lot_facturation\".\"num_lot_fac\" = \"tsptest\".\"suivi_lot_fac\".\"num_lot_fac\" where \"tsptest\".\"suivi_lot_fac\".\"id_periode\" = ? ",
-          "params": [
-            {
-              "name": ":P1",
-              "value": "{{$_GET.idperiod}}",
-              "test": "489"
-            }
-          ]
+    "steps": [
+      {
+        "name": "list",
+        "module": "arraylist",
+        "action": "create",
+        "options": {
+          "value": "allLotFac\n"
+        },
+        "meta": [],
+        "outputType": "array"
+      },
+      {
+        "name": "getLotFac",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "edbdev",
+          "sql": {
+            "query": "select distinct l.num_lot_fac,l.libelle,l.num_gr_fac from lot_facturation l inner join suivi_lot_fac on l.num_lot_fac = suivi_lot_fac.num_lot_fac where suivi_lot_fac.id_periode = ? ",
+            "params": [
+              {
+                "name": ":P1",
+                "value": "{{$_GET.idperiod}}",
+                "test": "491"
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "num_lot_fac",
+            "type": "number"
+          },
+          {
+            "name": "libelle",
+            "type": "text"
+          },
+          {
+            "name": "num_gr_fac",
+            "type": "number"
+          }
+        ],
+        "type": "dbcustom_query"
+      },
+      {
+        "name": "",
+        "module": "arraylist",
+        "action": "addAll",
+        "options": {
+          "ref": "list",
+          "value": "{{getLotFac}}"
         }
       },
-      "output": true,
-      "meta": [
-        {
-          "name": "num_lot_fac",
-          "type": "number"
+      {
+        "name": "allLotFac",
+        "module": "arraylist",
+        "action": "value",
+        "options": {
+          "ref": "list"
         },
-        {
-          "name": "libelle",
-          "type": "text"
-        }
-      ],
-      "type": "dbcustom_query"
-    }
+        "output": true,
+        "meta": [],
+        "outputType": "array"
+      }
+    ]
   }
 }

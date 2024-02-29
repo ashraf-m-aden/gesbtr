@@ -6,7 +6,7 @@
         "name": "periode"
       },
       {
-        "type": "number",
+        "type": "text",
         "name": "lotfac"
       },
       {
@@ -18,7 +18,7 @@
         "name": "dir"
       },
       {
-        "type": "text",
+        "type": "array",
         "name": "anomalie"
       },
       {
@@ -32,322 +32,330 @@
     ]
   },
   "exec": {
-    "steps": {
-      "name": "",
-      "module": "core",
-      "action": "condition",
-      "options": {
-        "if": "{{$_GET.anomalie=='tous'}}",
-        "then": {
-          "steps": {
-            "name": "tous",
-            "module": "dbupdater",
-            "action": "custom",
-            "options": {
-              "connection": "edbdev",
-              "sql": {
-                "query": "select * from \"tsptest\".\"view_anomalie_rv1\" where \"tsptest\".\"view_anomalie_rv1\".\"id_periode\" = :P1 and \"tsptest\".\"view_anomalie_rv1\".\"num_lot_fac\" = :P2 and \nCASE \nwhen :P3 = '=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" = :P4\nwhen :P3 = '<=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" <= :P4\nwhen :P3 = '>=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" >= :P4\nwhen :P3 = '<' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" < :P4\nwhen :P3 = '>' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" > :P4\nEND\n",
-                "params": [
-                  {
-                    "name": ":P1",
-                    "value": "{{$_GET.periode}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P2",
-                    "value": "{{$_GET.lotfac}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P3",
-                    "value": "{{$_GET.conditiondate}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P4",
-                    "value": "{{$_GET.date}}",
-                    "test": ""
-                  }
-                ]
-              }
-            },
-            "output": true,
-            "meta": [
+    "steps": [
+      {
+        "name": "lotFac",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "edbtest",
+          "sql": {
+            "type": "select",
+            "distinct": false,
+            "columns": [
               {
-                "type": "number",
-                "name": "id_periode"
+                "table": "view_anomalie_rv1",
+                "column": "nom",
+                "alias": "Nom",
+                "schema": "gescli"
               },
               {
-                "type": "text",
-                "name": "code_support"
+                "table": "view_anomalie_rv1",
+                "column": "id_contrat",
+                "alias": "Contrat",
+                "schema": "gescli"
               },
               {
-                "type": "number",
-                "name": "num_tourne"
+                "table": "view_anomalie_rv1",
+                "column": "code_cpteur",
+                "alias": "Compteur",
+                "schema": "gescli"
               },
               {
-                "type": "number",
-                "name": "rang_branch"
+                "table": "view_anomalie_rv1",
+                "column": "codepl",
+                "alias": "PL",
+                "schema": "gescli"
               },
               {
-                "type": "number",
-                "name": "num_ordre_pl"
+                "table": "view_anomalie_rv1",
+                "column": "adr_physique",
+                "alias": "Adresse",
+                "schema": "gescli"
               },
               {
-                "type": "text",
-                "name": "adr_physique"
-              },
-              {
-                "type": "text",
-                "name": "nom"
-              },
-              {
-                "type": "text",
-                "name": "accesscnt"
-              },
-              {
-                "type": "number",
-                "name": "num_releve"
-              },
-              {
-                "type": "text",
-                "name": "code_cpteur"
-              },
-              {
-                "type": "text",
-                "name": "nom_cellule"
-              },
-              {
-                "type": "number",
-                "name": "index_a"
-              },
-              {
-                "type": "datetime",
-                "name": "date_releve"
-              },
-              {
-                "type": "text",
-                "name": "coment"
-              },
-              {
-                "type": "text",
-                "name": "qualite"
-              },
-              {
-                "type": "text",
-                "name": "libelle"
-              },
-              {
-                "type": "text",
-                "name": "anom_code"
-              },
-              {
-                "type": "text",
-                "name": "nom_periode"
-              },
-              {
-                "type": "text",
-                "name": "nom_lotfac"
-              },
-              {
-                "type": "text",
-                "name": "nom_employe"
-              },
-              {
-                "type": "number",
-                "name": "consommation"
-              },
-              {
-                "type": "number",
-                "name": "moy_consommation"
-              },
-              {
-                "type": "text",
-                "name": "releve_type"
-              },
-              {
-                "type": "number",
-                "name": "index_p"
-              },
-              {
-                "type": "number",
-                "name": "num_bordereaux"
-              },
-              {
-                "type": "number",
-                "name": "num_lot_fac"
-              },
-              {
-                "type": "number",
-                "name": "matricule"
-              },
-              {
-                "type": "datetime",
-                "name": "date_saisie"
+                "table": "view_anomalie_rv1",
+                "column": "anom_code",
+                "alias": "Anomalie",
+                "schema": "gescli"
               }
             ],
-            "outputType": "array",
-            "type": "dbcustom_query"
+            "table": {
+              "name": "view_anomalie_rv1",
+              "schema": "gescli"
+            },
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "gescli.view_anomalie_rv1.id_periode",
+                  "field": "gescli.view_anomalie_rv1.id_periode",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.periode}}",
+                  "data": {
+                    "table": "view_anomalie_rv1",
+                    "column": "id_periode",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "decimal",
+                      "primary": false,
+                      "nullable": true,
+                      "name": "id_periode"
+                    },
+                    "schema": "gescli"
+                  },
+                  "operation": "="
+                },
+                {
+                  "id": "gescli.view_anomalie_rv1.anom_code",
+                  "field": "gescli.view_anomalie_rv1.anom_code",
+                  "type": "string",
+                  "operator": "in",
+                  "value": "{{$_GET.anomalie.split(',')}}",
+                  "data": {
+                    "table": "view_anomalie_rv1",
+                    "column": "anom_code",
+                    "type": "text",
+                    "columnObj": {
+                      "type": "string",
+                      "maxLength": 2,
+                      "primary": false,
+                      "nullable": true,
+                      "name": "anom_code"
+                    },
+                    "schema": "gescli"
+                  },
+                  "operation": "IN"
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "gescli.view_anomalie_rv1.date_saisie",
+                      "field": "gescli.view_anomalie_rv1.date_saisie",
+                      "type": "datetime",
+                      "operator": "less_or_equal",
+                      "value": "{{$_GET.date}}",
+                      "data": {
+                        "table": "view_anomalie_rv1",
+                        "column": "date_saisie",
+                        "type": "datetime",
+                        "columnObj": {
+                          "type": "timestamp",
+                          "primary": false,
+                          "nullable": true,
+                          "name": "date_saisie"
+                        },
+                        "schema": "gescli"
+                      },
+                      "operation": "<="
+                    }
+                  ],
+                  "conditional": "{{$_GET.conditiondate=='<='}}"
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "gescli.view_anomalie_rv1.date_saisie",
+                      "field": "gescli.view_anomalie_rv1.date_saisie",
+                      "type": "datetime",
+                      "operator": "equal",
+                      "value": "{{$_GET.date}}",
+                      "data": {
+                        "table": "view_anomalie_rv1",
+                        "column": "date_saisie",
+                        "type": "datetime",
+                        "columnObj": {
+                          "type": "timestamp",
+                          "primary": false,
+                          "nullable": true,
+                          "name": "date_saisie"
+                        },
+                        "schema": "gescli"
+                      },
+                      "operation": "="
+                    }
+                  ],
+                  "conditional": "{{$_GET.conditiondate=='='}}"
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "gescli.view_anomalie_rv1.date_saisie",
+                      "field": "gescli.view_anomalie_rv1.date_saisie",
+                      "type": "datetime",
+                      "operator": "greater_or_equal",
+                      "value": "{{$_GET.date}}",
+                      "data": {
+                        "table": "view_anomalie_rv1",
+                        "column": "date_saisie",
+                        "type": "datetime",
+                        "columnObj": {
+                          "type": "timestamp",
+                          "primary": false,
+                          "nullable": true,
+                          "name": "date_saisie"
+                        },
+                        "schema": "gescli"
+                      },
+                      "operation": ">="
+                    }
+                  ],
+                  "conditional": "{{$_GET.conditiondate=='>='}}"
+                },
+                {
+                  "id": "gescli.view_anomalie_rv1.num_lot_fac",
+                  "field": "gescli.view_anomalie_rv1.num_lot_fac",
+                  "type": "double",
+                  "operator": "in",
+                  "value": "{{$_GET.lotfac.split(',')}}",
+                  "data": {
+                    "table": "view_anomalie_rv1",
+                    "column": "num_lot_fac",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "decimal",
+                      "primary": false,
+                      "nullable": true,
+                      "name": "num_lot_fac"
+                    },
+                    "schema": "gescli"
+                  },
+                  "operation": "IN"
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "gescli.view_anomalie_rv1.date_saisie",
+                      "field": "gescli.view_anomalie_rv1.date_saisie",
+                      "type": "datetime",
+                      "operator": "less",
+                      "value": "{{$_GET.date}}",
+                      "data": {
+                        "table": "view_anomalie_rv1",
+                        "column": "date_saisie",
+                        "type": "datetime",
+                        "columnObj": {
+                          "type": "timestamp",
+                          "primary": false,
+                          "nullable": true,
+                          "name": "date_saisie"
+                        },
+                        "schema": "gescli"
+                      },
+                      "operation": "<"
+                    }
+                  ],
+                  "conditional": "{{$_GET.conditiondate==\">\"}}"
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "gescli.view_anomalie_rv1.date_saisie",
+                      "field": "gescli.view_anomalie_rv1.date_saisie",
+                      "type": "datetime",
+                      "operator": "greater",
+                      "value": "{{$_GET.date}}",
+                      "data": {
+                        "table": "view_anomalie_rv1",
+                        "column": "date_saisie",
+                        "type": "datetime",
+                        "columnObj": {
+                          "type": "timestamp",
+                          "primary": false,
+                          "nullable": true,
+                          "name": "date_saisie"
+                        },
+                        "schema": "gescli"
+                      },
+                      "operation": ">"
+                    }
+                  ],
+                  "conditional": "{{$_GET.conditiondate==\"<\"}}"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "orders": [
+              {
+                "table": "view_anomalie_rv1",
+                "column": "codepl",
+                "direction": "ASC",
+                "schema": "gescli",
+                "recid": 1
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.periode}}",
+                "test": ""
+              },
+              {
+                "operator": "less_or_equal",
+                "type": "expression",
+                "name": ":P2",
+                "value": "{{$_GET.date}}",
+                "test": ""
+              },
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P3",
+                "value": "{{$_GET.date}}",
+                "test": ""
+              },
+              {
+                "operator": "greater_or_equal",
+                "type": "expression",
+                "name": ":P4",
+                "value": "{{$_GET.date}}",
+                "test": ""
+              },
+              {
+                "operator": "less",
+                "type": "expression",
+                "name": ":P5",
+                "value": "{{$_GET.date}}",
+                "test": ""
+              },
+              {
+                "operator": "greater",
+                "type": "expression",
+                "name": ":P6",
+                "value": "{{$_GET.date}}",
+                "test": ""
+              }
+            ],
+            "query": "select \"nom\" as \"Nom\", \"id_contrat\" as \"Contrat\", \"code_cpteur\" as \"Compteur\", \"codepl\" as \"PL\", \"adr_physique\" as \"Adresse\", \"anom_code\" as \"Anomalie\" from \"gescli\".\"view_anomalie_rv1\" where \"gescli\".\"view_anomalie_rv1\".\"id_periode\" = ? and \"gescli\".\"view_anomalie_rv1\".\"anom_code\" in ? and (\"gescli\".\"view_anomalie_rv1\".\"date_saisie\" <= ?) and (\"gescli\".\"view_anomalie_rv1\".\"date_saisie\" = ?) and (\"gescli\".\"view_anomalie_rv1\".\"date_saisie\" >= ?) and \"gescli\".\"view_anomalie_rv1\".\"num_lot_fac\" in ? and (\"gescli\".\"view_anomalie_rv1\".\"date_saisie\" < ?) and (\"gescli\".\"view_anomalie_rv1\".\"date_saisie\" > ?) order by \"codepl\" ASC"
           }
         },
-        "else": {
-          "steps": {
-            "name": "anomalie",
-            "module": "dbupdater",
-            "action": "custom",
-            "options": {
-              "connection": "edbdev",
-              "sql": {
-                "query": "select * from \"tsptest\".\"view_anomalie_rv1\" where \"tsptest\".\"view_anomalie_rv1\".\"id_periode\" = :P1 and \"tsptest\".\"view_anomalie_rv1\".\"num_lot_fac\" = :P2 and \nCASE \nwhen :P3 = '=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" = :P4\nwhen :P3 = '<=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" <= :P4\nwhen :P3 = '>=' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" >= :P4\nwhen :P3 = '<' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" < :P4\nwhen :P3 = '>' then \"tsptest\".\"view_anomalie_rv1\".\"date_saisie\" > :P4\nEND\nand \"tsptest\".\"view_anomalie_rv1\".\"anom_code\" = :P5  \n",
-                "params": [
-                  {
-                    "name": ":P1",
-                    "value": "{{$_GET.periode}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P2",
-                    "value": "{{$_GET.lotfac}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P3",
-                    "value": "{{$_GET.conditiondate}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P4",
-                    "value": "{{$_GET.date}}",
-                    "test": ""
-                  },
-                  {
-                    "name": ":P5",
-                    "value": "{{$_GET.anomalie}}"
-                  }
-                ]
-              }
-            },
-            "output": true,
-            "meta": [
-              {
-                "type": "number",
-                "name": "id_periode"
-              },
-              {
-                "type": "text",
-                "name": "code_support"
-              },
-              {
-                "type": "number",
-                "name": "num_tourne"
-              },
-              {
-                "type": "number",
-                "name": "rang_branch"
-              },
-              {
-                "type": "number",
-                "name": "num_ordre_pl"
-              },
-              {
-                "type": "text",
-                "name": "adr_physique"
-              },
-              {
-                "type": "text",
-                "name": "nom"
-              },
-              {
-                "type": "text",
-                "name": "accesscnt"
-              },
-              {
-                "type": "number",
-                "name": "num_releve"
-              },
-              {
-                "type": "text",
-                "name": "code_cpteur"
-              },
-              {
-                "type": "text",
-                "name": "nom_cellule"
-              },
-              {
-                "type": "number",
-                "name": "index_a"
-              },
-              {
-                "type": "datetime",
-                "name": "date_releve"
-              },
-              {
-                "type": "text",
-                "name": "coment"
-              },
-              {
-                "type": "text",
-                "name": "qualite"
-              },
-              {
-                "type": "text",
-                "name": "libelle"
-              },
-              {
-                "type": "text",
-                "name": "anom_code"
-              },
-              {
-                "type": "text",
-                "name": "nom_periode"
-              },
-              {
-                "type": "text",
-                "name": "nom_lotfac"
-              },
-              {
-                "type": "text",
-                "name": "nom_employe"
-              },
-              {
-                "type": "number",
-                "name": "consommation"
-              },
-              {
-                "type": "number",
-                "name": "moy_consommation"
-              },
-              {
-                "type": "text",
-                "name": "releve_type"
-              },
-              {
-                "type": "number",
-                "name": "index_p"
-              },
-              {
-                "type": "number",
-                "name": "num_bordereaux"
-              },
-              {
-                "type": "number",
-                "name": "num_lot_fac"
-              },
-              {
-                "type": "number",
-                "name": "matricule"
-              },
-              {
-                "type": "datetime",
-                "name": "date_saisie"
-              }
-            ],
-            "outputType": "array",
-            "type": "dbcustom_query"
-          }
-        }
+        "meta": [],
+        "outputType": "array",
+        "type": "dbconnector_select",
+        "output": true
       },
-      "outputType": "boolean"
-    }
+      {
+        "name": "csvExport",
+        "module": "export",
+        "action": "csv",
+        "options": {
+          "header": true,
+          "data": "{{lotFac}}",
+          "path": "/public/assets/download/traitement_des_anomalies.csv",
+          "overwrite": true
+        },
+        "outputType": "text"
+      }
+    ]
   }
 }

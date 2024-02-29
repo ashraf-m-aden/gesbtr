@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "boolean",
+        "name": "zonea"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "",
+      "module": "core",
+      "action": "condition",
+      "options": {
+        "if": "{{$_GET.zonea==1}}",
+        "then": {
+          "steps": {
+            "name": "getTourneeA",
+            "module": "dbupdater",
+            "action": "custom",
+            "options": {
+              "connection": "edbtest",
+              "sql": {
+                "query": "select tr.num_tourne,pl.code_support,COUNT(c) from point_livraison pl   join  tourne_releve tr on pl.num_tourne=tr.num_tourne\njoin  contrat c on c.num_pl=pl.id_pl\nwhere tr.lot_fac in (70,93,60,95,96,94,30,20,10,90,40,97,80)   GROUP BY tr.num_tourne,pl.code_support ORDER BY tr.num_tourne",
+                "params": []
+              }
+            },
+            "output": true,
+            "meta": [
+              {
+                "name": "num_tourne",
+                "type": "number"
+              },
+              {
+                "name": "code_support",
+                "type": "text"
+              },
+              {
+                "name": "count",
+                "type": "number"
+              }
+            ],
+            "type": "dbcustom_query",
+            "outputType": "array"
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "getTourneeB",
+            "module": "dbupdater",
+            "action": "custom",
+            "options": {
+              "connection": "edbtest",
+              "sql": {
+                "query": "select tr.num_tourne,pl.code_support,COUNT(c) from point_livraison pl   join  tourne_releve tr on pl.num_tourne=tr.num_tourne\njoin  contrat c on c.num_pl=pl.id_pl\nwhere tr.lot_fac in (11,81,41,71,21,31,91,61) GROUP BY tr.num_tourne,pl.code_support ORDER BY tr.num_tourne",
+                "params": []
+              }
+            },
+            "output": true,
+            "meta": [
+              {
+                "name": "num_tourne",
+                "type": "number"
+              },
+              {
+                "name": "code_support",
+                "type": "text"
+              },
+              {
+                "name": "count",
+                "type": "number"
+              }
+            ],
+            "type": "dbcustom_query",
+            "outputType": "array"
+          }
+        }
+      },
+      "outputType": "boolean"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "array",
+        "name": "data"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "list",
+        "module": "arraylist",
+        "action": "create",
+        "options": {
+          "schema": [
+            {
+              "type": "object",
+              "name": "releve"
+            }
+          ]
+        },
+        "meta": [
+          {
+            "type": "object",
+            "name": "releve"
+          }
+        ],
+        "outputType": "array"
+      },
+      {
+        "name": "repeat",
+        "module": "core",
+        "action": "repeat",
+        "options": {
+          "repeat": "{{$_GET.data}}",
+          "outputFields": [],
+          "exec": {
+            "steps": {
+              "name": "",
+              "module": "arraylist",
+              "action": "add",
+              "options": {
+                "ref": "list",
+                "value": {
+                  "releve": "{{{\"Nom:\":'$value.nom','Compteur':'$value.code_cpteur','PL':'$value.codepl','Adresse':'$value.adr_physique','Anomalie':'$value.libelle','Index':'','Observations':''}}}"
+                }
+              }
+            }
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "$index",
+            "type": "number"
+          },
+          {
+            "name": "$number",
+            "type": "number"
+          },
+          {
+            "name": "$name",
+            "type": "text"
+          },
+          {
+            "name": "$value",
+            "type": "object"
+          }
+        ],
+        "outputType": "array"
+      },
+      {
+        "name": "",
+        "module": "arraylist",
+        "action": "value",
+        "options": {
+          "ref": "list"
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "releve",
+            "type": "object"
+          }
+        ],
+        "outputType": "array"
+      },
+      {
+        "name": "csvExport",
+        "module": "export",
+        "action": "csv",
+        "options": {
+          "path": "/public/assets/download/export.csv",
+          "data": "{{releve}}",
+          "header": true,
+          "overwrite": true
+        },
+        "outputType": "text"
+      }
+    ]
+  }
+}

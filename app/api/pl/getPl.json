@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "lotfac"
+      },
+      {
+        "type": "text",
+        "name": "idperiode"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "list",
+        "module": "arraylist",
+        "action": "create",
+        "options": {},
+        "meta": [],
+        "outputType": "array"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_GET.lotfac==0}}",
+          "then": {
+            "steps": [
+              {
+                "name": "getPlByLotFacTous",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbtest",
+                  "sql": {
+                    "query": "select tr.num_tourne as Tournee,tr.zone_geo as PL,COUNT(c) as Nombre_de_clients from point_livraison pl   join  tourne_releve tr on pl.num_tourne=tr.num_tourne\njoin  contrat c on c.num_pl=pl.id_pl join releve r on r.id_contrat=c.id_contrat where  r.id_periode=? AND c.position in(12,13,14)\n  GROUP BY tr.num_tourne, starts_with(pl.code_support, tr.zone_geo) ORDER BY tr.num_tourne",
+                    "params": [
+                      {
+                        "name": "?",
+                        "value": "{{$_GET.idperiode}}",
+                        "test": "491",
+                        "recid": 1
+                      }
+                    ]
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "tournee",
+                    "type": "number"
+                  },
+                  {
+                    "name": "pl",
+                    "type": "text"
+                  },
+                  {
+                    "name": "nombre_de_clients",
+                    "type": "number"
+                  }
+                ],
+                "type": "dbcustom_query"
+              },
+              {
+                "name": "",
+                "module": "arraylist",
+                "action": "addAll",
+                "options": {
+                  "ref": "list",
+                  "value": "{{getPlByLotFacTous}}"
+                }
+              }
+            ]
+          },
+          "else": {
+            "steps": [
+              {
+                "name": "getPlByLotFac",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbtest",
+                  "sql": {
+                    "query": "select tr.num_tourne as Tournee,tr.zone_geo as PL,COUNT(c) as Nombre_de_clients  from point_livraison pl   join  tourne_releve tr on pl.num_tourne=tr.num_tourne\njoin  contrat c on c.num_pl=pl.id_pl join releve r on r.id_contrat=c.id_contrat where  r.id_periode=?\nAND tr.lot_fac = ? AND c.position in(12,13,14)  GROUP BY tr.num_tourne ORDER BY tr.num_tourne",
+                    "params": [
+                      {
+                        "name": "?",
+                        "value": "{{$_GET.idperiode}}",
+                        "test": "491"
+                      },
+                      {
+                        "name": "?",
+                        "value": "{{$_GET.lotfac}}",
+                        "test": "11"
+                      }
+                    ]
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "tournee",
+                    "type": "number"
+                  },
+                  {
+                    "name": "pl",
+                    "type": "text"
+                  },
+                  {
+                    "name": "nombre_de_clients",
+                    "type": "number"
+                  }
+                ],
+                "type": "dbcustom_query"
+              },
+              {
+                "name": "",
+                "module": "arraylist",
+                "action": "addAll",
+                "options": {
+                  "ref": "list",
+                  "value": "{{getPlByLotFac}}"
+                }
+              }
+            ]
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "getAllPL",
+        "module": "arraylist",
+        "action": "value",
+        "options": {
+          "ref": "list"
+        },
+        "output": true,
+        "meta": [],
+        "outputType": "array"
+      },
+      {
+        "name": "csvExport",
+        "module": "export",
+        "action": "csv",
+        "options": {
+          "path": "/public/assets/download/liste_pl.csv",
+          "data": "{{getAllPL}}",
+          "header": true,
+          "overwrite": true
+        },
+        "outputType": "text"
+      }
+    ]
+  }
+}

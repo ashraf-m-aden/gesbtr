@@ -14,46 +14,27 @@
   "exec": {
     "steps": {
       "name": "anomalies",
-      "module": "dbconnector",
-      "action": "select",
+      "module": "dbupdater",
+      "action": "custom",
       "options": {
-        "connection": "edbdev",
+        "connection": "edbtest",
         "sql": {
-          "type": "select",
-          "columns": [
-            {
-              "table": "anomalie_releve",
-              "column": "code",
-              "schema": "tsptest"
-            },
-            {
-              "table": "anomalie_releve",
-              "column": "libelle",
-              "schema": "tsptest"
-            }
-          ],
-          "params": [],
-          "table": {
-            "name": "anomalie_releve",
-            "schema": "tsptest"
-          },
-          "primary": "code",
-          "joins": [],
-          "query": "select \"code\", \"libelle\" from \"tsptest\".\"anomalie_releve\""
+          "query": "select code, libelle from anomalie_releve where code in ('AB','CD','DT','CI','MI','SI','FD','RF','NS','PE','PF','IT')",
+          "params": []
         }
       },
       "output": true,
       "meta": [
         {
-          "type": "text",
-          "name": "code"
+          "name": "code",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "libelle"
+          "name": "libelle",
+          "type": "text"
         }
       ],
-      "outputType": "array"
+      "type": "dbcustom_query"
     }
   }
 }

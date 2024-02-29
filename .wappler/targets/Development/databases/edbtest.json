@@ -1,0 +1,3415 @@
+{
+  "type": "postgres",
+  "connection": {
+    "host": "192.168.8.50",
+    "port": 5444,
+    "user": "gescli",
+    "password": "gescli",
+    "database": "edbtest"
+  },
+  "direct": true,
+  "schema": {
+    "schemas": [
+      "sys",
+      "dbms_pipe",
+      "dbms_alert",
+      "dbms_lob",
+      "dbms_job",
+      "dbms_output",
+      "topology",
+      "dbms_rls",
+      "pgagent",
+      "dbms_utility",
+      "dbms_sql",
+      "aq$_agent",
+      "old_dbdba",
+      "dbdba",
+      "dbms_aqadm",
+      "aq$_reg_info",
+      "msg_prop_t",
+      "aq$_descriptor",
+      "gestauto",
+      "smp_vd_inclause_object",
+      "smp_vd_index_object",
+      "smp_vde_evt_occ_object",
+      "smp_vdg_event_test",
+      "smp_vdi_obj_occ",
+      "gitea",
+      "gesdoc",
+      "dbms_aq",
+      "dbms_profiler",
+      "dbms_random",
+      "gescpt",
+      "dbms_redact",
+      "dbms_crypto",
+      "dbms_lock",
+      "dbms_scheduler",
+      "dbms_mview",
+      "dbms_session",
+      "utl_encode",
+      "utl_http",
+      "utl_file",
+      "utl_tcp",
+      "gstock",
+      "public",
+      "utl_url",
+      "utl_smtp",
+      "utl_raw",
+      "utl_mail",
+      "gesrh",
+      "smp_vdi_obj_occ",
+      "attrib",
+      "gesrh_prod",
+      "smp_vd_inclause_object",
+      "smp_vd_index_object",
+      "smp_vde_evt_occ_object",
+      "smp_vdg_event_test",
+      "gescli"
+    ],
+    "tables": {
+      "attrib.util": {
+        "db": {
+          "schema": "attrib"
+        },
+        "refs": {
+          "attrib.log_conn": "mat"
+        }
+      },
+      "attrib.log_conn": {
+        "db": {
+          "schema": "attrib"
+        }
+      },
+      "attrib.appli": {
+        "db": {
+          "schema": "attrib"
+        },
+        "columns": {
+          "code_appli": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          },
+          "nom_appli": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "last_version": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "dt_last_version": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "program_name": {
+            "db": {
+              "type": "string",
+              "maxLength": 15,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
+        "refs": {
+          "attrib.log_conn": "code_appli"
+        }
+      },
+      "attrib.paramtable": {
+        "db": {
+          "schema": "attrib"
+        }
+      },
+      "gesrh.parametre_paie": {
+        "db": {
+          "schema": "gesrh"
+        }
+      },
+      "gesrh.avances": {
+        "db": {
+          "schema": "gesrh"
+        }
+      },
+      "gesrh.rubrique_axe": {
+        "db": {
+          "schema": "gesrh"
+        }
+      },
+      "gesrh.salaries": {
+        "db": {
+          "schema": "gesrh"
+        }
+      },
+      "gesrh.rubocas": {
+        "db": {
+          "schema": "gesrh"
+        }
+      },
+      "gesrh.log_trans": {
+        "db": {
+          "schema": "gesrh"
+        }
+      },
+      "gesrh_prod.avances": {
+        "db": {
+          "schema": "gesrh_prod"
+        }
+      },
+      "gesrh_prod.rubocas": {
+        "db": {
+          "schema": "gesrh_prod"
+        }
+      },
+      "gesrh_prod.log_trans": {
+        "db": {
+          "schema": "gesrh_prod"
+        }
+      },
+      "gesrh_prod.parametre_paie": {
+        "db": {
+          "schema": "gesrh_prod"
+        }
+      },
+      "gesrh_prod.rubrique_axe": {
+        "db": {
+          "schema": "gesrh_prod"
+        }
+      },
+      "gstock.reservation": {
+        "db": {
+          "schema": "gstock"
+        }
+      },
+      "gstock.ligne_reservation": {
+        "db": {
+          "schema": "gstock"
+        }
+      },
+      "gescpt.ot": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.type_piece": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.type_analyse": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.piece": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.activite": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.ecritures": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.plan_comptable": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.ecriture_anomalie": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.piece_anomalie": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.credit": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescpt.centre_analyse": {
+        "db": {
+          "schema": "gescpt"
+        }
+      },
+      "gescli.encaissement_mobile": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.compteur_itron": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "compteur"
+      },
+      "gescli.n_suivie": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_releve_trg": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tourne_releve": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.releve_7m": "num_tourne",
+          "gescli.releve_5m": "num_tourne",
+          "gescli.releve_9m": "num_tourne",
+          "gescli.suiviebordereau": "tournee",
+          "gescli.releve_3m": "num_tourne",
+          "gescli.point_livraison": "num_tourne",
+          "gescli.suivi_tournee": "num_tourne",
+          "gescli.tourne_rp": "num_tourne",
+          "gescli.releve": "num_tourne",
+          "gescli.releve_8m": "num_tourne",
+          "gescli.tmp_releve_tc25": "num_tourne",
+          "gescli.releve_6m": "num_tourne",
+          "gescli.releve_4m": "num_tourne",
+          "gescli.log_suiviebordereau": "tournee",
+          "gescli.releve_1m": "num_tourne",
+          "gescli.releve_2m": "num_tourne",
+          "gescli.tsp_tempo": "ca_tournee_no",
+          "gescli.tsp_mvt": "tournee",
+          "gescli.releve_10m": "num_tourne",
+          "gescli.tmp_suivi_tournee": "num_tourne"
+        }
+      },
+      "gescli.depart_mt": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.dms_scada": "id_depart_mt",
+          "gescli.dms_energie": "id_depart_mt",
+          "gescli.dms_intensite": "id_depart_mt",
+          "gescli.liaison_mtbt": "id_depart_mt",
+          "gescli.dms_trace": "id_depart_mt"
+        }
+      },
+      "gescli.historique_suivi": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_portef_recap": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.att_lieu_geo_emp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_releve_rf": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_fac_blanc": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_tarif": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_facture_1112": "num_ligne_tarifaire",
+          "gescli.ligne_fac_blanc": "num_ligne_tarifaire",
+          "gescli.ligne_facture_1516": "num_ligne_tarifaire",
+          "gescli.ligne_facture_2324": "num_ligne_tarifaire",
+          "gescli.ligne_facture_2122": "num_ligne_tarifaire",
+          "gescli.service_devis": "num_ligne_tarifaire",
+          "gescli.ligne_facture_tmp": "num_ligne_tarifaire",
+          "gescli.ligne_facture_supp": "num_ligne_tarifaire",
+          "gescli.tarif_ps_usage": "id_ligne_tarif",
+          "gescli.ligne_facture_1920": "num_ligne_tarifaire",
+          "gescli.ligne_facture_1314": "num_ligne_tarifaire",
+          "gescli.ligne_facture": "num_ligne_tarifaire",
+          "gescli.ligne_facture_1718": "num_ligne_tarifaire",
+          "gescli.ligne_facture_2010": "num_ligne_tarifaire",
+          "gescli.ligne_devis": "num_ligne_tarifaire"
+        }
+      },
+      "gescli.details_depannage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_import_fichier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.fact_contrat_annul": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_doc_data": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.err_tables": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.table_trace": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.role": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.code_comptable": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_7m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_planification_interv": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ecriture_comptable": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.imputation_comptable": "id_ecrit_comptable_cr"
+        }
+      },
+      "gescli.engagement": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_2324": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_ecriture2": "num_facture",
+          "gescli.facture_ecriture": "num_facture",
+          "gescli.ligne_facture": "num_facture",
+          "gescli.trace": "num_facture",
+          "gescli.ligne_fact_est": "num_fact",
+          "gescli.facture_estimation": "num_facture",
+          "gescli.oper_imputation": "origine_facture",
+          "gescli.emailc": "id_mvt"
+        }
+      },
+      "gescli.lettrage_2m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_doc_image": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_1m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_3m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.droit": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_autre_mvt_ec": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_5m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.type_piece_compta": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_ecriture_2122": "id_piece",
+          "gescli.facture_ecriture_2324": "id_piece",
+          "gescli.autremvt_ecriture_2010": "id_piece",
+          "gescli.autremvt_ecriture_1112": "id_piece",
+          "gescli.autremvt_ecriture_1314": "id_piece",
+          "gescli.autremvt_ecriture_2324": "id_piece",
+          "gescli.facture_ecriture_1314": "id_piece",
+          "gescli.piece_comptable": "type_piece",
+          "gescli.facture_ecriture_1112": "id_piece",
+          "gescli.facture_ecriture2": "id_piece",
+          "gescli.facture_ecriture": "id_piece",
+          "gescli.autremvt_ecriture": "id_piece",
+          "gescli.facture_ecriture_1920": "id_piece",
+          "gescli.facture_ecriture_2010": "id_piece",
+          "gescli.autremvt_ecriture2": "id_piece",
+          "gescli.oper_imputation": "id_type_piece_cptable",
+          "gescli.autremvt_ecriture_1516": "id_piece",
+          "gescli.autremvt_ecriture_1718": "id_piece",
+          "gescli.autremvt_ecriture_1920": "id_piece",
+          "gescli.autremvt_ecriture_2122": "id_piece",
+          "gescli.facture_ecriture_1516": "id_piece",
+          "gescli.facture_ecriture_1718": "id_piece"
+        }
+      },
+      "gescli.signature": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_backup": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.sms_client": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.sql_anomalie": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_categ_cli2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.agence_com": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.cellule_clientele": "code_agence"
+        }
+      },
+      "gescli.type_mvt_portef": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_2122": "type_mvt_portefeuille",
+          "gescli.autre_mvt_1516": "type_mvt_portef",
+          "gescli.facture_2324": "type_mvt_portefeuille",
+          "gescli.facture_supp": "type_mvt_portefeuille",
+          "gescli.autre_mvt_2324": "type_mvt_portef",
+          "gescli.autre_mvt_2010": "type_mvt_portef",
+          "gescli.tva_histori": "type_mvt_portef",
+          "gescli.tva_histori2": "type_mvt_portef",
+          "gescli.autre_mvt_1718": "type_mvt_portef",
+          "gescli.autre_mvt": "type_mvt_portef",
+          "gescli.regle_imputation": "type_mvt_traite_det",
+          "gescli.autre_mvt_1314": "type_mvt_portef",
+          "gescli.devis": "type_mvt_portefeuille",
+          "gescli.type_groupe_mvt": "id_type_mvt",
+          "gescli.groupe_type_mvt": "id_type_mvt",
+          "gescli.autre_mvt_2122": "type_mvt_portef",
+          "gescli.facture_1516": "type_mvt_portefeuille",
+          "gescli.facture_1718": "type_mvt_portefeuille",
+          "gescli.facture_1920": "type_mvt_portefeuille",
+          "gescli.facture_2010": "type_mvt_portefeuille",
+          "gescli.facture_1112": "type_mvt_portefeuille",
+          "gescli.facture_1314": "type_mvt_portefeuille",
+          "gescli.facture_tmp": "type_mvt_portefeuille",
+          "gescli.autre_mvt_1112": "type_mvt_portef",
+          "gescli.autre_mvt_1920": "type_mvt_portef",
+          "gescli.facture": "type_mvt_portefeuille"
+        }
+      },
+      "gescli.facture_ecriture_2122": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.ecriture_mvt_non_cl": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.var_numcellule": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.post_data_djib": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_zonne": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_5m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.cellule_clientele": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.zone_geographique": "num_cellule",
+          "gescli.equipe_cell": "num_cellule",
+          "gescli.chef_coupure": "num_cellule",
+          "gescli.devis": "num_cellule",
+          "gescli.lot_facturation": "num_cellule",
+          "gescli.client": "num_cellule",
+          "gescli.sms_devis": "num_cellule"
+        }
+      },
+      "gescli.bordereau_ecriture_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture_2324": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.ligne_facture_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_2324": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_supp": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_facture_supp": "num_facture"
+        }
+      },
+      "gescli.ligne_mvt_supp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.groupe_mvt_portefeuille": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.regle_imputation": "type_mouvement_orig",
+          "gescli.type_groupe_mvt": "id_groupe_mvt"
+        }
+      },
+      "gescli.ligne_mvt_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.zone_geographique": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.tourne_releve": "zone_geo",
+          "gescli.supports": "num_zonegeo",
+          "gescli.tmp_coupure": "num_zone_geo"
+        }
+      },
+      "gescli.ligne_mvt_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_caissier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_mvt_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_mvt_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.corr_mvt_lt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.demande_supprime": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.client_categ_cli": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "client"
+      },
+      "gescli.code_axe_imputation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.mauvais_histo_suivi": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.messagebox": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_2324": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.engagement": "id_enga",
+          "gescli.tva_histori": "id_autre_mvt",
+          "gescli.tva_histori2": "id_autre_mvt",
+          "gescli.ligne_mvt": "id_autre_mvt",
+          "gescli.autremvt_ecriture": "num_autremvt",
+          "gescli.remboursement": "id_autre_mvt",
+          "gescli.autremvt_ecriture3": "id_autre_mvt",
+          "gescli.tva_collectee": "id_autre_mvt",
+          "gescli.oper_imputation": "origine_mouvement"
+        }
+      },
+      "gescli.autremvt_ecriture_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lot_fac_periode": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.arg_fraisdossier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.poste_mt": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.depart_mt": "id_poste_mt",
+          "gescli.dms_scada": "id_poste_mt",
+          "gescli.dms_energie": "id_poste_mt",
+          "gescli.dms_intensite": "id_poste_mt",
+          "gescli.dms_trace": "id_poste_mt"
+        }
+      },
+      "gescli.poste_pince": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.regle_imputation": "id_poste_pince",
+          "gescli.section_employe": "poste_pince",
+          "gescli.machines": "id_caissier"
+        }
+      },
+      "gescli.autremvt_ecriture_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture_2324": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.service_devis": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_devis": "num_ligne_service"
+        }
+      },
+      "gescli.n_dossier_statut_web": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.sous_categ_tarif": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_tarif": "num_sous_cat",
+          "gescli.contrat": "sous_categ"
+        }
+      },
+      "gescli.facture_ecriture_1314": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.tmp_releve_eddmobile": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_9m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_mvt_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.estimation": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.index_force": "num_est",
+          "gescli.detail_materiel": "num_est",
+          "gescli.energie_estimation": "num_est",
+          "gescli.n_dossier_estimation": "num_estimation",
+          "gescli.ligne_fact_est": "num_est",
+          "gescli.facture_estimation": "num_estimation"
+        }
+      },
+      "gescli.piece_comptable": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.suiviebordereau": {
+        "db": {
+          "schema": "gescli"
+        },
+        "columns": {
+          "tournee": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "num_tourne",
+              "inTable": "tourne_releve",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "periode": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": false,
+              "references": "id_periode",
+              "inTable": "periode",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "bordereau": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "nbr_cpteur": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "compteurrelevee": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "reste": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_crea": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_crea": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_maj": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "date_maj": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "matricule": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "numtsp": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_tsp",
+              "inTable": "tsp",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "num_lot_fac": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "num_lot_fac",
+              "inTable": "lot_facturation",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "suivie_anomalie": {
+            "db": {
+              "type": "string",
+              "default": "P",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "reference",
+              "default": 157,
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id_ligne",
+              "inTable": "tables_valeurs",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "user_st": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_st": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "gescli.tmp_portefeuille2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.var_numcpteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.trace_estimation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_depannage_agent": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_details_travaux": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.machine_dev": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.materiel": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.mndevis": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.devis_text_intitule": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "devis"
+      },
+      "gescli.modele_fabricant": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.modele_tsp": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.tsp": "modele_id"
+        }
+      },
+      "gescli.releve_3m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_dossier_contrat": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.prix_penalite_clim": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_parametre": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.point_livraison": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_2122": "id_pl",
+          "gescli.releve_7m": "id_pl",
+          "gescli.engagement": "num_pl",
+          "gescli.facture_2324": "id_pl",
+          "gescli.releve_5m": "id_pl",
+          "gescli.releve_9m": "id_pl",
+          "gescli.releve_3m": "id_pl",
+          "gescli.n_dossier_contrat": "id_pl",
+          "gescli.histo_chgt_support": "id_pl",
+          "gescli.tmp_coupure": "id_pl",
+          "gescli.mvt_compteur": "num_pl",
+          "gescli.contrat": "num_pl",
+          "gescli.releve": "id_pl",
+          "gescli.releve_8m": "id_pl",
+          "gescli.releve_6m": "id_pl",
+          "gescli.devis": "id_pl",
+          "gescli.releve_4m": "id_pl",
+          "gescli.coordonne_cpteur": "id_pl",
+          "gescli.releve_supprimee": "id_pl",
+          "gescli.histo_etat_pl": "id_pl",
+          "gescli.histo_coupure": "id_pl",
+          "gescli.releve_1m": "id_pl",
+          "gescli.releve_2m": "id_pl",
+          "gescli.facture_1516": "id_pl",
+          "gescli.facture_1718": "id_pl",
+          "gescli.facture_1920": "id_pl",
+          "gescli.compteur": "num_pl",
+          "gescli.contrat_ablanc": "num_pl",
+          "gescli.facture_2010": "id_pl",
+          "gescli.facture_1112": "id_pl",
+          "gescli.facture_1314": "id_pl",
+          "gescli.trace": "num_pl",
+          "gescli.facture_tmp": "id_pl",
+          "gescli.tmp_histo_etat_pl": "id_pl",
+          "gescli.releve_10m": "id_pl",
+          "gescli.facture": "id_pl"
+        }
+      },
+      "gescli.par_periode": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.poste": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.supports": "code_poste",
+          "gescli.liaison_mtbt": "id_poste_bt",
+          "gescli.depannage": "code_poste"
+        }
+      },
+      "gescli.impaye_annuel": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.web_role": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.index_force": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lien_url": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.nmaxnreleve": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture_1112": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.var_zonegeo": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tbl_gescli3": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tb_param_format": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.test_cpteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.dms_scada": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_8m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_metadata": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_doc_data": "num_metadata"
+        }
+      },
+      "gescli.demande": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.quart_orgi": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_quartier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_dossier_statut": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.suivi_tournee": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_tmp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.suivi_depannage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.suivie_fiche": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_depannage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.suivi_lot_fac": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.supports": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.point_livraison": "code_support",
+          "gescli.histo_chgt_support": "code_support",
+          "gescli.fiche_compteur": "support",
+          "gescli.devis": "support"
+        }
+      },
+      "gescli.conso_ps": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tables_erreur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.detail_materiel": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.details_devis": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.faire_estimation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.equipe": {
+        "db": {
+          "schema": "gescli"
+        },
+        "sub": {
+          "gescli.equipe_cell": "id_equipe"
+        },
+        "refs": {
+          "gescli.chef_coupure": "id_equipe",
+          "gescli.histo_coupure": "id_equipe"
+        }
+      },
+      "gescli.equipe_cell": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "equipe"
+      },
+      "gescli.histo_chgt_support": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_cc_cpt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.anomalie_sys": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_supp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_coupure": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.groupe_fac": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.zone_geographique": "groupe_fac",
+          "gescli.contrat": "groupe_fac",
+          "gescli.lot_facturation": "num_gr_fac",
+          "gescli.zone_tarif": "groupe_fac"
+        }
+      },
+      "gescli.employe": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_suivie": "user_crea",
+          "gescli.depart_mt": "user_crea",
+          "gescli.historique_suivi": "mat",
+          "gescli.att_lieu_geo_emp": "mat",
+          "gescli.facture_2122": "user_maj",
+          "gescli.autre_mvt_1516": "mat_employe",
+          "gescli.releve_7m": "utilisateur_der_maj",
+          "gescli.n_planification_interv": "chef_travaux",
+          "gescli.ecriture_comptable": "matricule",
+          "gescli.engagement": "user_crea",
+          "gescli.facture_2324": "user_maj",
+          "gescli.smsc_1112": "user_crea",
+          "gescli.smsc_1314": "user_crea",
+          "gescli.smsc_1516": "user_crea",
+          "gescli.type_piece_compta": "id_caissier",
+          "gescli.signature": "mat",
+          "gescli.facture_ecriture_2122": "matricule",
+          "gescli.releve_5m": "utilisateur_der_maj",
+          "gescli.cellule_clientele": "mat_respo",
+          "gescli.facture_ecriture_2324": "matricule",
+          "gescli.log_caissier": "matricule",
+          "gescli.demande_supprime": "id_utils_maj",
+          "gescli.messagebox": "matricule",
+          "gescli.autre_mvt_2324": "mat_employe",
+          "gescli.autremvt_ecriture_2010": "matricule",
+          "gescli.autremvt_ecriture_1112": "matricule",
+          "gescli.autremvt_ecriture_1314": "matricule",
+          "gescli.autremvt_ecriture_2324": "matricule",
+          "gescli.facture_ecriture_1314": "matricule",
+          "gescli.tmp_releve_eddmobile": "user_maj",
+          "gescli.releve_9m": "utilisateur_der_maj",
+          "gescli.estimation": "mat",
+          "gescli.suiviebordereau": "matricule",
+          "gescli.n_depannage_agent": "matricule",
+          "gescli.n_details_travaux": "user_crea",
+          "gescli.machine_dev": "mat",
+          "gescli.releve_3m": "utilisateur_der_maj",
+          "gescli.autre_mvt_2010": "mat_employe",
+          "gescli.point_livraison": "id_utilis_maj",
+          "gescli.index_force": "mat",
+          "gescli.facture_ecriture_1112": "matricule",
+          "gescli.tb_param_format": "id_banque",
+          "gescli.demande": "user_crea",
+          "gescli.suivi_depannage": "attribuer_a",
+          "gescli.suivie_fiche": "user_crea",
+          "gescli.log_depannage": "user_crea",
+          "gescli.equipe": "chef_eq",
+          "gescli.equipe_cell": "util_maj",
+          "gescli.histo_chgt_support": "id_util_maj",
+          "gescli.tmp_coupure": "user_maj",
+          "gescli.log_delestage": "user_crea",
+          "gescli.mvt_compteur": "matricule",
+          "gescli.tourne_rp": "matricule",
+          "gescli.facture_ecriture2": "matricule",
+          "gescli.contrat": "id_utilis_maj",
+          "gescli.chef_coupure": "mat_respo",
+          "gescli.n_dossier_client": "user_crea",
+          "gescli.tmp_releve_tsp": "utilisateur_der_maj",
+          "gescli.tpm_nbr_fact": "utilisateur",
+          "gescli.group_user": "id_matricule",
+          "gescli.autre_mvt_1718": "mat_employe",
+          "gescli.message_ct": "user_crea",
+          "gescli.mvt_non_client": "mat_employe",
+          "gescli.facture_ecriture": "matricule",
+          "gescli.releve": "utilisateur_der_maj",
+          "gescli.histo_suivi": "mat",
+          "gescli.releve_8m": "utilisateur_der_maj",
+          "gescli.remise_cheque": "user_crea",
+          "gescli.smsc": "user_crea",
+          "gescli.autremvt_ecriture": "matricule",
+          "gescli.autre_mvt": "mat_employe",
+          "gescli.fond_caisse": "matricule",
+          "gescli.fiche_compteur": "user_crea",
+          "gescli.tmp_releve_tc25": "matricule",
+          "gescli.autre_mvt_1314": "mat_employe",
+          "gescli.releve_6m": "utilisateur_der_maj",
+          "gescli.devis": "user_crea",
+          "gescli.releve_4m": "utilisateur_der_maj",
+          "gescli.section_employe": "employe",
+          "gescli.clients_blocked": "id_utilis_maj",
+          "gescli.att_section_emp": "mat",
+          "gescli.quotas_agents": "matricule",
+          "gescli.log_suiviebordereau": "user_crea",
+          "gescli.facture_ecriture_1920": "matricule",
+          "gescli.releve_supprimee": "matricule",
+          "gescli.resp_confirmation": "mat",
+          "gescli.log_affectation_appareil_mobiles": "employe_id",
+          "gescli.n_devis_agent_execution": "matricule",
+          "gescli.smsc_2324": "user_crea",
+          "gescli.histo_coupure": "id_utils_maj",
+          "gescli.autre_mvt_2122": "mat_employe",
+          "gescli.releve_1m": "utilisateur_der_maj",
+          "gescli.releve_2m": "utilisateur_der_maj",
+          "gescli.n_document": "cree_par",
+          "gescli.facture_ecriture_2010": "matricule",
+          "gescli.smsc_1920": "user_crea",
+          "gescli.fond_caisse2": "matricule",
+          "gescli.facture_1516": "user_maj",
+          "gescli.facture_1718": "user_maj",
+          "gescli.tmp_coupure2": "user_maj",
+          "gescli.facture_1920": "user_maj",
+          "gescli.compteur": "id_utilis_maj",
+          "gescli.quota_finance": "user_maj",
+          "gescli.contrat_ablanc": "user_crea",
+          "gescli.facture_2010": "user_maj",
+          "gescli.facture_1112": "user_maj",
+          "gescli.facture_1314": "user_maj",
+          "gescli.trace": "mat_employe",
+          "gescli.remboursement": "matricule",
+          "gescli.smsc_2010": "user_crea",
+          "gescli.smsc_1718": "user_crea",
+          "gescli.facture_tmp": "user_maj",
+          "gescli.affectation_appareil_mobiles": "employe_id",
+          "gescli.dms_energie": "user_crea",
+          "gescli.dms_intensite": "user_crea",
+          "gescli.liaison_mtbt": "user_crea",
+          "gescli.tsp": "releveur",
+          "gescli.releve_10m": "utilisateur_der_maj",
+          "gescli.machines": "utils_maj",
+          "gescli.autremvt_ecriture2": "matricule",
+          "gescli.cellule_respo": "mat_respo",
+          "gescli.dms_trace": "user_maj",
+          "gescli.autre_mvt_1112": "mat_employe",
+          "gescli.smsc_2122": "user_crea",
+          "gescli.client": "id_utilis_crea",
+          "gescli.oper_imputation": "matricule",
+          "gescli.autre_mvt_1920": "mat_employe",
+          "gescli.autremvt_ecriture_1516": "matricule",
+          "gescli.autremvt_ecriture_1718": "matricule",
+          "gescli.autremvt_ecriture_1920": "matricule",
+          "gescli.autremvt_ecriture_2122": "matricule",
+          "gescli.facture_ecriture_1516": "matricule",
+          "gescli.facture_ecriture_1718": "matricule",
+          "gescli.tmp_suivi_tournee": "matricule",
+          "gescli.depannage": "user_crea",
+          "gescli.details_trvx_depannage": "chef_trx",
+          "gescli.sms_devis": "user_crea",
+          "gescli.facture": "user_maj",
+          "gescli.compte": "user_crea"
+        }
+      },
+      "gescli.var_numdossier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tva_histori": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tva_histori2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.type_estimation": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.estimation": "num_type_est"
+        }
+      },
+      "gescli.cc_compl_r_mt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.rapprochement_bancaire": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_lettrage_ano": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.refdoc": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.autre_mvt_1516": "id_refdoc",
+          "gescli.autre_mvt_2324": "id_refdoc",
+          "gescli.autre_mvt_2010": "id_refdoc",
+          "gescli.autre_mvt_1718": "id_refdoc",
+          "gescli.remise_cheque": "ref_doc",
+          "gescli.autre_mvt": "id_refdoc",
+          "gescli.autre_mvt_1314": "id_refdoc",
+          "gescli.autre_mvt_2122": "id_refdoc",
+          "gescli.autre_mvt_1112": "id_refdoc",
+          "gescli.autre_mvt_1920": "id_refdoc"
+        }
+      },
+      "gescli.log_delestage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tarif_ps_usage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_4m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.contrat_categ_cli": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "contrat"
+      },
+      "gescli.formes": {
+        "db": {
+          "schema": "gescli"
+        },
+        "sub": {
+          "gescli.formes2": "parent_id"
+        }
+      },
+      "gescli.tbl_gescli2": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "tbl_gescli"
+      },
+      "gescli.mvt_compteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.fabricant": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.modele_fabricant": "num_fabricant"
+        }
+      },
+      "gescli.tmp_portef_age": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tourne_rp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.histori_position": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.categ_cli": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.contrat": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.historique_suivi": "num_contrat",
+          "gescli.facture_2122": "num_contrat",
+          "gescli.role": "num_contrat",
+          "gescli.autre_mvt_1516": "num_contrat",
+          "gescli.releve_7m": "id_contrat",
+          "gescli.n_planification_interv": "num_contrat",
+          "gescli.engagement": "id_contrat",
+          "gescli.facture_2324": "num_contrat",
+          "gescli.smsc_1112": "contrat",
+          "gescli.smsc_1314": "contrat",
+          "gescli.smsc_1516": "contrat",
+          "gescli.facture_ecriture_2122": "id_contrat",
+          "gescli.releve_5m": "id_contrat",
+          "gescli.bordereau_ecriture_2010": "num_contrat",
+          "gescli.facture_ecriture_2324": "id_contrat",
+          "gescli.demande_supprime": "dernier_contrat",
+          "gescli.autre_mvt_2324": "num_contrat",
+          "gescli.autremvt_ecriture_2010": "id_contrat",
+          "gescli.autremvt_ecriture_1112": "id_contrat",
+          "gescli.autremvt_ecriture_1314": "id_contrat",
+          "gescli.autremvt_ecriture_2324": "id_contrat",
+          "gescli.n_dossier_statut_web": "num_contrat",
+          "gescli.facture_ecriture_1314": "id_contrat",
+          "gescli.releve_9m": "id_contrat",
+          "gescli.n_details_travaux": "num_contrat",
+          "gescli.releve_3m": "id_contrat",
+          "gescli.n_dossier_contrat": "contrat",
+          "gescli.autre_mvt_2010": "num_contrat",
+          "gescli.point_livraison": "id_dernier_contrat",
+          "gescli.facture_ecriture_1112": "id_contrat",
+          "gescli.demande": "dernier_contrat",
+          "gescli.log_depannage": "id_contrat",
+          "gescli.histo_chgt_support": "id_contrat",
+          "gescli.tmp_coupure": "id_contrat",
+          "gescli.histori_position": "id_contrat",
+          "gescli.n_dossier_client": "contrat_r_prec",
+          "gescli.autre_mvt_1718": "num_contrat",
+          "gescli.message_ct": "id_contrat",
+          "gescli.facture_ecriture": "id_contrat",
+          "gescli.releve": "id_contrat",
+          "gescli.histo_suivi": "num_contrat",
+          "gescli.releve_8m": "id_contrat",
+          "gescli.smsc": "contrat",
+          "gescli.autremvt_ecriture": "id_contrat",
+          "gescli.autre_mvt": "num_contrat",
+          "gescli.bordereau_ecriture": "num_contrat",
+          "gescli.fiche_compteur": "id_contrat",
+          "gescli.autre_mvt_1314": "num_contrat",
+          "gescli.releve_6m": "id_contrat",
+          "gescli.devis": "num_contrat",
+          "gescli.releve_4m": "id_contrat",
+          "gescli.facture_ecriture_1920": "id_contrat",
+          "gescli.bordereau_ecriture_2122": "num_contrat",
+          "gescli.releve_supprimee": "id_contrat",
+          "gescli.smsc_2324": "contrat",
+          "gescli.histo_coupure": "id_contrat",
+          "gescli.autre_mvt_2122": "num_contrat",
+          "gescli.releve_1m": "id_contrat",
+          "gescli.releve_2m": "id_contrat",
+          "gescli.facture_ecriture_2010": "id_contrat",
+          "gescli.smsc_1920": "contrat",
+          "gescli.bordereau_ecriture_1516": "num_contrat",
+          "gescli.abordereau_ecriture_1718": "num_contrat",
+          "gescli.facture_1516": "num_contrat",
+          "gescli.facture_1718": "num_contrat",
+          "gescli.tmp_coupure2": "id_contrat",
+          "gescli.pldecompte": "id_contrat",
+          "gescli.facture_1920": "num_contrat",
+          "gescli.quota_finance": "num_contrat",
+          "gescli.bordereau_ecriture_1112": "num_contrat",
+          "gescli.bordereau_ecriture_1314": "num_contrat",
+          "gescli.facture_2010": "num_contrat",
+          "gescli.facture_1112": "num_contrat",
+          "gescli.facture_1314": "num_contrat",
+          "gescli.trace": "num_contrat",
+          "gescli.remboursement": "id_contrat",
+          "gescli.smsc_2010": "contrat",
+          "gescli.smsc_1718": "contrat",
+          "gescli.encaissemt_electronic": "id_contrat",
+          "gescli.facture_tmp": "num_contrat",
+          "gescli.releve_10m": "id_contrat",
+          "gescli.bordereau_ecriture_2324": "num_contrat",
+          "gescli.autre_mvt_1112": "num_contrat",
+          "gescli.smsc_2122": "contrat",
+          "gescli.autre_mvt_1920": "num_contrat",
+          "gescli.autremvt_ecriture_1516": "id_contrat",
+          "gescli.autremvt_ecriture_1718": "id_contrat",
+          "gescli.autremvt_ecriture_1920": "id_contrat",
+          "gescli.autremvt_ecriture_2122": "id_contrat",
+          "gescli.demande_mail": "id_contrat",
+          "gescli.bordereau_ecriture_1920": "num_contrat",
+          "gescli.facture_ecriture_1516": "id_contrat",
+          "gescli.facture_ecriture_1718": "id_contrat",
+          "gescli.depannage": "id_contrat",
+          "gescli.sms_devis": "num_contrat",
+          "gescli.facture": "num_contrat",
+          "gescli.emailc": "contrat"
+        },
+        "sub": {
+          "gescli.contrat_categ_cli": "id_contrat"
+        }
+      },
+      "gescli.facture_ecriture3": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.chef_coupure": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_categ_cli": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_dossier_client": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_suivie": "num_dossier",
+          "gescli.n_planification_interv": "num_dossier",
+          "gescli.n_dossier_statut_web": "num_dossier",
+          "gescli.n_details_travaux": "dossier",
+          "gescli.n_dossier_contrat": "num_dossier",
+          "gescli.demande": "ndossier",
+          "gescli.n_dossier_estimation": "num_dossier",
+          "gescli.fiche_compteur": "num_dossier",
+          "gescli.dmdservicesweb": "num_dossier",
+          "gescli.devis": "ndossier",
+          "gescli.param_devis_tarif": "num_dossier",
+          "gescli.n_doc_dossier": "num_dossier",
+          "gescli.n_dossier_fiche_cpteur": "num_dossier",
+          "gescli.sms_devis": "ndossier"
+        }
+      },
+      "gescli.compte_banque": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.mvt_non_client": "id_banque",
+          "gescli.encaissemt_electronic": "id_banque"
+        }
+      },
+      "gescli.ligne_facture_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_releve_tsp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_valide_imp2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tpm_nbr_fact": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.group_user": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.modele_tsp": "user_crea",
+          "gescli.equipe_app_mobile": "user_crea",
+          "gescli.log_affectation_appareil_mobiles": "user_crea",
+          "gescli.affectation_appareil_mobiles": "user_crea",
+          "gescli.sim_mobile": "user_crea"
+        }
+      },
+      "gescli.energie_estimation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_anomalie2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.message_ct": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_facture": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.test_tab": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.message_param": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.mvt_non_client": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.categ_tarif": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_tarif": "num_categ",
+          "gescli.facture_2122": "categ",
+          "gescli.facture_2324": "categ",
+          "gescli.sous_categ_tarif": "num_categ",
+          "gescli.tarif_ps_usage": "id_tarif",
+          "gescli.regle_imputation": "categ_tarif",
+          "gescli.devis": "categ",
+          "gescli.facture_1516": "categ",
+          "gescli.facture_1718": "categ",
+          "gescli.facture_1920": "categ",
+          "gescli.zone_tarif": "num_categ",
+          "gescli.facture_2010": "categ",
+          "gescli.facture_1112": "categ",
+          "gescli.facture_1314": "categ",
+          "gescli.facture_tmp": "categ",
+          "gescli.facture": "categ"
+        }
+      },
+      "gescli.cg_type_analyse": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_mvt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_2122": "num_releve",
+          "gescli.facture_2324": "num_releve",
+          "gescli.facture_1516": "num_releve",
+          "gescli.facture_1718": "num_releve",
+          "gescli.facture_1920": "num_releve",
+          "gescli.facture_2010": "num_releve",
+          "gescli.facture_1112": "num_releve",
+          "gescli.facture_1314": "num_releve"
+        }
+      },
+      "gescli.histo_suivi": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.equipe_app_mobile": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.tsp": "equipe_id"
+        }
+      },
+      "gescli.releve_8m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.remise_cheque": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_mvt_1112": "id_autre_mvt",
+          "gescli.ligne_mvt_1314": "id_autre_mvt",
+          "gescli.ligne_mvt_1718": "id_autre_mvt",
+          "gescli.ligne_mvt_1920": "id_autre_mvt",
+          "gescli.autremvt_ecriture_2010": "num_autremvt",
+          "gescli.autremvt_ecriture_1112": "num_autremvt",
+          "gescli.autremvt_ecriture_1314": "num_autremvt",
+          "gescli.autremvt_ecriture_2324": "num_autremvt",
+          "gescli.ligne_mvt_2122": "id_autre_mvt",
+          "gescli.ligne_mvt_1516": "id_autre_mvt",
+          "gescli.ligne_mvt_2324": "id_autre_mvt",
+          "gescli.ligne_mvt_2010": "id_autre_mvt",
+          "gescli.autremvt_ecriture_1516": "num_autremvt",
+          "gescli.autremvt_ecriture_1718": "num_autremvt",
+          "gescli.autremvt_ecriture_1920": "num_autremvt",
+          "gescli.autremvt_ecriture_2122": "num_autremvt"
+        }
+      },
+      "gescli.bordereau_ecriture": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_dossier_estimation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.contrat_supp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.fond_caisse": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.fiche_compteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_anomalie": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_portefeuille3": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.regle_imputation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_releve_tc25": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_releve_tc25_copy": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.dmdservicesweb": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.formes2": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "formes"
+      },
+      "gescli.groupe": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.group_user": "id_group",
+          "gescli.resp_confirmation": "id_groupe",
+          "gescli.forms_restrictions": "group_id"
+        }
+      },
+      "gescli.autre_mvt_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.compatib_mvt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_contrat": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_6m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.zone_pl": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.devis": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_planification_interv": "num_devis",
+          "gescli.n_details_travaux": "num_devis",
+          "gescli.details_devis": "num_devis",
+          "gescli.ligne_devis": "num_devis",
+          "gescli.sms_devis": "num_devis"
+        },
+        "sub": {
+          "gescli.devis_text_intitule": "num_devis"
+        }
+      },
+      "gescli.ligne_facture_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_facture_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.sms_message": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_4m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.section_employe": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.type_groupe_mvt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_releve_conso": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.clients_blocked": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "client"
+      },
+      "gescli.att_section_emp": {
+        "db": {
+          "schema": "gescli"
+        },
+        "columns": {
+          "mat": {
+            "db": {
+              "type": "reference",
+              "primary": true,
+              "unique": true,
+              "nullable": false,
+              "references": "matricule",
+              "inTable": "employe",
+              "referenceType": "decimal",
+              "onUpdate": "NO ACTION",
+              "onDelete": "NO ACTION"
+            }
+          },
+          "devis_cellule": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "devis_cs": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "devis_cc": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "is_region": {
+            "db": {
+              "type": "string",
+              "default": "N",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "section_emp": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "cpteur_lieu_geo": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "gescli.ligne_mvt_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.var_mynumdernierreleve": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_cat_tarif": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.num_compte": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.quotas_agents": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_6m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_7m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.coordonne_cpteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_suiviebordereau": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture_1920": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.portefeuille": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.prix_fraud": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.bordereau_ecriture_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_supprimee": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.resp_confirmation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.machinecaisse": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.imputation_comptable": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_affectation_appareil_mobiles": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.mvt_excluded": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_devis_agent_execution": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tbl_gescli": {
+        "db": {
+          "schema": "gescli"
+        },
+        "sub": {
+          "gescli.tbl_gescli2": "num_table"
+        }
+      },
+      "gescli.n_doc_analyse": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lot_facturation": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.tourne_releve": "lot_fac",
+          "gescli.facture_2122": "id_lot_fac",
+          "gescli.facture_2324": "id_lot_fac",
+          "gescli.facture_supp": "id_lot_fac",
+          "gescli.lot_fac_periode": "num_lot_fac",
+          "gescli.suiviebordereau": "num_lot_fac",
+          "gescli.tpm_nbr_fact": "lotfac",
+          "gescli.facture_1516": "id_lot_fac",
+          "gescli.facture_1718": "id_lot_fac",
+          "gescli.facture_1920": "id_lot_fac",
+          "gescli.facture_2010": "id_lot_fac",
+          "gescli.facture_1112": "id_lot_fac",
+          "gescli.facture_1314": "id_lot_fac",
+          "gescli.facture_tmp": "id_lot_fac",
+          "gescli.facture": "id_lot_fac"
+        }
+      },
+      "gescli.histo_etat_pl": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.groupe_type_mvt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_2324": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.smsc_backup": "id_mvt"
+        }
+      },
+      "gescli.histo_coupure": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.nmaxndossclt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_1m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.pince": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_2m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_document": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_doc_data": "num_document",
+          "gescli.n_doc_image": "num_document",
+          "gescli.n_doc_dossier": "num_document"
+        }
+      },
+      "gescli.plan_table": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture_2010": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.lettrage_10m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_devis": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.bordereau_ecriture_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.testfichier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.fond_caisse2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tarif": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_tarif": "num_tarif",
+          "gescli.categ_tarif": "num_tarif"
+        }
+      },
+      "gescli.tmp_portefeuille": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.param_article_devis": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_type_depannage": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.depannage": "type_depannage",
+          "gescli.sms_devis": "type_depannage"
+        }
+      },
+      "gescli.abordereau_ecriture_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_alarme": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_cmpt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_coupure2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.pldecompte": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tables_valeurs": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.historique_suivi": "num_proc_ctrt",
+          "gescli.ligne_tarif": "type_ligne",
+          "gescli.facture_2122": "motif_mvt",
+          "gescli.role": "type_role",
+          "gescli.code_comptable": "type_code_comptable",
+          "gescli.autre_mvt_1516": "num_caisse_serv",
+          "gescli.releve_7m": "nature_releve",
+          "gescli.n_planification_interv": "type_interv",
+          "gescli.facture_2324": "motif_mvt",
+          "gescli.type_piece_compta": "nro_journal",
+          "gescli.type_mvt_portef": "nature_prestation",
+          "gescli.facture_ecriture_2122": "forme_energie",
+          "gescli.releve_5m": "nature_releve",
+          "gescli.cellule_clientele": "type_cellule",
+          "gescli.facture_ecriture_2324": "forme_energie",
+          "gescli.facture_supp": "motif_mvt",
+          "gescli.groupe_mvt_portefeuille": "id_type_gr_mvt_port",
+          "gescli.demande_supprime": "type_demande",
+          "gescli.autre_mvt_2324": "num_caisse_serv",
+          "gescli.autremvt_ecriture_2010": "forme_energie",
+          "gescli.lot_fac_periode": "methodefact",
+          "gescli.autremvt_ecriture_1112": "forme_energie",
+          "gescli.autremvt_ecriture_1314": "forme_energie",
+          "gescli.autremvt_ecriture_2324": "forme_energie",
+          "gescli.facture_ecriture_1314": "forme_energie",
+          "gescli.tmp_releve_eddmobile": "statut",
+          "gescli.releve_9m": "nature_releve",
+          "gescli.suiviebordereau": "statut",
+          "gescli.n_details_travaux": "statut_devis",
+          "gescli.releve_3m": "nature_releve",
+          "gescli.autre_mvt_2010": "num_caisse_serv",
+          "gescli.point_livraison": "acces_compteur",
+          "gescli.facture_ecriture_1112": "forme_energie",
+          "gescli.demande": "type_demande",
+          "gescli.n_dossier_statut": "acteur_action",
+          "gescli.suivi_tournee": "statut_tournee",
+          "gescli.suivi_depannage": "id_statut",
+          "gescli.suivi_lot_fac": "statut_groupe",
+          "gescli.equipe_cell": "num_proc_ctrt",
+          "gescli.groupe_fac": "cc_cs",
+          "gescli.refdoc": "id_banque",
+          "gescli.tarif_ps_usage": "id_usage",
+          "gescli.contrat_categ_cli": "id_usage",
+          "gescli.mvt_compteur": "type_mvt",
+          "gescli.histori_position": "pos_contrat",
+          "gescli.facture_ecriture2": "forme_energie",
+          "gescli.categ_cli": "typo",
+          "gescli.contrat": "statut_contrat",
+          "gescli.n_dossier_client": "intervention_dmd",
+          "gescli.tmp_releve_tsp": "nature_releve",
+          "gescli.autre_mvt_1718": "num_caisse_serv",
+          "gescli.mvt_non_client": "type_mvt",
+          "gescli.facture_ecriture": "forme_energie",
+          "gescli.releve": "nature_releve",
+          "gescli.histo_suivi": "num_proc_ctrt",
+          "gescli.releve_8m": "nature_releve",
+          "gescli.autremvt_ecriture": "forme_energie",
+          "gescli.autre_mvt": "num_caisse_serv",
+          "gescli.fiche_compteur": "id_statut",
+          "gescli.regle_imputation": "forme_energie",
+          "gescli.tmp_releve_tc25": "position",
+          "gescli.dmdservicesweb": "grp_clientel",
+          "gescli.autre_mvt_1314": "num_caisse_serv",
+          "gescli.compatib_mvt": "mvt_apres",
+          "gescli.releve_6m": "nature_releve",
+          "gescli.releve_4m": "nature_releve",
+          "gescli.section_employe": "section",
+          "gescli.type_groupe_mvt": "id_type_groupe_mvt",
+          "gescli.coordonne_cpteur": "type_coord",
+          "gescli.log_suiviebordereau": "statut",
+          "gescli.facture_ecriture_1920": "forme_energie",
+          "gescli.releve_supprimee": "nature_releve",
+          "gescli.n_doc_analyse": "type_client",
+          "gescli.histo_etat_pl": "etat_pl",
+          "gescli.groupe_type_mvt": "id_groupe_mvt",
+          "gescli.histo_coupure": "etat_coupure",
+          "gescli.autre_mvt_2122": "num_caisse_serv",
+          "gescli.releve_1m": "nature_releve",
+          "gescli.releve_2m": "nature_releve",
+          "gescli.facture_ecriture_2010": "forme_energie",
+          "gescli.n_type_depannage": "nature_depannage",
+          "gescli.facture_1516": "motif_mvt",
+          "gescli.facture_1718": "motif_mvt",
+          "gescli.tmp_coupure2": "suivi_proc",
+          "gescli.facture_1920": "motif_mvt",
+          "gescli.compteur": "etat_cpt",
+          "gescli.facture_2010": "motif_mvt",
+          "gescli.facture_1112": "motif_mvt",
+          "gescli.facture_1314": "motif_mvt",
+          "gescli.trace": "type_trace",
+          "gescli.facture_tmp": "motif_mvt",
+          "gescli.tsp": "sect_emp",
+          "gescli.tmp_histo_etat_pl": "etat_pl",
+          "gescli.releve_10m": "nature_releve",
+          "gescli.autremvt_ecriture2": "forme_energie",
+          "gescli.autre_mvt_1112": "num_caisse_serv",
+          "gescli.client": "id_banque",
+          "gescli.modele_compteur": "fabricant",
+          "gescli.photo_cpteur": "type_photo",
+          "gescli.autre_mvt_1920": "num_caisse_serv",
+          "gescli.autremvt_ecriture_1516": "forme_energie",
+          "gescli.autremvt_ecriture_1718": "forme_energie",
+          "gescli.autremvt_ecriture_1920": "forme_energie",
+          "gescli.autremvt_ecriture_2122": "forme_energie",
+          "gescli.demande_mail": "type_demande",
+          "gescli.facture_ecriture_1516": "forme_energie",
+          "gescli.facture_ecriture_1718": "forme_energie",
+          "gescli.depannage": "id_statut",
+          "gescli.sms_devis": "statut_devis",
+          "gescli.facture": "motif_mvt"
+        }
+      },
+      "gescli.compteur": {
+        "db": {
+          "schema": "gescli"
+        },
+        "sub": {
+          "gescli.compteur_itron": "num_cpteur"
+        },
+        "refs": {
+          "gescli.releve_7m": "num_cpteur",
+          "gescli.releve_5m": "num_cpteur",
+          "gescli.releve_9m": "num_cpteur",
+          "gescli.releve_3m": "num_cpteur",
+          "gescli.mvt_compteur": "num_compteur",
+          "gescli.releve": "num_cpteur",
+          "gescli.releve_8m": "num_cpteur",
+          "gescli.releve_6m": "num_cpteur",
+          "gescli.releve_4m": "num_cpteur",
+          "gescli.coordonne_cpteur": "num_cpteur",
+          "gescli.releve_supprimee": "num_cpteur",
+          "gescli.releve_1m": "num_cpteur",
+          "gescli.releve_2m": "num_cpteur",
+          "gescli.trace": "num_cpteur",
+          "gescli.compl_r_mt": "num_cpteur",
+          "gescli.releve_10m": "num_cpteur"
+        }
+      },
+      "gescli.zone_tarif": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.quota_finance": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.contrat_ablanc": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_mvt_2324": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.attribution": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.bordereau_ecriture_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.bordereau_ecriture_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_1314": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.trace": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tsp_tempo": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_fact_est": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_cc_date": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.remboursement": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_gestionnaire": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ligne_mvt_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_2010": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.encaissemt_electronic": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.devis_type_intitule": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_supp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.client_block_user": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.ancien_asco": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.commune": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.localisation": "commune"
+        }
+      },
+      "gescli.facture_tmp": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_facture_tmp": "num_facture"
+        }
+      },
+      "gescli.forms_restrictions": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.affectation_appareil_mobiles": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture3": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.dms_energie": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.dms_intensite": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.sim_mobile": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.log_affectation_appareil_mobiles": "sim_id",
+          "gescli.affectation_appareil_mobiles": "sim_mobile_id"
+        }
+      },
+      "gescli.liaison_mtbt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.intervention": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_supp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tsp": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.suiviebordereau": "numtsp",
+          "gescli.log_affectation_appareil_mobiles": "tsp_id",
+          "gescli.affectation_appareil_mobiles": "tsp_id"
+        },
+        "sub": {
+          "gescli.tsp_mvt": "code_tsp"
+        }
+      },
+      "gescli.n_type_document": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_metadata": "num_type_doc",
+          "gescli.n_document": "num_type_doc"
+        }
+      },
+      "gescli.param_devis_tarif": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_histo_etat_pl": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tsp_mvt": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "tsp"
+      },
+      "gescli.tva_histori_supp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.valeur_constant": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.web_bank": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lieu_geographique": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.tourne_releve": "lieu_geo",
+          "gescli.zone_geographique": "num_lieugeo",
+          "gescli.poste_mt": "num_lieu_geo",
+          "gescli.poste_pince": "num_lieugeo",
+          "gescli.poste": "num_lieugeo",
+          "gescli.mvt_compteur": "source_lieu_geo",
+          "gescli.regle_imputation": "lieu_geogr",
+          "gescli.commune": "id_lieu_geo",
+          "gescli.localisation": "id_lieu_geo"
+        }
+      },
+      "gescli.compl_r_mt": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_ecriture": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_ecriture2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_ecriture3": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.releve_10m": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.tmp_releve_eddmobile": "num_releve",
+          "gescli.estimation": "num_releve_depart",
+          "gescli.cc_compl_r_mt": "num_releve",
+          "gescli.mvt_compteur": "num_releve",
+          "gescli.tmp_releve_tsp": "num_releve",
+          "gescli.tmp_releve_tc25": "id_releve",
+          "gescli.coordonne_cpteur": "num_releve",
+          "gescli.tsp_tempo": "re_id",
+          "gescli.facture_tmp": "num_releve",
+          "gescli.compl_r_mt": "num_releve",
+          "gescli.photo_cpteur": "num_releve",
+          "gescli.facture": "num_releve"
+        }
+      },
+      "gescli.machines": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.log_caissier": "id_machine",
+          "gescli.log_depannage": "id_machine",
+          "gescli.employe": "id_machine"
+        }
+      },
+      "gescli.n_doc_dossier": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture2": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.bordereau_ecriture_2324": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.cellule_respo": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.cc_tmp_compteur_test": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.dms_trace": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.n_dossier_fiche_cpteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_1112": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.smsc_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.parametres": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.client": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_2122": "id_payeur",
+          "gescli.role": "num_client",
+          "gescli.facture_2324": "id_payeur",
+          "gescli.n_dossier_statut_web": "id_client",
+          "gescli.estimation": "id_client",
+          "gescli.employe": "id_client",
+          "gescli.n_dossier_client": "id_client",
+          "gescli.fiche_compteur": "id_client",
+          "gescli.devis": "id_util",
+          "gescli.facture_1516": "id_payeur",
+          "gescli.facture_1718": "id_payeur",
+          "gescli.facture_1920": "id_payeur",
+          "gescli.facture_2010": "id_payeur",
+          "gescli.facture_1112": "id_payeur",
+          "gescli.facture_1314": "id_payeur",
+          "gescli.trace": "num_client",
+          "gescli.facture_tmp": "id_util",
+          "gescli.param_devis_tarif": "id_payeur",
+          "gescli.demande_mail": "id_client",
+          "gescli.facture": "id_payeur",
+          "gescli.compte": "id_client"
+        },
+        "sub": {
+          "gescli.client_categ_cli": "id_client",
+          "gescli.clients_blocked": "num_client"
+        }
+      },
+      "gescli.modele_compteur": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.modele_fabricant": "num_modele",
+          "gescli.compteur": "modele_cpteur"
+        }
+      },
+      "gescli.observation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.periode": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_2122": "id_periode",
+          "gescli.releve_7m": "id_periode",
+          "gescli.facture_2324": "id_periode",
+          "gescli.smsc_1112": "id_periode",
+          "gescli.smsc_1314": "id_periode",
+          "gescli.smsc_1516": "id_periode",
+          "gescli.releve_5m": "id_periode",
+          "gescli.facture_supp": "id_periode",
+          "gescli.lot_fac_periode": "id_periode",
+          "gescli.releve_9m": "id_periode",
+          "gescli.suiviebordereau": "periode",
+          "gescli.releve_3m": "id_periode",
+          "gescli.suivi_tournee": "id_periode",
+          "gescli.tmp_releve_tsp": "id_periode",
+          "gescli.tpm_nbr_fact": "periode",
+          "gescli.releve": "id_periode",
+          "gescli.releve_8m": "id_periode",
+          "gescli.smsc": "id_periode",
+          "gescli.tmp_releve_tc25": "id_periode",
+          "gescli.releve_6m": "id_periode",
+          "gescli.releve_4m": "id_periode",
+          "gescli.log_suiviebordereau": "periode",
+          "gescli.smsc_2324": "id_periode",
+          "gescli.releve_1m": "id_periode",
+          "gescli.releve_2m": "id_periode",
+          "gescli.smsc_1920": "id_periode",
+          "gescli.facture_1516": "id_periode",
+          "gescli.facture_1718": "id_periode",
+          "gescli.facture_1920": "id_periode",
+          "gescli.facture_2010": "id_periode",
+          "gescli.facture_1112": "id_periode",
+          "gescli.facture_1314": "id_periode",
+          "gescli.tsp_tempo": "ca_period_id",
+          "gescli.smsc_2010": "id_periode",
+          "gescli.smsc_1718": "id_periode",
+          "gescli.facture_tmp": "id_periode",
+          "gescli.tsp_mvt": "periode",
+          "gescli.releve_10m": "id_periode",
+          "gescli.smsc_2122": "id_periode",
+          "gescli.tmp_suivi_tournee": "id_periode",
+          "gescli.facture": "id_periode",
+          "gescli.emailc": "id_periode"
+        }
+      },
+      "gescli.photo_cpteur": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_delestage_msg": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_estimation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tva_collectee": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.localisation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.quotas_agents_tmp": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_blanc": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.oper_imputation": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_pages": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_base_num_fact": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_client_pay": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autre_mvt_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.app_message_client": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.accessoire": {
+        "db": {
+          "schema": "gescli"
+        },
+        "sub": {
+          "gescli.accessoire_affectations": "num_serie"
+        }
+      },
+      "gescli.autremvt_ecriture_1516": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture_1718": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.autremvt_ecriture_2122": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.demande_mail": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.accessoire_affectations": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "accessoire"
+      },
+      "gescli.type_accessoire": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.appareil_probleme": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.log_releve_correction": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.lettrage_9m": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.bordereau_ecriture_1920": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture_ecriture_1516": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.facture_ecriture_1718": {
+        "db": {
+          "schema": "gescli"
+        },
+        "parent": "facture"
+      },
+      "gescli.anomalie_releve": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.facture_2122": "ano_releve",
+          "gescli.releve_7m": "anomalie",
+          "gescli.facture_2324": "ano_releve",
+          "gescli.releve_5m": "anomalie",
+          "gescli.facture_supp": "ano_releve",
+          "gescli.releve_9m": "anomalie",
+          "gescli.releve_3m": "anomalie",
+          "gescli.releve": "anomalie",
+          "gescli.releve_8m": "anomalie",
+          "gescli.releve_6m": "anomalie",
+          "gescli.releve_4m": "anomalie",
+          "gescli.releve_supprimee": "anomalie",
+          "gescli.releve_1m": "anomalie",
+          "gescli.releve_2m": "anomalie",
+          "gescli.facture_1516": "ano_releve",
+          "gescli.facture_1718": "ano_releve",
+          "gescli.facture_1920": "ano_releve",
+          "gescli.facture_2010": "ano_releve",
+          "gescli.facture_1112": "ano_releve",
+          "gescli.facture_1314": "ano_releve",
+          "gescli.facture_tmp": "ano_releve",
+          "gescli.releve_10m": "anomalie",
+          "gescli.facture": "ano_releve"
+        }
+      },
+      "gescli.tmp_suivi_tournee": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.tmp_articles_depan": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.depannage": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.n_suivie": "num_depannage",
+          "gescli.details_depannage": "num_depannage",
+          "gescli.suivi_depannage": "num_depannage",
+          "gescli.details_trvx_depannage": "num_depannage",
+          "gescli.sms_devis": "num_depannage"
+        }
+      },
+      "gescli.details_trvx_depannage": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.sms_devis": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.facture": {
+        "db": {
+          "schema": "gescli"
+        },
+        "refs": {
+          "gescli.ligne_facture_1112": "num_facture",
+          "gescli.ligne_facture_1516": "num_facture",
+          "gescli.ligne_facture_2324": "num_facture",
+          "gescli.ligne_facture_2122": "num_facture",
+          "gescli.ligne_facture_1920": "num_facture",
+          "gescli.ligne_facture_1314": "num_facture",
+          "gescli.ligne_facture_1718": "num_facture",
+          "gescli.ligne_facture_2010": "num_facture"
+        },
+        "sub": {
+          "gescli.facture_ecriture_2122": "num_facture",
+          "gescli.facture_ecriture_2324": "num_facture",
+          "gescli.facture_ecriture_1314": "num_facture",
+          "gescli.facture_ecriture_1112": "num_facture",
+          "gescli.facture_ecriture_1920": "num_facture",
+          "gescli.facture_ecriture_2010": "num_facture",
+          "gescli.facture_ecriture_1516": "num_facture",
+          "gescli.facture_ecriture_1718": "num_facture"
+        }
+      },
+      "gescli.compte": {
+        "db": {
+          "schema": "gescli"
+        }
+      },
+      "gescli.emailc": {
+        "db": {
+          "schema": "gescli"
+        }
+      }
+    },
+    "views": {}
+  }
+}

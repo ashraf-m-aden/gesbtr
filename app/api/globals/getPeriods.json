@@ -19,7 +19,7 @@
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select * from \"tsptest\".\"periode\" order by \"id_periode\" DESC limit 3",
+          "query": "select * from periode order by id_periode DESC limit 4",
           "params": []
         }
       },

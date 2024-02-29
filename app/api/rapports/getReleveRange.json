@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "number",
+        "name": "periode"
+      },
+      {
+        "type": "number",
+        "name": "lotfac"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "array",
+        "name": "anomalie"
+      },
+      {
+        "type": "text",
+        "name": "date"
+      },
+      {
+        "type": "text",
+        "name": "date2"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "query_copy",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "edbtest",
+          "sql": {
+            "type": "select",
+            "distinct": false,
+            "columns": [
+              {
+                "table": "view_anomalie_rv1",
+                "column": "nom",
+                "schema": "gescli",
+                "alias": "Nom"
+              },
+              {
+                "table": "view_anomalie_rv1",
+                "column": "id_contrat",
+                "schema": "gescli",
+                "alias": "Contrat"
+              },
+              {
+                "table": "view_anomalie_rv1",
+                "column": "code_cpteur",
+                "schema": "gescli",
+                "alias": "Compteur"
+              },
+              {
+                "table": "view_anomalie_rv1",
+                "column": "codepl",
+                "schema": "gescli",
+                "alias": "PL"
+              },
+              {
+                "table": "view_anomalie_rv1",
+                "column": "adr_physique",
+                "schema": "gescli",
+                "alias": "Adresse"
+              },
+              {
+                "table": "view_anomalie_rv1",
+                "column": "anom_code",
+                "schema": "gescli",
+                "alias": "Anomalie"
+              }
+            ],
+            "table": {
+              "name": "view_anomalie_rv1",
+              "schema": "gescli"
+            },
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "gescli.view_anomalie_rv1.id_periode",
+                  "field": "gescli.view_anomalie_rv1.id_periode",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.periode}}",
+                  "data": {
+                    "table": "view_anomalie_rv1",
+                    "column": "id_periode",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "decimal",
+                      "primary": false,
+                      "nullable": true,
+                      "name": "id_periode"
+                    },
+                    "schema": "gescli"
+                  },
+                  "operation": "="
+                },
+                {
+                  "id": "gescli.view_anomalie_rv1.anom_code",
+                  "field": "gescli.view_anomalie_rv1.anom_code",
+                  "type": "string",
+                  "operator": "in",
+                  "value": "{{$_GET.anomalie.split(',')}}",
+                  "data": {
+                    "table": "view_anomalie_rv1",
+                    "column": "anom_code",
+                    "type": "text",
+                    "columnObj": {
+                      "type": "string",
+                      "maxLength": 2,
+                      "primary": false,
+                      "nullable": true,
+                      "name": "anom_code"
+                    },
+                    "schema": "gescli"
+                  },
+                  "operation": "IN"
+                },
+                {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "gescli.view_anomalie_rv1.date_saisie",
+                      "field": "gescli.view_anomalie_rv1.date_saisie",
+                      "type": "datetime",
+                      "operator": "between",
+                      "value": [
+                        "{{$_GET.date}}",
+                        "{{$_GET.date2}}"
+                      ],
+                      "data": {
+                        "table": "view_anomalie_rv1",
+                        "column": "date_saisie",
+                        "type": "datetime",
+                        "columnObj": {
+                          "type": "timestamp",
+                          "primary": false,
+                          "nullable": true,
+                          "name": "date_saisie"
+                        },
+                        "schema": "gescli"
+                      },
+                      "operation": "BETWEEN"
+                    }
+                  ],
+                  "conditional": "{{$_GET.conditiondate=='<='}}"
+                },
+                {
+                  "id": "gescli.view_anomalie_rv1.num_lot_fac",
+                  "field": "gescli.view_anomalie_rv1.num_lot_fac",
+                  "type": "double",
+                  "operator": "in",
+                  "value": "{{$_GET.lotfac.split(',')}}",
+                  "data": {
+                    "table": "view_anomalie_rv1",
+                    "column": "num_lot_fac",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "decimal",
+                      "primary": false,
+                      "nullable": true,
+                      "name": "num_lot_fac"
+                    },
+                    "schema": "gescli"
+                  },
+                  "operation": "IN"
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "orders": [],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.periode}}",
+                "test": ""
+              },
+              {
+                "operator": "between",
+                "type": "expression",
+                "name": ":P2",
+                "value": "{{$_GET.date}}",
+                "test": ""
+              },
+              {
+                "operator": "between",
+                "type": "expression",
+                "name": ":P3",
+                "value": "{{$_GET.date2}}",
+                "test": ""
+              }
+            ],
+            "query": "select \"nom\" as \"Nom\", \"id_contrat\" as \"Contrat\", \"code_cpteur\" as \"Compteur\", \"codepl\" as \"PL\", \"adr_physique\" as \"Adresse\", \"anom_code\" as \"Anomalie\" from \"gescli\".\"view_anomalie_rv1\" where \"gescli\".\"view_anomalie_rv1\".\"id_periode\" = ? and \"gescli\".\"view_anomalie_rv1\".\"anom_code\" in ? and (\"gescli\".\"view_anomalie_rv1\".\"date_saisie\" between ? and ?) and \"gescli\".\"view_anomalie_rv1\".\"num_lot_fac\" in ?"
+          }
+        },
+        "meta": [],
+        "outputType": "array",
+        "type": "dbconnector_select",
+        "output": true
+      },
+      {
+        "name": "csvExport",
+        "module": "export",
+        "action": "csv",
+        "options": {
+          "path": "/public/assets/download/traitement_des_anomalies.csv",
+          "data": "{{query_copy}}",
+          "header": true,
+          "overwrite": true
+        },
+        "outputType": "text"
+      }
+    ]
+  }
+}
