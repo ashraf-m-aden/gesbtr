@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "lot_fac"
+      },
+      {
+        "type": "text",
+        "name": "lieu_geo"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getTournee",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from tourne_releve where lot_fac=:p1 and lieu_geo=:p2",
+          "params": [
+            {
+              "name": ":p1",
+              "value": "{{$_GET.lot_fac}}",
+              "test": "10"
+            },
+            {
+              "name": ":p2",
+              "value": "{{$_GET.lieu_geo}}",
+              "test": "0"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "num_tourne",
+          "type": "number"
+        },
+        {
+          "name": "lieu_geo",
+          "type": "text"
+        },
+        {
+          "name": "zone_geo",
+          "type": "text"
+        },
+        {
+          "name": "lot_fac",
+          "type": "number"
+        },
+        {
+          "name": "nombre_pl",
+          "type": "number"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

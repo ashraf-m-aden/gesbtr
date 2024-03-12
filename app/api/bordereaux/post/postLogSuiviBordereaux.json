@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "number",
+        "name": "periode"
+      },
+      {
+        "type": "number",
+        "name": "tournee"
+      },
+      {
+        "type": "number",
+        "name": "bordereau"
+      },
+      {
+        "type": "number",
+        "name": "mat"
+      },
+      {
+        "type": "number",
+        "name": "statut"
+      },
+      {
+        "type": "number",
+        "name": "user_crea"
+      },
+      {
+        "type": "text",
+        "name": "statut_ano"
+      },
+      {
+        "type": "text",
+        "name": "supprimer"
+      },
+      {
+        "type": "number",
+        "name": "id_ligne"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "periode",
+              "type": "number",
+              "value": "{{$_GET.periode}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "tournee",
+              "type": "number",
+              "value": "{{$_GET.tournee}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "bordereau",
+              "type": "number",
+              "value": "{{$_GET.bordereau}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "mat",
+              "type": "number",
+              "value": "{{$_GET.mat}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "statut",
+              "type": "number",
+              "value": "{{$_GET.statut}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "user_crea",
+              "type": "number",
+              "value": "{{$_GET.user_crea}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "statut_ano",
+              "type": "text",
+              "value": "{{$_GET.statut_ano}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "supprimer",
+              "type": "text",
+              "value": "{{$_GET.supprimer}}"
+            },
+            {
+              "table": "tsptest.log_suiviebordereau",
+              "column": "id_ligne",
+              "type": "number",
+              "value": "{{$_GET.id_ligne}}"
+            }
+          ],
+          "table": "tsptest.log_suiviebordereau",
+          "returning": "id_ligne",
+          "query": "insert into \"tsptest\".\"log_suiviebordereau\" (\"bordereau\", \"id_ligne\", \"mat\", \"periode\", \"statut\", \"statut_ano\", \"supprimer\", \"tournee\", \"user_crea\") values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning \"id_ligne\"",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_GET.periode}}",
+              "test": ""
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_GET.tournee}}",
+              "test": ""
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_GET.bordereau}}",
+              "test": ""
+            },
+            {
+              "name": ":P4",
+              "type": "expression",
+              "value": "{{$_GET.mat}}",
+              "test": ""
+            },
+            {
+              "name": ":P5",
+              "type": "expression",
+              "value": "{{$_GET.statut}}",
+              "test": ""
+            },
+            {
+              "name": ":P6",
+              "type": "expression",
+              "value": "{{$_GET.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":P7",
+              "type": "expression",
+              "value": "{{$_GET.statut_ano}}",
+              "test": ""
+            },
+            {
+              "name": ":P8",
+              "type": "expression",
+              "value": "{{$_GET.supprimer}}",
+              "test": ""
+            },
+            {
+              "name": ":P9",
+              "type": "expression",
+              "value": "{{$_GET.id_ligne}}",
+              "test": ""
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

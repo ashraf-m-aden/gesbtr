@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/index.ejs",
+      "linkedForm": "updateBordereauForm"
+    },
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "user_crea",
+        "name": "user_crea"
+      },
+      {
+        "type": "text",
+        "fieldName": "periode",
+        "name": "periode"
+      },
+      {
+        "type": "text",
+        "fieldName": "bordereau",
+        "name": "bordereau"
+      },
+      {
+        "type": "text",
+        "fieldName": "tournee",
+        "name": "tournee"
+      },
+      {
+        "type": "text",
+        "fieldName": "matricule",
+        "name": "matricule"
+      },
+      {
+        "type": "number",
+        "name": "num_lot_fac"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "updateBordereaux",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "UPDATE suiviebordereau set matricule=:p1,user_crea=:p5,statut=174 where bordereau=:p2 and tournee=:p3 and periode=:p4 and num_lot_fac=:p6",
+          "params": [
+            {
+              "name": ":p1",
+              "value": "{{$_POST.matricule}}"
+            },
+            {
+              "name": ":p2",
+              "value": "{{$_POST.bordereau}}"
+            },
+            {
+              "name": ":p3",
+              "value": "{{$_POST.tournee}}"
+            },
+            {
+              "name": ":p4",
+              "value": "{{$_POST.periode}}"
+            },
+            {
+              "name": ":p5",
+              "value": "{{$_POST.user_crea}}"
+            },
+            {
+              "name": ":p6",
+              "value": "{{$_POST.num_lot_fac}}"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [],
+      "outputType": "array",
+      "type": "dbcustom_query"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/index.ejs",
+      "linkedForm": "resetForm"
+    },
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "userCrea",
+        "name": "user_crea"
+      },
+      {
+        "type": "text",
+        "fieldName": "bordereau",
+        "name": "bordereau"
+      },
+      {
+        "type": "text",
+        "fieldName": "tournee",
+        "name": "tournee"
+      },
+      {
+        "type": "text",
+        "fieldName": "periode",
+        "name": "periode"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "update suiviebordereau set matricule=null,user_crea=:p1,statut=157  where tournee=:p2 and bordereau=:p3 and periode=:p4\n",
+          "params": [
+            {
+              "name": ":p1",
+              "value": "{{$_POST.user_crea}}",
+              "test": ""
+            },
+            {
+              "name": ":p2",
+              "value": "{{$_POST.tournee}}"
+            },
+            {
+              "name": ":p3",
+              "value": "{{$_POST.bordereau}}"
+            },
+            {
+              "name": ":p4",
+              "value": "{{$_POST.periode}}"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [],
+      "outputType": "array",
+      "type": "dbcustom_query"
+    }
+  }
+}

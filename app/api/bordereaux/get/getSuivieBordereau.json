@@ -27,7 +27,7 @@
       "options": {
         "connection": "edbdev",
         "sql": {
-          "query": "select b.*,emp.nom,emp.matricule from suiviebordereau b join employe emp on b.matricule=emp.matricule where b.periode = ?  and b.num_lot_fac = ?",
+          "query": "select b.*,emp.nom,emp.matricule from suiviebordereau b join employe emp on b.matricule=emp.matricule where b.periode = ?  and b.num_lot_fac = ? order by b.bordereau",
           "params": [
             {
               "name": "?",

@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "num_lot_fac"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "getLotFac",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "edbdev",
+          "sql": {
+            "query": "select * from lot_facturation where num_lot_fac=?",
+            "params": [
+              {
+                "name": "?",
+                "value": "{{$_GET.num_lot_fac}}",
+                "test": "10"
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "num_lot_fac",
+            "type": "number"
+          },
+          {
+            "name": "libelle",
+            "type": "text"
+          },
+          {
+            "name": "num_gr_fac",
+            "type": "number"
+          },
+          {
+            "name": "num_cellule",
+            "type": "number"
+          },
+          {
+            "name": "impute",
+            "type": "text"
+          }
+        ],
+        "type": "dbcustom_query",
+        "output": true
+      },
+      {
+        "name": "getZone",
+        "module": "dbupdater",
+        "action": "custom",
+        "options": {
+          "connection": "edbdev",
+          "sql": {
+            "query": "select * from zone_geographique where num_cellule=?",
+            "params": [
+              {
+                "name": "?",
+                "value": "{{getLotFac[0].num_cellule}}",
+                "test": "1"
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "num_zone",
+            "type": "text"
+          },
+          {
+            "name": "num_lieugeo",
+            "type": "text"
+          },
+          {
+            "name": "num_cellule",
+            "type": "number"
+          },
+          {
+            "name": "nom_zone",
+            "type": "text"
+          },
+          {
+            "name": "groupe_fac",
+            "type": "number"
+          }
+        ],
+        "type": "dbcustom_query"
+      }
+    ]
+  }
+}

@@ -29,24 +29,27 @@
       "module": "dbupdater",
       "action": "custom",
       "options": {
-        "connection": "edbtest",
+        "connection": "edbdev",
         "sql": {
-          "query": "select * from log_suiviebordereau where log_suiviebordereau.periode = ? and log_suiviebordereau.tournee = ? and log_suiviebordereau.bordereau = ?",
+          "query": "select * from log_suiviebordereau where log_suiviebordereau.periode = ? and log_suiviebordereau.tournee = ? and log_suiviebordereau.bordereau = ? order by date_crea desc",
           "params": [
             {
               "name": ":P1",
               "value": "{{$_GET.periode}}",
-              "test": ""
+              "test": "",
+              "recid": 1
             },
             {
               "name": ":P2",
               "value": "{{$_GET.tournee}}",
-              "test": ""
+              "test": "",
+              "recid": 2
             },
             {
               "name": ":P3",
               "value": "{{$_GET.bordereau}}",
-              "test": ""
+              "test": "",
+              "recid": 3
             }
           ]
         }

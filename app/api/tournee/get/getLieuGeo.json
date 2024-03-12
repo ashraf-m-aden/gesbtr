@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from lieu_geographique order by num_lieugeo ASC",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "num_lieugeo",
+          "type": "text"
+        },
+        {
+          "name": "libelle",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

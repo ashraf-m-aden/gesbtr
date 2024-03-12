@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "num_lieu_geo"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "SELECT * FROM lot_facturation where num_cellule in (SELECT num_cellule FROM zone_geographique where num_lieugeo= :p1 ) order by num_lot_fac",
+          "params": [
+            {
+              "name": ":p1",
+              "value": "{{$_GET.num_lieu_geo}}",
+              "test": "1"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "num_lot_fac",
+          "type": "number"
+        },
+        {
+          "name": "libelle",
+          "type": "text"
+        },
+        {
+          "name": "num_gr_fac",
+          "type": "number"
+        },
+        {
+          "name": "num_cellule",
+          "type": "number"
+        },
+        {
+          "name": "impute",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query",
+      "outputType": "array"
+    }
+  }
+}

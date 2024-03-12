@@ -114,7 +114,7 @@
                 "options": {
                   "connection": "edbdev",
                   "sql": {
-                    "query": "Select emp.nom,emp.matricule from employe emp join att_section_emp att on emp.matricule=att.mat where att.section_emp=202 and  att.devis_cellule=5",
+                    "query": "Select emp.nom,emp.matricule from employe emp join att_section_emp att on emp.matricule=att.mat where att.section_emp=202 and  att.devis_cellule=5 order by emp.nom",
                     "params": []
                   }
                 },
@@ -199,13 +199,12 @@
                 "options": {
                   "connection": "edbdev",
                   "sql": {
-                    "query": "Select emp.nom,emp.matricule from employe emp join att_section_emp att on emp.matricule=att.mat where att.section_emp=202 and  att.cpteur_lieu_geo LIKE ?",
+                    "query": "Select emp.nom,emp.matricule from employe emp join att_section_emp att on emp.matricule=att.mat where att.section_emp=202 and  att.cpteur_lieu_geo LIKE ? order by emp.nom",
                     "params": [
                       {
                         "name": "?",
                         "value": "{{numgrfac}}",
-                        "test": "%2%",
-                        "recid": 1
+                        "test": "%2%"
                       }
                     ]
                   }

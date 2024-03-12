@@ -1,4 +1,6 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{},dmxFormatter:{},dmxFormRepeat:{}}" dmx-on:load="selectedAnomalies.empty()" style="" -->
+<dmx-serverconnect id="postLogSuivieBordereau" url="/api/bordereaux/post/postLogSuiviBordereaux" noload="true" dmx-on:success="getMaxId.load({})"></dmx-serverconnect>
+<dmx-serverconnect id="getMaxId" url="/api/bordereaux/get/getMaxiIdLogSuivi"></dmx-serverconnect>
 <dmx-serverconnect id="getLotSuivieBordereau" url="/api/bordereaux/get/getLotSuivieBordereau" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getSuivieBordereau" url="/api/bordereaux/get/getSuivieBordereau" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getSuivieBordereauNonAttrib" url="/api/bordereaux/get/getSuivieBordereauNonAttrib" noload="true"></dmx-serverconnect>
@@ -31,18 +33,17 @@
             <div class="modal-body">
                 <p>Etes vous sûr de vouloir réinitialiser ce bordereau?</p>
 
-                <form is="dmx-api-form" id="resetForm" method="post" action="http://localhost:5243/api/suiviBorderau/resetBordereau" dmx-on:error="notifies1.danger(lastError.message)" dmx-on:success="notifies1.success('Bordereau reinitialiser avec succés');suiviBordereauApi.load({});bordereauNonAttribu.load({});showlotbordereau.setValue(false)" dmx-header:authorization="connectedUser.data.token">
-                    <input id="userCreaReset" name="userCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
+                <form is="dmx-serverconnect-form" id="resetForm" method="post" action="/api/bordereaux/post/resetBordereaux" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="notifies1.success('Bordereau reinitialiser avec succés');getSuivieBordereauNonAttrib.load({id_periode: selectedBordereau.value.periode, num_lot_fac: selectedBordereau.value.num_lot_fac});getSuivieBordereau.load({id_periode: selectedBordereau.value.periode, num_lot_fac: selectedBordereau.value.num_lot_fac});getLotSuivieBordereau.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau});RESETBordereau.toggle();postLogSuivieBordereau.load({periode: selectedBordereau.value.periode, tournee: selectedBordereau.value.tournee, bordereau: selectedBordereau.value.bordereau, mat: selectedBordereau.value.matricule, statut: selectedBordereau.value.statut, user_crea: connectedUser.data.matricule, statut_ano: selectedBordereau.value.suivie_anomalie, supprimer: 'N', max: 1, id_ligne: getMaxId.data.getMax[0].max!=null?getMaxId.data.getMax[0].max:1},true);getMaxId.load({})" dmx-header:authorization="connectedUser.data.token">
+                    <input id="userCreaReset" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
 
-                    <input id="bordereauReset" name="bordereau" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.Bordereau">
-                    <input id="tourneeReset" name="tournee" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.Tournee">
-                    <input id="periodeReset" name="periode" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.Periode"><button id="btn4" class="btn btn-sm btn-danger" type="submit">
+                    <input id="bordereauReset" name="bordereau" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.bordereau">
+                    <input id="tourneeReset" name="tournee" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.tournee">
+                    <input id="periodeReset" name="periode" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.periode"><button id="btn4" class="btn btn-sm btn-danger" type="submit">
                         Reinitialiser
                     </button>
 
                 </form>
             </div>
-            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
         </div>
     </div>
 </div>
@@ -117,27 +118,28 @@
                                 <th>Confirmer?</th>
                             </tr>
                         </thead>
-                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="bordereauNonAttribu.data" id="tableRepeat1">
+                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getSuivieBordereauNonAttrib.data.getSuivieBordereau" id="nonAttribBordereauTable">
 
                             <tr class="table-row">
-                                <td dmx-text="Periode"></td>
-                                <td dmx-text="Tournee"></td>
-                                <td dmx-text="Bordereau"></td>
-                                <td dmx-text="Libcourt"></td>
-                                <td dmx-text="DateCrea"></td>
+                                <td dmx-text="periode"></td>
+                                <td dmx-text="tournee"></td>
+                                <td dmx-text="bordereau"></td>
+                                <td dmx-text="statut"></td>
+                                <td dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
                                 <td>
-                                    <select id="releveurBordereauNonAttribList" class="form-select" dmx-bind:options="releveurApi.data" optiontext="Nom+', '+Matricule" optionvalue="Matricule" dmx-on:changed="bordereauForm.text1.setValue(bodyNonAttribue[$index].Periode+'; '+bodyNonAttribue[$index].Tournee+'; '+bodyNonAttribue[$index].releveurBordereauNonAttribList.value+'; '+bodyNonAttribue[$index].Bordereau)" dmxorgdomid="d10960">
+                                    <select id="releveurBordereauNonAttribList" class="form-select" dmx-bind:options="getReleveurs.data.getReleveurList" optiontext="$value.nom+', '+$value.matricule" optionvalue="$value.matricule" dmx-on:changed="bordereauForm.text1.setValue(bodyNonAttribue[$index].Periode+'; '+bodyNonAttribue[$index].Tournee+'; '+bodyNonAttribue[$index].releveurBordereauNonAttribList.value+'; '+bodyNonAttribue[$index].Bordereau)" dmxorgdomid="d10960">
                                         <option selected="" value="" dmxorgdomid="d10961">
                                             Personne
                                         </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <form is="dmx-api-form" id="updateBordereauForm" method="post" action="http://localhost:5243/api/suiviBorderau/affecteBordereau" dmx-header:authorization="connectedUser.data.token" dmx-on:forbidden="notifies1.danger('Aucun Tsp affecté à ce releveur')" dmx-on:success="notifies1.success('Bordereau affecté');bordereauNonAttribu.load({numlotfac: numLotFac.value});suiviBordereauApi.load({})" dmx-on:error="notifies1.danger(lastError.message)" dmxorgdomid="d10963">
-                                        <input id="userCreaUpdate" name="userCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" dmxorgdomid="d10964">
-                                        <input id="periodeUpdate" name="periode" type="hidden" class="form-control" dmx-bind:value="Periode" dmxorgdomid="d10965">
-                                        <input id="bordereauUpdate" name="bordereau" type="hidden" class="form-control" dmx-bind:value="Bordereau" dmxorgdomid="d10966">
-                                        <input id="tourneeUpdate" name="tournee" type="hidden" class="form-control" dmx-bind:value="Tournee" dmxorgdomid="d10967">
+                                    <form is="dmx-serverconnect-form" id="updateBordereauForm" method="post" action="/api/bordereaux/post/updateBordereaux" dmx-on:success="notifies1.success('Bordereau affecté');getSuivieBordereauNonAttrib.load({id_periode: periode, num_lot_fac: num_lot_fac},true);getSuivieBordereau.load({id_periode: periode, num_lot_fac: num_lot_fac},true);postLogSuivieBordereau.load({periode: periode, tournee: tournee, bordereau: bordereau, mat: matricule, statut: statut, user_crea: connectedUser.data.matricule, statut_ano: 'P', supprimer: 'N', id_ligne: getMaxId.data.getMax[0].max!=null?getMaxId.data.getMax[0].max:1})" dmx-on:error="notifies1.danger(lastError.response.message)" dmxorgdomid="d10963">
+                                        <input id="userCreaUpdate" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" dmxorgdomid="d10964">
+                                        <input id="numLotFac" name="num_lot_fac" type="hidden" class="form-control" dmx-bind:value="num_lot_fac" dmxorgdomid="d10964">
+                                        <input id="periodeUpdate" name="periode" type="hidden" class="form-control" dmx-bind:value="periode" dmxorgdomid="d10965">
+                                        <input id="bordereauUpdate" name="bordereau" type="hidden" class="form-control" dmx-bind:value="bordereau" dmxorgdomid="d10966">
+                                        <input id="tourneeUpdate" name="tournee" type="hidden" class="form-control" dmx-bind:value="tournee" dmxorgdomid="d10967">
                                         <input id="matriculeUpdate" name="matricule" type="hidden" class="form-control" dmx-bind:value="releveurBordereauNonAttribList.value" dmxorgdomid="d10968">
                                         <button id="btn5" class="btn btn-primary btn-sm" dmx-show="releveurBordereauNonAttribList.value" type="submit" dmxorgdomid="d10969">
                                             Confirmer
@@ -148,7 +150,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="table-responsive" dmx-show="!bordereauNonAttribu.data.hasItems()">
+                <div class="table-responsive" dmx-show="!getSuivieBordereauNonAttrib.data.getSuivieBordereau.hasItems()">
                     <table class="table table-hover table-sm">
                         <tbody>
                             <tr>
@@ -173,12 +175,14 @@
                         <thead>
                             <tr class="table-head">
                                 <th>Bordereau</th>
+                                <th>Tournée</th>
                                 <th>Statut</th>
                             </tr>
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="suiviebOrdereauView.data" id="bordereauxRow">
-                            <tr dmx-on:click="selectedBordereau.setValue($value);getLotSuivieBordereau.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau" class="table-row">
+                            <tr dmx-on:click="selectedBordereau.setValue($value);getLotSuivieBordereau.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau&amp;&amp;tournee==selectedBordereau.value.tournee&amp;&amp;num_lot_fac==selectedBordereau.value.num_lot_fac" class="table-row">
                                 <td dmx-text="bordereau"></td>
+                                <td dmx-text="tournee"></td>
                                 <td dmx-text="statut"></td>
                             </tr>
                         </tbody>
@@ -205,7 +209,7 @@
         </div>
         <div class=" col-12 col-lg-8  pt-2 pb-3">
             <div class="row">
-                <div class="col-6 border-1  border-end">
+                <div class="col-6">
 
                     <div class="card">
                         <h6 class="heading-text">Details du bordereau</h6>

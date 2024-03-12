@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getMax",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select (MAX(id_ligne)+1) as max from log_suiviebordereau",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "max",
+          "type": "number"
+        }
+      ],
+      "outputType": "array",
+      "type": "dbcustom_query"
+    }
+  }
+}

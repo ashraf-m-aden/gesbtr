@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "tournee"
+      },
+      {
+        "type": "text",
+        "name": "periode"
+      },
+      {
+        "type": "text",
+        "name": "bordereau"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "getReleve",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "type": "select",
+          "columns": [],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.periode}}",
+              "test": "491"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P2",
+              "value": "{{$_GET.tournee}}",
+              "test": "1170"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P3",
+              "value": "{{$_GET.bordereau}}",
+              "test": "10"
+            }
+          ],
+          "table": {
+            "name": "releve",
+            "schema": "tsptest"
+          },
+          "primary": "num_releve",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "tsptest.releve.id_periode",
+                "field": "tsptest.releve.id_periode",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.periode}}",
+                "data": {
+                  "table": "releve",
+                  "column": "id_periode",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "decimal",
+                    "primary": false,
+                    "unique": false,
+                    "nullable": true,
+                    "name": "id_periode"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "="
+              },
+              {
+                "id": "tsptest.releve.num_tourne",
+                "field": "tsptest.releve.num_tourne",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.tournee}}",
+                "data": {
+                  "table": "releve",
+                  "column": "num_tourne",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "decimal",
+                    "primary": false,
+                    "unique": false,
+                    "nullable": true,
+                    "name": "num_tourne"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "="
+              },
+              {
+                "id": "tsptest.releve.num_bordereaux",
+                "field": "tsptest.releve.num_bordereaux",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.bordereau}}",
+                "data": {
+                  "table": "releve",
+                  "column": "num_bordereaux",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "decimal",
+                    "primary": false,
+                    "unique": false,
+                    "nullable": true,
+                    "name": "num_bordereaux"
+                  },
+                  "schema": "tsptest"
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select * from \"tsptest\".\"releve\" where \"tsptest\".\"releve\".\"id_periode\" = ? and \"tsptest\".\"releve\".\"num_tourne\" = ? and \"tsptest\".\"releve\".\"num_bordereaux\" = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "num_releve"
+        },
+        {
+          "type": "number",
+          "name": "index_a"
+        },
+        {
+          "type": "datetime",
+          "name": "date_releve"
+        },
+        {
+          "type": "text",
+          "name": "fin_periode"
+        },
+        {
+          "type": "number",
+          "name": "consommation"
+        },
+        {
+          "type": "number",
+          "name": "moy_consommation"
+        },
+        {
+          "type": "datetime",
+          "name": "date_saisie"
+        },
+        {
+          "type": "number",
+          "name": "utilisateur_der_maj"
+        },
+        {
+          "type": "datetime",
+          "name": "date_der_maj"
+        },
+        {
+          "type": "number",
+          "name": "num_cpteur"
+        },
+        {
+          "type": "number",
+          "name": "num_tourne"
+        },
+        {
+          "type": "number",
+          "name": "id_periode"
+        },
+        {
+          "type": "number",
+          "name": "id_pl"
+        },
+        {
+          "type": "text",
+          "name": "anomalie"
+        },
+        {
+          "type": "number",
+          "name": "type_releve"
+        },
+        {
+          "type": "number",
+          "name": "nature_releve"
+        },
+        {
+          "type": "number",
+          "name": "matricule"
+        },
+        {
+          "type": "text",
+          "name": "coment"
+        },
+        {
+          "type": "number",
+          "name": "id_contrat"
+        },
+        {
+          "type": "number",
+          "name": "id_periode_prec"
+        },
+        {
+          "type": "text",
+          "name": "facture_faite"
+        },
+        {
+          "type": "number",
+          "name": "num_bordereaux"
+        },
+        {
+          "type": "text",
+          "name": "reprise"
+        },
+        {
+          "type": "datetime",
+          "name": "date_pf"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

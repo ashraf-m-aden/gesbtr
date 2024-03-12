@@ -1,0 +1,75 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/views/tournee.ejs",
+      "linkedForm": "newtourneForm"
+    },
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "num_tourne",
+        "name": "num_tourne"
+      },
+      {
+        "type": "text",
+        "fieldName": "lieu_geo",
+        "name": "lieu_geo"
+      },
+      {
+        "type": "text",
+        "fieldName": "num_lot_fac",
+        "name": "num_lot_fac"
+      },
+      {
+        "type": "text",
+        "fieldName": "zone_geo",
+        "name": "zone_geo"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "insert into tourne_releve (num_tourne,lieu_geo,lot_fac,nombre_pl,zone_geo) values (?,?, ?, 60, ?)",
+          "params": [
+            {
+              "name": "?",
+              "value": "{{$_POST.num_tourne}}"
+            },
+            {
+              "name": "?",
+              "value": "{{$_POST.lieu_geo}}"
+            },
+            {
+              "name": "?",
+              "value": "{{$_POST.num_lot_fac}}"
+            },
+            {
+              "name": "?",
+              "value": "{{$_POST.zone_geo}}"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [],
+      "outputType": "array",
+      "type": "dbcustom_query"
+    }
+  }
+}
