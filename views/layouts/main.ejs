@@ -40,7 +40,6 @@
 </head>
 
 <body id="main">
-  <dmx-serverconnect id="connected" url="/api/globals/isConnected"></dmx-serverconnect>
   <div class="wappler-block pt-2 container-fluid bg-body-secondary" dmx-style:min-height="'100vh'">
 
     <div class="row">
@@ -56,6 +55,7 @@
       </div>
     </div>
     <div class="row">
+      <%- await include('/partials/main/footer', Object.assign({}, locals)) %>
     </div>
   </div>
 

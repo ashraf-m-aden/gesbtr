@@ -10,164 +10,126 @@
   "exec": {
     "steps": {
       "name": "query",
-      "module": "dbconnector",
-      "action": "single",
+      "module": "dbupdater",
+      "action": "custom",
       "options": {
         "connection": "edbdev",
         "sql": {
-          "type": "select",
-          "columns": [],
+          "query": "select * from employe where matricule = :P1",
           "params": [
             {
-              "operator": "equal",
-              "type": "expression",
               "name": ":P1",
               "value": "{{$_GET.matricule}}",
-              "test": ""
+              "test": "47698"
             }
-          ],
-          "table": {
-            "name": "employe",
-            "schema": "tsptest"
-          },
-          "primary": "matricule",
-          "joins": [],
-          "orders": [],
-          "wheres": {
-            "condition": "AND",
-            "rules": [
-              {
-                "id": "tsptest.employe.matricule",
-                "field": "tsptest.employe.matricule",
-                "type": "double",
-                "operator": "equal",
-                "value": "{{$_GET.matricule}}",
-                "data": {
-                  "table": "employe",
-                  "column": "matricule",
-                  "type": "number",
-                  "columnObj": {
-                    "type": "decimal",
-                    "primary": true,
-                    "unique": true,
-                    "nullable": false,
-                    "name": "matricule"
-                  },
-                  "schema": "tsptest"
-                },
-                "operation": "="
-              }
-            ],
-            "conditional": null,
-            "valid": true
-          },
-          "query": "select * from \"tsptest\".\"employe\" where \"tsptest\".\"employe\".\"matricule\" = ?"
+          ]
         }
       },
       "output": true,
       "meta": [
         {
-          "type": "number",
-          "name": "matricule"
+          "name": "matricule",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "nom"
+          "name": "nom",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "id_client"
+          "name": "id_client",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "a_init"
+          "name": "a_init",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "id_machine"
+          "name": "id_machine",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "poste_mobile"
+          "name": "poste_mobile",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "connecte"
+          "name": "connecte",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "poste_encours"
+          "name": "poste_encours",
+          "type": "number"
         },
         {
-          "type": "datetime",
-          "name": "dern_conn"
+          "name": "dern_conn",
+          "type": "datetime"
         },
         {
-          "type": "datetime",
-          "name": "dern_deconn"
+          "name": "dern_deconn",
+          "type": "datetime"
         },
         {
-          "type": "text",
-          "name": "mess"
+          "name": "mess",
+          "type": "text"
         },
         {
-          "type": "datetime",
-          "name": "date_mess"
+          "name": "date_mess",
+          "type": "datetime"
         },
         {
-          "type": "text",
-          "name": "mess_lu"
+          "name": "mess_lu",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "inst_vers"
+          "name": "inst_vers",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "inst_urgence"
+          "name": "inst_urgence",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "statut"
+          "name": "statut",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "droit_au_quota"
+          "name": "droit_au_quota",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "equipe"
+          "name": "equipe",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "app_version"
+          "name": "app_version",
+          "type": "text"
         },
         {
-          "type": "datetime",
-          "name": "date_visite"
+          "name": "date_visite",
+          "type": "datetime"
         },
         {
-          "type": "text",
-          "name": "person_visite"
+          "name": "person_visite",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "user_tsptest"
+          "name": "user_tsptest",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "motpasse"
+          "name": "motpasse",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "password_salt"
+          "name": "password_salt",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "password_hash"
+          "name": "password_hash",
+          "type": "text"
         }
       ],
-      "outputType": "object"
+      "outputType": "array",
+      "type": "dbcustom_query"
     }
   }
 }

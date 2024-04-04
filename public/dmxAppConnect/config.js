@@ -2127,5 +2127,17 @@ dmx.config({
       "meta": [],
       "outputType": "array"
     }
+  },
+  "login": {
+    "localStorage": [
+      {
+        "type": "text",
+        "name": "matricule"
+      },
+      {
+        "type": "text",
+        "name": "nom"
+      }
+    ]
   }
 });

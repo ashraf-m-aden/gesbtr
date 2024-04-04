@@ -15,7 +15,9 @@ html{
 a:link{
   color: var(--green-color) !important;
 }
-
+.navbar-footer{
+  border: solid 1px green;
+}
 .clicked {
   background: var(--custom-pink) !important;
   color: black;

@@ -271,7 +271,7 @@
                                     </li>
                                 </ul>
                                 <div>
-                                    <button id="resetBtn" class="btn btn-sm btn-warning" dmx-on:click="run([{run:{action:`modifiedReleve.empty()`,outputType:'text'}},{run:{action:`getreleve.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau})`,outputType:'text'}},{runJS:{function:'resetAnomalieArray',name:'resetAnomalieArray',outputType:'text'}}])">Reinitialiser</button>
+                                    <button id="resetBtn" class="btn btn-sm btn-warning" dmx-on:click="run([{run:{action:`modifiedReleve.empty()`,outputType:'text'}},{run:{action:`getreleve.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau})`,outputType:'text'}},{runJS:{function:'resetAnomalieArray',name:'resetAnomalieArray',outputType:'text'}}])" dmx-show="getreleve.data.getReleve.length&gt;0">Reinitialiser</button>
                                     <button id="correctBtn" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#confirmCorrectReleve">Enregistrer</button>
                                 </div>
                             </div>

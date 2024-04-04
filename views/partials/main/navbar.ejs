@@ -1,7 +1,7 @@
 <!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{},dmxBootstrap5TableGenerator:{},dmxBrowser:{},dmxNotifications:{}}" head-page="layouts/main" -->
 <dmx-notifications id="notifies1"></dmx-notifications>
 <div is="dmx-browser" id="browser1"></div>
-<dmx-serverconnect id="logout" url="/api/globals/logout" noload="true" dmx-on:success="browser1.goto('/auth/login');notifies1.warning('Vous êtes déconnecté')"></dmx-serverconnect>
+<dmx-serverconnect id="logout" url="/api/globals/logout" noload="true"></dmx-serverconnect>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <header class="placeholder-glow header">
     <nav class="navbar header d-flex navbar-expand-lg bg-body ps-2 pe-2 flex-row align-items-center justify-content-between">
@@ -24,9 +24,7 @@
                 <a class="nav-item nav-link text-center text-white" href="/">Bordereaux</a>
                 <a class="nav-item nav-link text-white text-center" href="/views/tournee">Tournees</a>
                 <a class="nav-item nav-link text-white text-center" href="/views/releve">Releves</a>
-                <a class="nav-item nav-link text-white text-center">
-                    <button id="loggedOut" class="text-danger" dmx-on:click="logout.load({},true)">Deconnexion</button>
-                </a>
+                <button id="logOut" class="btn btn-sm btn-light text-danger" dmx-on:click="logout.load({});notifies1.warning('Vous êtes déconnecté');browser1.goto('/auth/login')">Deconnexion</button>
 
 
             </div>
