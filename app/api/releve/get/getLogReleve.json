@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "num_releve"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from log_releve_correction where num_releve=?",
+          "params": [
+            {
+              "name": "?",
+              "value": "{{$_GET.num_releve}}",
+              "test": "8557125"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "id_log",
+          "type": "number"
+        },
+        {
+          "name": "num_releve",
+          "type": "number"
+        },
+        {
+          "name": "index_ancien",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "anomalie",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "date_pf",
+          "type": "datetime"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

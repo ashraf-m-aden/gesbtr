@@ -26,215 +26,219 @@
   "exec": {
     "steps": {
       "name": "getReleve",
-      "module": "dbconnector",
-      "action": "select",
+      "module": "dbupdater",
+      "action": "custom",
       "options": {
         "connection": "edbdev",
         "sql": {
-          "type": "select",
-          "columns": [],
+          "query": "SELECT   VCI.*, RV.INDEX_A AS PRE_INDEX_A, RV.DATE_RELEVE AS PRE_DATE_RELEVE, VCI.DATE_RELEVE - RV.DATE_RELEVE AS PERIODE_DUREE FROM VIEW_CORRECTION_INDEX VCI, RELEVE RV  WHERE VCI.ID_PERIODE_PREC = RV.NUM_RELEVE   AND VCI.ID_PERIODE = ? AND VCI.NUM_TOURNE = ? AND VCI.NUM_BORDEREAUX = ? ORDER BY VCI.NUM_ORDRE_PL, VCI.CODEPL ",
           "params": [
             {
-              "operator": "equal",
-              "type": "expression",
               "name": ":P1",
               "value": "{{$_GET.periode}}",
               "test": "491"
             },
             {
-              "operator": "equal",
-              "type": "expression",
               "name": ":P2",
               "value": "{{$_GET.tournee}}",
               "test": "1170"
             },
             {
-              "operator": "equal",
-              "type": "expression",
               "name": ":P3",
               "value": "{{$_GET.bordereau}}",
               "test": "10"
             }
-          ],
-          "table": {
-            "name": "releve",
-            "schema": "tsptest"
-          },
-          "primary": "num_releve",
-          "joins": [],
-          "wheres": {
-            "condition": "AND",
-            "rules": [
-              {
-                "id": "tsptest.releve.id_periode",
-                "field": "tsptest.releve.id_periode",
-                "type": "double",
-                "operator": "equal",
-                "value": "{{$_GET.periode}}",
-                "data": {
-                  "table": "releve",
-                  "column": "id_periode",
-                  "type": "number",
-                  "columnObj": {
-                    "type": "decimal",
-                    "primary": false,
-                    "unique": false,
-                    "nullable": true,
-                    "name": "id_periode"
-                  },
-                  "schema": "tsptest"
-                },
-                "operation": "="
-              },
-              {
-                "id": "tsptest.releve.num_tourne",
-                "field": "tsptest.releve.num_tourne",
-                "type": "double",
-                "operator": "equal",
-                "value": "{{$_GET.tournee}}",
-                "data": {
-                  "table": "releve",
-                  "column": "num_tourne",
-                  "type": "number",
-                  "columnObj": {
-                    "type": "decimal",
-                    "primary": false,
-                    "unique": false,
-                    "nullable": true,
-                    "name": "num_tourne"
-                  },
-                  "schema": "tsptest"
-                },
-                "operation": "="
-              },
-              {
-                "id": "tsptest.releve.num_bordereaux",
-                "field": "tsptest.releve.num_bordereaux",
-                "type": "double",
-                "operator": "equal",
-                "value": "{{$_GET.bordereau}}",
-                "data": {
-                  "table": "releve",
-                  "column": "num_bordereaux",
-                  "type": "number",
-                  "columnObj": {
-                    "type": "decimal",
-                    "primary": false,
-                    "unique": false,
-                    "nullable": true,
-                    "name": "num_bordereaux"
-                  },
-                  "schema": "tsptest"
-                },
-                "operation": "="
-              }
-            ],
-            "conditional": null,
-            "valid": true
-          },
-          "query": "select * from \"tsptest\".\"releve\" where \"tsptest\".\"releve\".\"id_periode\" = ? and \"tsptest\".\"releve\".\"num_tourne\" = ? and \"tsptest\".\"releve\".\"num_bordereaux\" = ?"
+          ]
         }
       },
       "output": true,
       "meta": [
         {
-          "type": "number",
-          "name": "num_releve"
+          "name": "nom",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "index_a"
+          "name": "adr_physique",
+          "type": "text"
         },
         {
-          "type": "datetime",
-          "name": "date_releve"
+          "name": "id_pl",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "fin_periode"
+          "name": "num_tourne",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "consommation"
+          "name": "id_periode",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "moy_consommation"
+          "name": "codepl",
+          "type": "text"
         },
         {
-          "type": "datetime",
-          "name": "date_saisie"
+          "name": "num_ordre_pl",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "utilisateur_der_maj"
+          "name": "etat_pl",
+          "type": "number"
         },
         {
-          "type": "datetime",
-          "name": "date_der_maj"
+          "name": "acces_compteur",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "num_cpteur"
+          "name": "num_cpteur",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "num_tourne"
+          "name": "index_a",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "id_periode"
+          "name": "date_releve",
+          "type": "datetime"
         },
         {
-          "type": "number",
-          "name": "id_pl"
+          "name": "num_releve",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "anomalie"
+          "name": "matricule",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "type_releve"
+          "name": "consommation",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "nature_releve"
+          "name": "moy_consommation",
+          "type": "number"
         },
         {
-          "type": "number",
-          "name": "matricule"
+          "name": "anomalie",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "coment"
+          "name": "coment",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "id_contrat"
+          "name": "libelle",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "id_periode_prec"
+          "name": "accescompteur",
+          "type": "text"
         },
         {
-          "type": "text",
-          "name": "facture_faite"
+          "name": "etatpl",
+          "type": "text"
         },
         {
-          "type": "number",
-          "name": "num_bordereaux"
+          "name": "id_periode_prec",
+          "type": "number"
         },
         {
-          "type": "text",
-          "name": "reprise"
+          "name": "index_r",
+          "type": "number"
         },
         {
-          "type": "datetime",
-          "name": "date_pf"
+          "name": "ipm_releve",
+          "type": "text"
+        },
+        {
+          "name": "reactive",
+          "type": "text"
+        },
+        {
+          "name": "num_bordereaux",
+          "type": "number"
+        },
+        {
+          "name": "chkbox",
+          "type": "text"
+        },
+        {
+          "name": "qualite",
+          "type": "text"
+        },
+        {
+          "name": "affichable",
+          "type": "text"
+        },
+        {
+          "name": "index_a2",
+          "type": "number"
+        },
+        {
+          "name": "date_releve2",
+          "type": "datetime"
+        },
+        {
+          "name": "index_r2",
+          "type": "number"
+        },
+        {
+          "name": "ipm_releve2",
+          "type": "text"
+        },
+        {
+          "name": "max_index",
+          "type": "number"
+        },
+        {
+          "name": "code_cpteur",
+          "type": "text"
+        },
+        {
+          "name": "id_contrat",
+          "type": "number"
+        },
+        {
+          "name": "fmontant",
+          "type": "text"
+        },
+        {
+          "name": "num_cpteur_r",
+          "type": "number"
+        },
+        {
+          "name": "code_cpteur_r",
+          "type": "text"
+        },
+        {
+          "name": "max_index_r",
+          "type": "number"
+        },
+        {
+          "name": "cons_r",
+          "type": "number"
+        },
+        {
+          "name": "ps_atteinte",
+          "type": "number"
+        },
+        {
+          "name": "coeff_mult_ipm",
+          "type": "number"
+        },
+        {
+          "name": "pre_index_a",
+          "type": "number"
+        },
+        {
+          "name": "pre_date_releve",
+          "type": "datetime"
+        },
+        {
+          "name": "periode_duree",
+          "type": "text"
         }
       ],
-      "outputType": "array"
+      "type": "dbcustom_query"
     }
   }
 }

@@ -1,4 +1,5 @@
 <!-- Wappler include head-page="layouts/deconnected" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="login" appconnect="local" components="{dmxBrowser:{},dmxNotifications:{},dmxStateManagement:{}}" -->
+<dmx-serverconnect id="getUserData" url="/api/globals/getUserData" noload="true" dmx-on:success="notifies1.success('Vous êtes connecté');browser1.goto('/')"></dmx-serverconnect>
 <div class="container wappler-block mt-5 pt-5 pb-5">
     <div class="row justify-content-center card">
         <div class="col-12 mb-5 login-header">
@@ -8,7 +9,7 @@
             </p>
         </div>
         <div class="col-12 col-md-6  login-form">
-            <form is="dmx-api-form" id="loginform" method="post" action="http://localhost:5243/api/employe/login" post-data="json" dmx-on:success="notifies1.success('Utilisateur connecté');token.set('token','Bearer '+data.Token);browser1.goto('/');token.set('nom',data.Nom);token.set('matricule',data.Matricule)" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)" dmx-on:forbidden="">
+            <form is="dmx-serverconnect-form" id="loginform" method="post" action="/api/globals/login" post-data="json" dmx-on:success="getUserData.load({})" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)" dmx-on:forbidden="">
                 <div class="d-flex flex-column align-items-center"><input type="text" id="matricule" name="matricule" class="form-control mb-3" placeholder="matricule"><input type="password" id="password" name="password" class="form-control mb-3" placeholder="Mot de passe">
                     <div class="d-flex"><button id="loadingBtn" class="btn btn-sm text-danger btn-success" dmx-show="loading.value">
                             <span class="spinner-border spinner-border-sm" role="status"></span>

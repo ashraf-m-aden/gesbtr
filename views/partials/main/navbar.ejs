@@ -1,4 +1,7 @@
-<!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{},dmxBootstrap5TableGenerator:{}}" head-page="layouts/main" -->
+<!-- Wappler include jquery_slim_33="cdn" fontawesome_4="cdn" is="dmx-app" id="navbar" appconnect="local" bootstrap5="local" components="{dmxBootstrap5Navigation:{},dmxStateManagement:{},dmxBootstrap5TableGenerator:{},dmxBrowser:{},dmxNotifications:{}}" head-page="layouts/main" -->
+<dmx-notifications id="notifies1"></dmx-notifications>
+<div is="dmx-browser" id="browser1"></div>
+<dmx-serverconnect id="logout" url="/api/globals/logout" noload="true" dmx-on:success="browser1.goto('/auth/login');notifies1.warning('Vous êtes déconnecté')"></dmx-serverconnect>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <header class="placeholder-glow header">
     <nav class="navbar header d-flex navbar-expand-lg bg-body ps-2 pe-2 flex-row align-items-center justify-content-between">
@@ -13,35 +16,23 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnavges" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse flex-row justify-content-center d-lg-none" id="navbarnavges">
+        <div class="collapse navbar-collapse flex-row d-lg-none justify-content-end" id="navbarnavges">
 
-            <div class="navbar-nav text-white d-lg-none">
+            <div class="navbar-nav text-white justify-content-sm-start nav-pills">
 
 
                 <a class="nav-item nav-link text-center text-white" href="/">Bordereaux</a>
                 <a class="nav-item nav-link text-white text-center" href="/views/tournee">Tournees</a>
+                <a class="nav-item nav-link text-white text-center" href="/views/releve">Releves</a>
+                <a class="nav-item nav-link text-white text-center">
+                    <button id="loggedOut" class="text-danger" dmx-on:click="logout.load({},true)">Deconnexion</button>
+                </a>
 
 
             </div>
 
         </div>
 
-        <div class="d-flex">
-            <div class="navbar-nav w-100">
-                <div class="nav-item dropdown">
-
-
-                    <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown">
-                        <small class="text-light" dmx-text="connectedUser.data.nom"></small>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown1">
-                        <h6 class="dropdown-header"><a class="text-success-emphasis" href="/auth/login" dmx-show="connectedUser.data.nom" dmx-on:click="connectedUser.removeAll()">Deconnexion</a></h6>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
 
     </nav>

@@ -1,0 +1,23 @@
+{
+  "name": "security",
+  "module": "auth",
+  "action": "provider",
+  "options": {
+    "secret": "II1zgP9D6lKogiD",
+    "provider": "Database",
+    "connection": "edbdev",
+    "users": {
+      "table": "tsptest.employe",
+      "identity": "matricule",
+      "username": "matricule",
+      "password": "password_hash"
+    },
+    "permissions": {}
+  },
+  "meta": [
+    {
+      "name": "identity",
+      "type": "text"
+    }
+  ]
+}

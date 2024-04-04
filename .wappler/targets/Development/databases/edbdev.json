@@ -55,6 +55,158 @@
         "db": {
           "schema": "sys",
           "comment": "equal"
+        },
+        "columns": {
+          "q_name": {
+            "db": {
+              "type": "name",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "msgid": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "corrid": {
+            "db": {
+              "type": "string",
+              "maxLength": 128,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "priority": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "state": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "delay": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "expiration": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "next_event_time": {
+            "db": {
+              "type": "timestamp",
+              "useTz": true,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "enq_time": {
+            "db": {
+              "type": "timestamp",
+              "useTz": true,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "enq_uid": {
+            "db": {
+              "type": "oid",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "enq_tid": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "deq_time": {
+            "db": {
+              "type": "timestamp",
+              "useTz": true,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "deq_uid": {
+            "db": {
+              "type": "oid",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "deq_tid": {
+            "db": {
+              "type": "bigInteger",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "retry_count": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "exception_qschema": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "exception_queue": {
+            "db": {
+              "type": "string",
+              "maxLength": 30,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_data": {
+            "db": {
+              "type": "\"aq$_queued_callback\"",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "tsptest.spatial_ref_sys": {

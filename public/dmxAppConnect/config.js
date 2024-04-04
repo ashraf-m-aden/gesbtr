@@ -1535,75 +1535,468 @@ dmx.config({
     "suiviebOrdereauView": {
       "meta": [
         {
+          "name": "tournee",
+          "type": "number"
+        },
+        {
+          "name": "periode",
+          "type": "number"
+        },
+        {
+          "name": "bordereau",
+          "type": "number"
+        },
+        {
+          "name": "nbr_cpteur",
+          "type": "number"
+        },
+        {
+          "name": "compteurrelevee",
+          "type": "number"
+        },
+        {
+          "name": "reste",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_maj",
+          "type": "number"
+        },
+        {
+          "name": "date_maj",
+          "type": "datetime"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "numtsp",
+          "type": "number"
+        },
+        {
+          "name": "num_lot_fac",
+          "type": "number"
+        },
+        {
+          "name": "suivie_anomalie",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "user_st",
+          "type": "number"
+        },
+        {
+          "name": "date_st",
+          "type": "datetime"
+        },
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        }
+      ],
+      "outputType": "text"
+    },
+    "releveView": {
+      "meta": [
+        {
           "type": "number",
-          "name": "Tournee"
+          "name": "num_releve"
         },
         {
           "type": "number",
-          "name": "Periode"
+          "name": "index_a"
         },
         {
-          "type": "number",
-          "name": "Bordereau"
-        },
-        {
-          "type": "number",
-          "name": "NbrCpteur"
-        },
-        {
-          "type": "number",
-          "name": "Compteurrelevee"
-        },
-        {
-          "type": "number",
-          "name": "Reste"
-        },
-        {
-          "type": "number",
-          "name": "UserCrea"
+          "type": "datetime",
+          "name": "date_releve"
         },
         {
           "type": "text",
-          "name": "DateCrea"
+          "name": "fin_periode"
         },
         {
           "type": "number",
-          "name": "UserMaj"
+          "name": "consommation"
+        },
+        {
+          "type": "number",
+          "name": "moy_consommation"
+        },
+        {
+          "type": "datetime",
+          "name": "date_saisie"
+        },
+        {
+          "type": "number",
+          "name": "utilisateur_der_maj"
+        },
+        {
+          "type": "datetime",
+          "name": "date_der_maj"
+        },
+        {
+          "type": "number",
+          "name": "num_cpteur"
+        },
+        {
+          "type": "number",
+          "name": "num_tourne"
+        },
+        {
+          "type": "number",
+          "name": "id_periode"
+        },
+        {
+          "type": "number",
+          "name": "id_pl"
         },
         {
           "type": "text",
-          "name": "DateMaj"
+          "name": "anomalie"
         },
         {
           "type": "number",
-          "name": "Matricule"
+          "name": "type_releve"
         },
         {
           "type": "number",
-          "name": "Numtsp"
+          "name": "nature_releve"
         },
         {
           "type": "number",
-          "name": "NumLotFac"
+          "name": "matricule"
         },
         {
           "type": "text",
-          "name": "SuivieAnomalie"
+          "name": "coment"
         },
         {
           "type": "number",
-          "name": "Statut"
+          "name": "id_contrat"
+        },
+        {
+          "type": "number",
+          "name": "id_periode_prec"
         },
         {
           "type": "text",
-          "name": "UserSt"
+          "name": "facture_faite"
+        },
+        {
+          "type": "number",
+          "name": "num_bordereaux"
         },
         {
           "type": "text",
-          "name": "DateSt"
+          "name": "reprise"
+        },
+        {
+          "type": "datetime",
+          "name": "date_pf"
         }
       ],
       "outputType": "array"
+    },
+    "releveErreur": {
+      "meta": null,
+      "outputType": "array"
+    },
+    "anomalierepeat1": {
+      "meta": [
+        {
+          "name": "code",
+          "type": "text"
+        },
+        {
+          "name": "libelle",
+          "type": "text"
+        },
+        {
+          "name": "qualite",
+          "type": "text"
+        },
+        {
+          "name": "affichable",
+          "type": "text"
+        }
+      ],
+      "outputType": "text"
+    },
+    "releveAnomaliList": {
+      "meta": [
+        {
+          "name": "nom",
+          "type": "text"
+        },
+        {
+          "name": "adr_physique",
+          "type": "text"
+        },
+        {
+          "name": "id_pl",
+          "type": "number"
+        },
+        {
+          "name": "num_tourne",
+          "type": "number"
+        },
+        {
+          "name": "id_periode",
+          "type": "number"
+        },
+        {
+          "name": "codepl",
+          "type": "text"
+        },
+        {
+          "name": "num_ordre_pl",
+          "type": "number"
+        },
+        {
+          "name": "etat_pl",
+          "type": "number"
+        },
+        {
+          "name": "acces_compteur",
+          "type": "number"
+        },
+        {
+          "name": "num_cpteur",
+          "type": "number"
+        },
+        {
+          "name": "index_a",
+          "type": "number"
+        },
+        {
+          "name": "date_releve",
+          "type": "datetime"
+        },
+        {
+          "name": "num_releve",
+          "type": "number"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "consommation",
+          "type": "number"
+        },
+        {
+          "name": "moy_consommation",
+          "type": "number"
+        },
+        {
+          "name": "anomalie",
+          "type": "text"
+        },
+        {
+          "name": "coment",
+          "type": "text"
+        },
+        {
+          "name": "libelle",
+          "type": "text"
+        },
+        {
+          "name": "accescompteur",
+          "type": "text"
+        },
+        {
+          "name": "etatpl",
+          "type": "text"
+        },
+        {
+          "name": "id_periode_prec",
+          "type": "number"
+        },
+        {
+          "name": "index_r",
+          "type": "number"
+        },
+        {
+          "name": "ipm_releve",
+          "type": "text"
+        },
+        {
+          "name": "reactive",
+          "type": "text"
+        },
+        {
+          "name": "num_bordereaux",
+          "type": "number"
+        },
+        {
+          "name": "chkbox",
+          "type": "text"
+        },
+        {
+          "name": "qualite",
+          "type": "text"
+        },
+        {
+          "name": "affichable",
+          "type": "text"
+        },
+        {
+          "name": "index_a2",
+          "type": "number"
+        },
+        {
+          "name": "date_releve2",
+          "type": "datetime"
+        },
+        {
+          "name": "index_r2",
+          "type": "number"
+        },
+        {
+          "name": "ipm_releve2",
+          "type": "text"
+        },
+        {
+          "name": "max_index",
+          "type": "number"
+        },
+        {
+          "name": "code_cpteur",
+          "type": "text"
+        },
+        {
+          "name": "id_contrat",
+          "type": "number"
+        },
+        {
+          "name": "fmontant",
+          "type": "text"
+        },
+        {
+          "name": "num_cpteur_r",
+          "type": "number"
+        },
+        {
+          "name": "code_cpteur_r",
+          "type": "text"
+        },
+        {
+          "name": "max_index_r",
+          "type": "number"
+        },
+        {
+          "name": "cons_r",
+          "type": "number"
+        },
+        {
+          "name": "ps_atteinte",
+          "type": "number"
+        },
+        {
+          "name": "coeff_mult_ipm",
+          "type": "number"
+        },
+        {
+          "name": "pre_index_a",
+          "type": "number"
+        },
+        {
+          "name": "pre_date_releve",
+          "type": "datetime"
+        },
+        {
+          "name": "periode_duree",
+          "type": "text"
+        }
+      ],
+      "outputType": "text"
+    },
+    "iterator1": {
+      "meta": null,
+      "outputType": "array"
+    },
+    "releveLog": {
+      "meta": [
+        {
+          "name": "id_log",
+          "type": "number"
+        },
+        {
+          "name": "num_releve",
+          "type": "number"
+        },
+        {
+          "name": "index_ancien",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "anomalie",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "date_pf",
+          "type": "datetime"
+        }
+      ],
+      "outputType": "text"
+    },
+    "tableRepeat4": {
+      "meta": [
+        {
+          "name": "id_log",
+          "type": "number"
+        },
+        {
+          "name": "num_releve",
+          "type": "number"
+        },
+        {
+          "name": "index_ancien",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "anomalie",
+          "type": "text"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "date_pf",
+          "type": "datetime"
+        }
+      ],
+      "outputType": "text"
     }
   },
   "rapport": {

@@ -1,4 +1,7 @@
 {
   "debug": true,
-  "secret": "vZha1UHA44ZyNXl"
+  "secret": "vZha1UHA44ZyNXl",
+  "cors": {
+    "origin": "*"
+  }
 }

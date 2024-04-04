@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "edbdev",
+        "sql": {
+          "query": "select * from anomalie_releve where code not in ('PA','VC','NS')",
+          "params": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "code",
+          "type": "text"
+        },
+        {
+          "name": "libelle",
+          "type": "text"
+        },
+        {
+          "name": "qualite",
+          "type": "text"
+        },
+        {
+          "name": "affichable",
+          "type": "text"
+        }
+      ],
+      "outputType": "array",
+      "type": "dbcustom_query"
+    }
+  }
+}

@@ -4,9 +4,13 @@
   --green-color: #036306;
   --blue-color: #3b71ca;
   --custom-pink: #dedaeb;
+  --white: #ffffff;
 }
 html{
   font-size: medium;
+}
+.navbar-nav > a:link{
+  color: var(--white) !important;
 }
 a:link{
   color: var(--green-color) !important;
