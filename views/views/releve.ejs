@@ -1,7 +1,17 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="releve" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{}}" -->
-<dmx-api-action id="getReleveImage" noload="true" dmx-bind:url="'http://192.168.9.60:93/api/Releves/'+selectedReleve.value.num_releve" data-type="json"></dmx-api-action>
-<dmx-serverconnect id="getLogReleve" noload="true" url="/api/releve/get/getLogReleve"></dmx-serverconnect>
-
+<div class="modal" id="showIMAGEmODAL" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Numero du compteur: {{selectedReleve.value.num_cpteur}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img dmx-bind:src="'data:image/jpeg;base64,'+releveImage.value">
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" id="confirmCorrectReleve" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -24,6 +34,10 @@
         </div>
     </div>
 </div>
+<dmx-serverconnect id="getReleveImage" url="/api/releve/get/getReleveImage" noload="true" dmx-on:success="run({runJS:{name:'convertImage',outputType:'text',function:'convertImage',args:[`getReleveImage.data.releveImage[0].image.data`]}})"></dmx-serverconnect>
+<dmx-serverconnect id="getLogReleve" noload="true" url="/api/releve/get/getLogReleve"></dmx-serverconnect>
+
+
 <dmx-serverconnect id="getMaxId" url="/api/releve/get/getMaxIdLog"></dmx-serverconnect>
 <dmx-serverconnect id="correctReleve" url="/api/releve/post/updateReleve" noload="true" dmx-on:success="notifies1.success('Les releves ont été corrigées')" dmx-on:error="notifies1.danger(lastError.response.message)"></dmx-serverconnect>
 <dmx-serverconnect id="getAnomalies" url="/api/globals/getAnomalies"></dmx-serverconnect>
@@ -41,7 +55,7 @@
 <dmx-data-view id="releveErreur" dmx-bind:data="releveAnomaliList.items" pagesize="5"></dmx-data-view>
 
 <dmx-data-view id="logBordereauView" dmx-bind:data="lotsuivibordereau.data" pageSize="5"></dmx-data-view>
-<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="getSuiviBordereau.data.getSuivieBordereau" pagesize="5"></dmx-data-view>
+<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="matriculeSearch.value?getSuiviBordereau.data.getSuivieBordereau.where(`matricule`,matriculeSearch.value,&quot;==&quot;):getSuiviBordereau.data.getSuivieBordereau" pagesize="5"></dmx-data-view>
 <div class="modal" id="RESETBordereau" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -50,7 +64,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Etes vous sûr de vouloir réinitialiser ce bordereau?</p>
+                <p><i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i>
+                    Etes vous sûr de vouloir réinitialiser ce bordereau?</p>
 
                 <form is="dmx-api-form" id="resetForm" method="post" action="http://localhost:5243/api/suiviBorderau/resetBordereau" dmx-on:error="notifies1.danger(lastError.message)" dmx-on:success="notifies1.success('Bordereau reinitialiser avec succés');suiviBordereauApi.load({});bordereauNonAttribu.load({});showlotbordereau.setValue(false)" dmx-header:authorization="connectedUser.data.token">
                     <input id="userCreaReset" name="userCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
@@ -84,6 +99,7 @@
 <dmx-value id="selectedBordereau"></dmx-value>
 <dmx-value id="selectedReleve"></dmx-value>
 <dmx-value id="indexReleve"></dmx-value>
+<dmx-value id="releveImage"></dmx-value>
 <dmx-value id="numLotFac"></dmx-value>
 <dmx-value id="releveurloading" dmx-bind:value="false"></dmx-value>
 <dmx-value id="lotfacLoading" dmx-bind:value="false"></dmx-value>
@@ -94,12 +110,12 @@
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <div class="wappler-block container-fluid">
     <div class="row ">
-        <div class=" col-12 col-lg-10">
+        <div class=" col-12 col-md-4">
             <div class="card">
                 <h6 class="heading-text">Recuperer les bordereaux avec les filtres ci-dessous</h6>
                 <div class="form-group row">
-                    <label for="periodeReset" class="form-label col-sm-2 col-form-label">Période:</label>
-                    <div class="col-12 col-md-3 align-self-center">
+                    <label for="periodeReset" class="form-label col-6 col-form-label">Période:</label>
+                    <div class="col-6 align-self-center">
                         <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="getPeriod.data.getPeriod" optiontext="nom_periode" optionvalue="id_periode" dmx-on:changed="lotfacApi.load({});getLotFac.load({idperiod: value})">
                             <option selected="" value="">Aucune periode</option>
                         </select>
@@ -110,9 +126,9 @@
 
                 </div>
                 <div class="form-group row">
-                    <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
+                    <label for="lotfac" class="form-label col-6 col-form-label">Lot facturation:</label>
 
-                    <div class="col-12 col-md-3 align-self-center">
+                    <div class="col-6 align-self-center">
                         <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="getLotFac.data.getLotFac" optiontext="libelle" optionvalue="num_lot_fac" dmx-on:changed="numLotFac.setValue(value);getSuiviBordereau.load({id_periode: periode1.value, num_lot_fac: value},true);getreleve.load({tournee: 0, periode: 0, bordereau: 0},true)">
                             <option selected="" value="">Aucune cellule</option>
                         </select>
@@ -124,17 +140,24 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class=" col-12  col-lg-10  pt-2 pb-3" id="attribue">
+        <div class=" col-12  col-md-8 " id="attribue">
 
             <div class="card">
                 <h6 class=" heading-text">
                     Liste des bordereaux
                 </h6>
+                <div class="d-flex flex-row row">
+                    <div class="form-group mb-3 row">
+                        <label for="matriculeSearch" class="col-sm-2 col-form-label">Recherche par matricule</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="matriculeSearch" name="input1" aria-describedby="input1_help">
+                        </div>
+                    </div>
+                </div>
+
 
                 <div class="table-responsive">
-                    <table class="table table-sm">
+                    <table class="table">
                         <thead>
                             <tr class="small">
                                 <th class="small">Tournee</th>
@@ -143,7 +166,7 @@
                             </tr>
                         </thead>
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="suiviebOrdereauView.data" id="tableRepeat2">
-                            <tr dmx-on:click="selectedBordereau.setValue($value);getreleve.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau&amp;&amp;tournee==selectedBordereau.value.tournee" class="table-row small">
+                            <tr dmx-on:click="selectedBordereau.setValue($value);getreleve.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau&amp;&amp;tournee==selectedBordereau.value.tournee" class="table-row ">
                                 <td class="small" dmx-text="tournee"></td>
                                 <td class="small" dmx-text="periode"></td>
                                 <td class="small" dmx-text="bordereau"></td>
@@ -170,6 +193,9 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="row">
+
         <div class=" col-12  pt-2">
             <div class="card">
 
@@ -188,7 +214,7 @@
                         <div class="d-flex flex-column">
                             <h6 class="heading-text">Les releves avec anomalies du bordereau</h6>
                             <div class="table-responsive">
-                                <table class="table table-sm">
+                                <table class="table">
                                     <thead>
                                         <tr class="small">
                                             <th class="small">Modifié</th>
@@ -205,13 +231,12 @@
                                             <th class="small">Anomalie</th>
                                             <th class="small">Releveur</th>
                                             <th class="small">Consommation Moyenne</th>
-                                            <th class="small">Montant Fd</th>
                                             <th class="small">images</th>
                                             <th class="small">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveErreur.data" id="tableRepeat1" class="text-sm" key="$value">
-                                        <tr dmx-bind:id="NumReleve" dmx-on:click="selectedReleve.setValue($value);indexReleve.setValue($index);getLogReleve.load({num_releve: $value.num_releve});getReleveImage.load({})" class="small" dmx-class:table-success="$value==selectedReleve.value">
+                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.getReleve.where(`anomalie`,&quot;PE&quot;,&quot;==&quot;);" id="tableRepeat1" class="text-sm" key="$value">
+                                        <tr dmx-bind:id="NumReleve" dmx-on:click="selectedReleve.setValue($value);indexReleve.setValue($index);getLogReleve.load({num_releve: $value.num_releve})" class="small" dmx-class:table-success="$value==selectedReleve.value">
                                             <td class="small">
                                                 <i class="fas fa-check-square text-success" dmx-show="modifiedReleve.items.contains($value)"></i>
 
@@ -239,9 +264,8 @@
 
 
                                             <td class="small" dmx-text="moy_consommation"></td>
-                                            <td class="small" dmx-text="fmontant"></td>
                                             <td class="small">
-                                                <img>
+                                                <button id="showImagebtn" class="btn btn-group btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#showIMAGEmODAL" dmx-on:click="getReleveImage.load({num_releve: num_releve},true)">Voir Image</button>
 
                                             </td>
                                             <td class="small" class="d-flex">
@@ -252,24 +276,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-between align-items-start">
-                                <ul class="pagination pagination-sm" dmx-dataview="releveErreur" dmx-generator="bs5paging">
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == 1" aria-label="First">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                                    </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == 1" aria-label="Previous">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.prev()"><span aria-hidden="true">&lsaquo;</span></a>
-                                    </li>
-                                    <li class="page-item" dmx-class:active="title == releveErreur.page" dmx-class:disabled="!active" dmx-repeat="releveErreur.getDataViewPagination(2,1,'...')">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="run([{runJS:{function:'clearData',outputType:'text'}},{run:{action:`releveErreur.select(page)`,outputType:'text'}}])">{{title)}}</a>
-                                    </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Next" dmx-on:click="">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.next()"><span aria-hidden="true">&rsaquo;</span></a>
-                                    </li>
-                                    <li class="page-item" dmx-class:disabled="releveErreur.page == releveErreur.pages" aria-label="Last">
-                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="releveErreur.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                                    </li>
-                                </ul>
+                            <div class="d-flex justify-content-between align-items-start" dmx-show="modifiedReleve.count&gt;0">
                                 <div>
                                     <button id="resetBtn" class="btn btn-sm btn-warning" dmx-on:click="run([{run:{action:`modifiedReleve.empty()`,outputType:'text'}},{run:{action:`getreleve.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau})`,outputType:'text'}},{runJS:{function:'resetAnomalieArray',name:'resetAnomalieArray',outputType:'text'}}])" dmx-show="getreleve.data.getReleve.length&gt;0">Reinitialiser</button>
                                     <button id="correctBtn" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#confirmCorrectReleve">Enregistrer</button>
@@ -283,7 +290,7 @@
                     <div class="tab-pane fade show" id="Sans" role="tabpanel">
                         <h6 class="heading-text">Toutes les releves du bordereau</h6>
                         <div class="table-responsive">
-                            <table class="table table-hover table-sm">
+                            <table class="table">
                                 <thead>
                                     <tr class="table-head">
 
@@ -300,10 +307,9 @@
                                         <th class="small">Anomalie</th>
                                         <th class="small">Releveur</th>
                                         <th class="small">Consommation Moyenne</th>
-                                        <th class="small">Montant Fd</th>
                                     </tr>
                                 </thead>
-                                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveView.data" id="tableRepeat5">
+                                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.getReleve" id="tableRepeat5">
                                     <tr dmx-on:click="selectedReleve.setValue($value);getLogReleve.load({num_releve: num_releve},true)" class="small" dmx-class:table-success="$value==selectedReleve.value">
 
                                         <td class="small" dmx-text="nom"></td>
@@ -315,32 +321,14 @@
                                         <td class="small" dmx-text="periode_duree.days"></td>
                                         <td class="small" dmx-text="consommation"></td>
                                         <td class="small" dmx-text="index_a"></td>
-                                        <td class="small" dmx-text="date_releve.formatDate('dd-MMM-yyyy')"></td>
-                                        <td class="small" dmx-text="libelle"></td>
+                                        <td class="small" dmx-text="date_releve.formatDate('dd-MM-yyyy')"></td>
+                                        <td class="small" dmx-text="anomalie"></td>
                                         <td class="small" dmx-text="matricule"></td>
                                         <td class="small" dmx-text="moy_consommation"></td>
-                                        <td class="small" dmx-text="fmontant"></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <ul class="pagination pagination-sm" dmx-dataview="releveView" dmx-generator="bs5paging">
-                            <li class="page-item" dmx-class:disabled="releveView.page == 1" aria-label="First">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.first()"><span aria-hidden="true">‹‹</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="releveView.page == 1" aria-label="Previous">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.prev()"><span aria-hidden="true">‹</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:active="title == releveView.page" dmx-class:disabled="!active" dmx-repeat="releveView.getDataViewPagination(2,1,'...')">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.select(page)">{{title)}}</a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="releveView.page == releveView.pages" aria-label="Next">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.next()"><span aria-hidden="true">›</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="releveView.page == releveView.pages" aria-label="Last">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="releveView.last()"><span aria-hidden="true">››</span></a>
-                            </li>
-                        </ul>
                     </div>
 
                 </div>
@@ -518,6 +506,11 @@ function clearData(){
          }
         
     }
+
+    function convertImage(bynariData){
+        var strAscii = String.fromCodePoint(...bynariData);
+var strBase64 = btoa(strAscii);
+
+         dmx.app.data.content.releveImage.value= strBase64
+    }
 </script>
-</div>
-</div>

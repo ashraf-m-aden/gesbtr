@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      },
+      {
+        "type": "text",
+        "name": "num_releve"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "releveImage",
+      "module": "dbupdater",
+      "action": "custom",
+      "options": {
+        "connection": "testimage",
+        "sql": {
+          "query": "select image from photo_cpteur where num_releve=? order by id_ligne desc limit 1",
+          "params": [
+            {
+              "name": "?",
+              "value": "{{$_GET.num_releve}}",
+              "test": "8638322"
+            }
+          ]
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "name": "image",
+          "type": "text"
+        }
+      ],
+      "type": "dbcustom_query"
+    }
+  }
+}

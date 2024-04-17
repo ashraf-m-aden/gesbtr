@@ -1,0 +1,17 @@
+{
+  "name": "testimage",
+  "module": "dbconnector",
+  "action": "connect",
+  "options": {
+    "client": "postgres",
+    "connection": {
+      "host": "192.168.8.50",
+      "port": 5444,
+      "user": "tspuser",
+      "password": "tspuser",
+      "database": "testimage"
+    },
+    "tz": "utc"
+  },
+  "fileName": "testimage.json"
+}

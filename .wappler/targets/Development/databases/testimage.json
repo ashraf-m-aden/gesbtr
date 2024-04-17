@@ -1,0 +1,264 @@
+{
+  "type": "postgres",
+  "connection": {
+    "host": "192.168.8.50",
+    "port": 5444,
+    "user": "tspuser",
+    "password": "tspuser",
+    "database": "testimage"
+  },
+  "direct": true,
+  "schema": {
+    "schemas": [
+      "aq$_agent",
+      "aq$_descriptor",
+      "aq$_reg_info",
+      "dbms_alert",
+      "dbms_aq",
+      "dbms_aqadm",
+      "dbms_crypto",
+      "dbms_job",
+      "dbms_lob",
+      "dbms_lock",
+      "dbms_mview",
+      "dbms_output",
+      "dbms_pipe",
+      "dbms_profiler",
+      "dbms_random",
+      "dbms_redact",
+      "dbms_rls",
+      "dbms_scheduler",
+      "dbms_session",
+      "dbms_sql",
+      "dbms_utility",
+      "gescli",
+      "gescli_test",
+      "msg_prop_t",
+      "public",
+      "sys",
+      "topology",
+      "utl_encode",
+      "utl_file",
+      "utl_http",
+      "utl_mail",
+      "utl_raw",
+      "utl_smtp",
+      "utl_tcp",
+      "utl_url"
+    ],
+    "tables": {
+      "spatial_ref_sys": {
+        "db": {
+          "schema": "public"
+        }
+      },
+      "sys.callback_queue_table": {
+        "db": {
+          "schema": "sys",
+          "comment": "equal"
+        }
+      },
+      "sys.dual": {
+        "db": {
+          "schema": "sys"
+        }
+      },
+      "gescli.photo_cpteur": {
+        "db": {
+          "schema": "gescli"
+        },
+        "columns": {
+          "num_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "image": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_insertion": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_modification": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "annulation": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "id_ligne": {
+            "db": {
+              "type": "bigIncrements",
+              "default": "",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          }
+        }
+      },
+      "gescli.tmp_releve_eddmobile": {
+        "db": {
+          "schema": "gescli"
+        },
+        "columns": {
+          "num_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "date_releve": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "nouveau_index": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "ancien_index": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "photo": {
+            "db": {
+              "type": "bytea",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "latitude": {
+            "db": {
+              "type": "float",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "longitude": {
+            "db": {
+              "type": "float",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "system_source": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_envoi": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "date_statut": {
+            "db": {
+              "type": "timestamp",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "user_maj": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "photo_url": {
+            "db": {
+              "type": "string",
+              "maxLength": 200,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "commentaire": {
+            "db": {
+              "type": "string",
+              "maxLength": 300,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "statut_releve": {
+            "db": {
+              "type": "decimal",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "num_ligne": {
+            "db": {
+              "type": "decimal",
+              "primary": true,
+              "unique": true,
+              "nullable": false
+            }
+          }
+        }
+      }
+    },
+    "views": {}
+  }
+}

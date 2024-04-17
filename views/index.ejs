@@ -1,4 +1,13 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{},dmxFormatter:{},dmxFormRepeat:{}}" dmx-on:load="selectedAnomalies.empty()" style="" -->
+<script is="dmx-flow" id="checkedNonAttribBordereau" type="text/dmx-flow" autorun="true">{
+  runJS: {
+    name: "checkBordereau",
+    output: true,
+    outputType: "text",
+    function: "checkBordereau",
+    args: ["{{nonAttribBordereauTable.$value}}"]
+  }
+}</script>
 <dmx-serverconnect id="postLogSuivieBordereau" url="/api/bordereaux/post/postLogSuiviBordereaux" noload="true" dmx-on:success="getMaxId.load({})"></dmx-serverconnect>
 <dmx-serverconnect id="getMaxId" url="/api/bordereaux/get/getMaxiIdLogSuivi"></dmx-serverconnect>
 <dmx-serverconnect id="getLotSuivieBordereau" url="/api/bordereaux/get/getLotSuivieBordereau" noload="true"></dmx-serverconnect>
@@ -31,7 +40,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Etes vous sûr de vouloir réinitialiser ce bordereau?</p>
+                <p><i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i>
+
+                    Etes vous sûr de vouloir réinitialiser ce bordereau?<i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i></p>
 
                 <form is="dmx-serverconnect-form" id="resetForm" method="post" action="/api/bordereaux/post/resetBordereaux" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="notifies1.success('Bordereau reinitialiser avec succés');getSuivieBordereauNonAttrib.load({id_periode: selectedBordereau.value.periode, num_lot_fac: selectedBordereau.value.num_lot_fac});getSuivieBordereau.load({id_periode: selectedBordereau.value.periode, num_lot_fac: selectedBordereau.value.num_lot_fac});getLotSuivieBordereau.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau});RESETBordereau.toggle();postLogSuivieBordereau.load({periode: selectedBordereau.value.periode, tournee: selectedBordereau.value.tournee, bordereau: selectedBordereau.value.bordereau, mat: selectedBordereau.value.matricule, statut: selectedBordereau.value.statut, user_crea: connectedUser.data.matricule, statut_ano: selectedBordereau.value.suivie_anomalie, supprimer: 'N', max: 1, id_ligne: getMaxId.data.getMax[0].max!=null?getMaxId.data.getMax[0].max:1},true);getMaxId.load({})" dmx-header:authorization="connectedUser.data.token">
                     <input id="userCreaReset" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
@@ -57,7 +68,8 @@
 
 
 
-<dmx-array id="selectedReleveCorrection" dmx-bind:items="getReleve.data.where(`Anomalie`, 'PA', '!==')"></dmx-array>
+<dmx-array id="selectedNonAttribBordereau"></dmx-array>
+<dmx-array id="selectedReleveCorrection1" dmx-bind:items="getReleve.data.where(`Anomalie`, 'PA', '!==')"></dmx-array>
 <dmx-value id="jsonReleveCorrection"></dmx-value>
 <dmx-value id="selectedBordereau"></dmx-value>
 <dmx-value id="selectedReleve"></dmx-value>
@@ -109,6 +121,11 @@
                     <table class="table table-hover table-sm">
                         <thead>
                             <tr class="table-head">
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="allBordereauCheckbox" name="input1" dmx-on:checked="run({runJS:{name:'allBordereauNonAttrib',outputType:'text',function:'allBordereauNonAttrib',args:[`getSuivieBordereauNonAttrib.data.getSuivieBordereau`]}})" dmx-on:unchecked="run({runJS:{name:'allBordereauNonAttrib',outputType:'text',function:'allBordereauNonAttrib',args:[`getSuivieBordereauNonAttrib.data.getSuivieBordereau`]}})">
+                                    </div>
+                                </th>
                                 <th>Periode</th>
                                 <th>Tournee</th>
                                 <th>Bordereau</th>
@@ -121,6 +138,11 @@
                         <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getSuivieBordereauNonAttrib.data.getSuivieBordereau" id="nonAttribBordereauTable">
 
                             <tr class="table-row">
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="nonAttribBordereauCheckBox" name="input1" dmx-bind:checked="checkedNonAttribBordereau.data.local" dmx-on:checked="selectedNonAttribBordereau.addUniq(value)" dmx-on:unchecked="selectedNonAttribBordereau.remove(value)">
+                                    </div>
+                                </td>
                                 <td dmx-text="periode"></td>
                                 <td dmx-text="tournee"></td>
                                 <td dmx-text="bordereau"></td>
@@ -136,7 +158,7 @@
                                 <td>
                                     <form is="dmx-serverconnect-form" id="updateBordereauForm" method="post" action="/api/bordereaux/post/updateBordereaux" dmx-on:success="notifies1.success('Bordereau affecté');getSuivieBordereauNonAttrib.load({id_periode: periode, num_lot_fac: num_lot_fac},true);getSuivieBordereau.load({id_periode: periode, num_lot_fac: num_lot_fac},true);postLogSuivieBordereau.load({periode: periode, tournee: tournee, bordereau: bordereau, mat: matricule, statut: statut, user_crea: connectedUser.data.matricule, statut_ano: 'P', supprimer: 'N', id_ligne: getMaxId.data.getMax[0].max!=null?getMaxId.data.getMax[0].max:1})" dmx-on:error="notifies1.danger(lastError.response.message)" dmxorgdomid="d10963">
                                         <input id="userCreaUpdate" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" dmxorgdomid="d10964">
-                                        <input id="numLotFac" name="num_lot_fac" type="hidden" class="form-control" dmx-bind:value="num_lot_fac" dmxorgdomid="d10964">
+                                        <input id="numLotFacForm    " name="num_lot_fac" type="hidden" class="form-control" dmx-bind:value="num_lot_fac" dmxorgdomid="d10964">
                                         <input id="periodeUpdate" name="periode" type="hidden" class="form-control" dmx-bind:value="periode" dmxorgdomid="d10965">
                                         <input id="bordereauUpdate" name="bordereau" type="hidden" class="form-control" dmx-bind:value="bordereau" dmxorgdomid="d10966">
                                         <input id="tourneeUpdate" name="tournee" type="hidden" class="form-control" dmx-bind:value="tournee" dmxorgdomid="d10967">
@@ -279,7 +301,7 @@
                                 <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
                             </li>
                             <li class="page-item" dmx-class:active="title == logBordereauView.page" dmx-class:disabled="!active" dmx-repeat="logBordereauView.getDataViewPagination(2,1,'...')">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.select(page)">{{title)}}</a>
+                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.select(page)">{{title}}</a>
                             </li>
                             <li class="page-item" dmx-class:disabled="logBordereauView.page == logBordereauView.pages" aria-label="Next">
                                 <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.next()"><span aria-hidden="true">&rsaquo;</span></a>
@@ -297,32 +319,20 @@
 </div>
 
 <script>
-    function releveToJson(){
-    var array = dmx.app.data.content.selectedReleveCorrection.items;
-    var jsonArray = [];
-        for(var i=0;i<array.length;i++){
-           if(array[i].IndexC == 0)array[i].IndexC = array[i].IndexA;
-           jsonArray.push( {
-                "NumReleve":array[i].numeleve,
-                "IndexA":array[i].index_a,
-                "IndexC":array[i].index_c,
-                "Anomalie":array[i].anomalie,
-                "AnomalieC":array[i].anomalie_c,
-            }
-            )
-
+    function allBordereauNonAttrib(array){
+        if(dmx.app.data.content.selectedNonAttribBordereau.value == array){
+dmx.app.data.content.selectedNonAttribBordereau.value=[]
+        } else{
+    dmx.app.data.content.selectedNonAttribBordereau.value  = array;
         }
-        dmx.app.data.content.jsonReleveCorrection.value = JSON.stringify(jsonArray);
-        
-
+        console.log(dmx.app.data.content.selectedNonAttribBordereau.value)
     }
 
-     function updateDataIndex(index,newIndex){
-        dmx.app.data.content.selectedReleveCorrection.items[index].IndexC = newIndex;
-
+    function checkBordereau(value){
+        dmx.app.data.content.selectedNonAttribBordereau.value.foreach(el=>{})
+        const index =  dmx.app.data.content.selectedNonAttribBordereau.value.findIndex(value);
+     
     }
 
-        function updateDataAnomalie(index,newAnomalie){
-        dmx.app.data.content.selectedReleveCorrection.items[index].AnomalieC = newAnomalie;
-    }
+  
 </script>

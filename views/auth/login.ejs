@@ -2,23 +2,26 @@
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <dmx-serverconnect id="getUserData" url="/api/globals/getUserData" noload="true" dmx-on:success="notifies1.success('Vous êtes connecté');browser1.goto('/');connectedUser.set('matricule',getUserData.data.query[0].matricule);connectedUser.set('nom',getUserData.data.query[0].nom)"></dmx-serverconnect>
 <div class="container wappler-block mt-5 pt-5 pb-5">
-    <div class="row justify-content-center card">
-        <div class="col-12 mb-5 login-header">
-            <h1>Connection</h1>
-            <p class="text-h3">
-                Veuillez entrer vos identifiants de connections.
-            </p>
-        </div>
-        <div class="col-12 col-md-6  login-form">
-            <form is="dmx-serverconnect-form" id="loginform" method="post" action="/api/globals/login" post-data="json" dmx-on:success="getUserData.load({matricule: matricule.value})" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)" dmx-on:forbidden="">
-                <div class="d-flex flex-column align-items-center"><input type="text" id="matricule" name="matricule" class="form-control mb-3" placeholder="matricule"><input type="password" id="password" name="password" class="form-control mb-3" placeholder="Mot de passe">
-                    <div class="d-flex"><button id="loadingBtn" class="btn btn-sm text-danger btn-success" dmx-show="loading.value">
-                            <span class="spinner-border spinner-border-sm" role="status"></span>
-                        </button><button id="submit" class="btn btn-success" type="submit" dmx-on:click="loading.setValue(true)" dmx-hide="loading.value">
-                            Connection
-                        </button></div>
-                </div>
-            </form>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-md-5 text-success-emphasis border rounded border-success">
+
+            <div class="d-flex justify-content-center align-items-center flex-column mt-2 mb-2 text-white text-bg-success">
+                <h1>Connection</h1>
+                <p class="text-h3">
+                    Veuillez entrer vos identifiants de connections.
+                </p>
+            </div>
+            <div class="d-flex justify-content-center">
+                <form is="dmx-serverconnect-form" id="loginform" method="post" action="/api/globals/login" post-data="json" dmx-on:success="getUserData.load({matricule: matricule.value})" dmx-on:error="notifies1.danger('Une erreur est survenue');loading.setValue(false)" dmx-on:invalid="notifies1.warning('bad request');loading.setValue(false)" dmx-on:forbidden="">
+                    <div class="d-flex flex-column align-items-center mt-1 mb-4 justify-content-center"><input type="text" id="matricule" name="matricule" class="form-control mb-3" placeholder="matricule"><input type="password" id="password" name="password" class="form-control mb-3" placeholder="Mot de passe">
+                        <div class="d-flex"><button id="loadingBtn" class="btn btn-sm text-danger btn-success" dmx-show="loading.value">
+                                <span class="spinner-border spinner-border-sm" role="status"></span>
+                            </button><button id="submit" class="btn btn-success" type="submit" dmx-on:click="loading.setValue(true)" dmx-hide="loading.value">
+                                Connection
+                            </button></div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

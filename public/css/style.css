@@ -7,7 +7,7 @@
   --white: #ffffff;
 }
 html{
-  font-size: medium;
+  font-size:x-small;
 }
 .navbar-nav > a:link{
   color: var(--white) !important;
