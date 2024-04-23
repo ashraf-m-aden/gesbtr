@@ -6,9 +6,7 @@
   --custom-pink: #dedaeb;
   --white: #ffffff;
 }
-html{
-  font-size:x-small;
-}
+
 .navbar-nav > a:link{
   color: var(--white) !important;
 }
@@ -22,7 +20,21 @@ a:link{
   background: var(--custom-pink) !important;
   color: black;
 }
-
+.img-wrapper {
+  display: inline-block; /* change the default display type to inline-block */
+  overflow: hidden;      /* hide the overflow */
+}
+.img-wrapper img {
+  transition: all .2s ease;
+  vertical-align: middle;
+}
+.imgReleve{
+  width: 100%;
+}
+.imgReleve:hover{
+  scale: 2;
+  transition: 1s;
+}
 .clicked:hover {
   background: var(--custom-pink) !important;
 }

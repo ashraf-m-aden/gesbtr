@@ -1929,6 +1929,10 @@ dmx.config({
         }
       ],
       "outputType": "text"
+    },
+    "tableANOMALIERepeat": {
+      "meta": null,
+      "outputType": "array"
     }
   },
   "rapport": {
