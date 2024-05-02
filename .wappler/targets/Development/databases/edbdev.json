@@ -49,6 +49,17 @@
       "sys.dual": {
         "db": {
           "schema": "sys"
+        },
+        "columns": {
+          "dummy": {
+            "db": {
+              "type": "string",
+              "maxLength": 1,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
         }
       },
       "sys.callback_queue_table": {

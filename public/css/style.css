@@ -216,3 +216,12 @@ select {
   margin: auto;
 }
 
+.table-container{
+  max-height: 500px !important;
+}
+.table-container .table-header{
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 1;
+}

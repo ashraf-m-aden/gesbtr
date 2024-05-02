@@ -32,12 +32,14 @@
             {
               "name": "?",
               "value": "{{$_GET.id_periode}}",
-              "test": "491"
+              "test": "491",
+              "recid": 1
             },
             {
               "name": "?",
               "value": "{{$_GET.num_lot_fac}}",
-              "test": "11"
+              "test": "11",
+              "recid": 2
             }
           ]
         }

@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/views/releve.ejs",
+      "linkedForm": "sendCorrectedReleveForm"
+    },
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "user_crea",
+        "name": "user_crea"
+      },
+      {
+        "type": "text",
+        "fieldName": "correctedReleve",
+        "name": "correctedReleve"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "list",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{$_POST.correctedReleve.parseJSON()}}",
+          "schema": [
+            {
+              "type": "text",
+              "name": "num_releve"
+            },
+            {
+              "type": "text",
+              "name": "index_a"
+            },
+            {
+              "type": "text",
+              "name": "index_ancien"
+            },
+            {
+              "type": "text",
+              "name": "anomalie"
+            }
+          ]
+        },
+        "meta": [
+          {
+            "type": "text",
+            "name": "num_releve"
+          },
+          {
+            "type": "text",
+            "name": "index_a"
+          },
+          {
+            "type": "text",
+            "name": "index_ancien"
+          },
+          {
+            "type": "text",
+            "name": "anomalie"
+          }
+        ],
+        "outputType": "array",
+        "output": true
+      },
+      {
+        "name": "repeat",
+        "module": "core",
+        "action": "repeat",
+        "options": {
+          "repeat": "{{list}}",
+          "outputFields": [
+            "num_releve",
+            "index_a",
+            "anomalie",
+            "index_ancien"
+          ],
+          "exec": {
+            "steps": [
+              {
+                "name": "maxLogId",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbdev",
+                  "sql": {
+                    "query": "select (MAX(id_log)+1) as max from log_releve_correction",
+                    "params": []
+                  }
+                },
+                "output": false,
+                "meta": [
+                  {
+                    "name": "max",
+                    "type": "number"
+                  }
+                ],
+                "type": "dbcustom_query"
+              },
+              {
+                "name": "updateReleve",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbdev",
+                  "sql": {
+                    "query": "update releve set index_a=:p1,anomalie='VC' where num_releve=:p2",
+                    "params": [
+                      {
+                        "name": ":p1",
+                        "value": "{{index_a}}",
+                        "recid": 1
+                      },
+                      {
+                        "name": ":p2",
+                        "value": "{{num_releve}}",
+                        "recid": 2
+                      }
+                    ]
+                  }
+                },
+                "output": false,
+                "meta": [],
+                "outputType": "array",
+                "type": "dbcustom_query"
+              },
+              {
+                "name": "updateLog",
+                "module": "dbupdater",
+                "action": "custom",
+                "options": {
+                  "connection": "edbdev",
+                  "sql": {
+                    "query": "insert into log_releve_correction (\"anomalie\", \"id_log\", \"index_ancien\", \"num_releve\", \"user_crea\") values (?, ?, ?, ?, ?) returning id_log",
+                    "params": [
+                      {
+                        "name": "?",
+                        "value": "{{anomalie}}"
+                      },
+                      {
+                        "name": "?",
+                        "value": "{{maxLogId[0].max}}"
+                      },
+                      {
+                        "name": "?",
+                        "value": "{{index_ancien}}"
+                      },
+                      {
+                        "name": "?",
+                        "value": "{{num_releve}}"
+                      },
+                      {
+                        "name": "?",
+                        "value": "{{$_POST.user_crea}}"
+                      }
+                    ]
+                  }
+                },
+                "output": false,
+                "meta": [],
+                "outputType": "array",
+                "type": "dbcustom_query"
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "$index",
+            "type": "number"
+          },
+          {
+            "name": "$number",
+            "type": "number"
+          },
+          {
+            "name": "$name",
+            "type": "text"
+          },
+          {
+            "name": "$value",
+            "type": "object"
+          },
+          {
+            "name": "num_releve",
+            "type": "text"
+          },
+          {
+            "name": "index_a",
+            "type": "text"
+          },
+          {
+            "name": "index_ancien",
+            "type": "text"
+          },
+          {
+            "name": "anomalie",
+            "type": "text"
+          }
+        ],
+        "outputType": "array"
+      }
+    ]
+  }
+}

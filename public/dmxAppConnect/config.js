@@ -1858,7 +1858,7 @@ dmx.config({
           "type": "text"
         }
       ],
-      "outputType": "text"
+      "outputType": "array"
     },
     "iterator1": {
       "meta": null,
