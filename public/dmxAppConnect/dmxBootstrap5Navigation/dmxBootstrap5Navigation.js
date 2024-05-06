@@ -8,6 +8,7 @@
   dmx.Component('nav-link', {
 
     init (node) {
+      this._stateHandler = this._stateHandler.bind(this);
       window.addEventListener("popstate", this._stateHandler);
       window.addEventListener("pushstate", this._stateHandler);
       window.addEventListener("replacestate", this._stateHandler);

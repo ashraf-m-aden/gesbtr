@@ -1,4 +1,5 @@
 <!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="releve" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{},dmxBootstrap5PagingGenerator:{},dmxPreloader:{},dmxLazyLoad:{},dmxBootstrap5Theme:{}}" -->
+<dmx-array id="lol"></dmx-array>
 
 
 
@@ -22,13 +23,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Etes-vous sûr de cette correction?</h5>
+                <h5 class="modal-title">Clôture de {{modifiedReleveIndex.items.length}} releve(s)?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="d-flex align-items-center row justify-content-center">
                     <div class="col">
-                        <p>Etes-vous sûr de confirmer les corrections effectuées?</p>
+                        <p>Voulez vous confirmer cette opération?</p>
                     </div>
 
                 </div>
@@ -61,6 +62,7 @@
 <dmx-serverconnect id="getLotFac" url="/api/globals/getLotFac" noload="true"></dmx-serverconnect>
 <meta name="ac:route" content="/views/releve">
 <dmx-value id="allCheckBoxChecked" dmx-bind:value="false"></dmx-value>
+<dmx-value id="loadingTable" dmx-bind:value="false"></dmx-value>
 
 
 
@@ -107,7 +109,7 @@
 
 
 <dmx-array id="modifiedReleveIndex"></dmx-array>
-<dmx-array id="modifiedReleve"></dmx-array>
+<dmx-array id="modifiedReleveArray"></dmx-array>
 <dmx-array id="releveAnomaliList" dmx-bind:items="getreleve.data.getReleve.where(`anomalie`, ['PE','PA','VC'], 'notInArray')"></dmx-array>
 <dmx-array id="jsonReleveCorrection"></dmx-array>
 <dmx-value id="loopIndexCorrection" dmx-bind:value="0"></dmx-value>
@@ -225,8 +227,21 @@
                 </ul>
                 <div class="tab-content" id="navTabs1_content">
                     <div class="tab-pane fade active show" id="Avec" role="tabpanel">
-                        <div class="d-flex flex-column table-container">
+                        <div class="d-flex flex-column table-container" dmx-show="getreleve.data.getReleve.length&gt;0">
                             <h6 class="heading-text">Les releves avec anomalies du bordereau</h6>
+
+                            <div class="d-flex justify-content-between align-items-center flex-row mt-1 mb-3">
+                                <div class="d-flex">
+                                    <i class="fas fa-circle-notch fa-spin text-success fa-lg" dmx-show="loadingTable.value==true"></i>
+                                </div>
+                                <div class="d-flex">
+                                    <button id="resetBtn" class="btn btn-sm btn-warning text-end" dmx-on:click="run([{run:{outputType:'text',action:`modifiedReleveIndex.empty();modifiedReleveArray.empty()`}},{run:{outputType:'text',action:`getreleve.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau})`}},{runJS:{name:'resetAnomalieArray',outputType:'text',function:'resetAnomalieArray'}}])" dmx-show="modifiedReleveIndex.items.length&gt;0">Reinitialiser</button>
+                                    <button id="clotureAll" class="btn btn-sm btn-danger text-end" dmx-show="releveAnomaliList.items.length!==modifiedReleveIndex.items.length" dmx-on:click="run([{runJS:{name:'selectAll',outputType:'text',function:'selectAll'}},{run:{outputType:'text',action:`releveAnomaliList.sort()`}}])">Tous cloturer</button>
+                                </div>
+
+
+
+                            </div>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="table-header">
@@ -249,10 +264,10 @@
                                             <th class="small">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveAnomaliList.items" id="tableANOMALIERepeat" class="text-sm" key="$value">
+                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveAnomaliList.items" id="tableANOMALIERepeat" class="text-sm">
                                         <tr dmx-bind:id="NumReleve" dmx-on:click="getLogReleve.load({num_releve: $value.num_releve})" class="small">
-                                            <td class="small">
-                                                <input class="form-check-input bg-success" type="checkbox" value="" id="input1" name="input1" dmx-bind:checked="modifiedReleveIndex.items.contains($value.num_releve)" dmx-bind:disabled="!checked">
+                                            <td class="small" dmx-bind:id="num_releve">
+                                                <i class="fas fa-check-circle" dmx-show="modifiedReleveIndex.items.contains($value.num_releve)"></i>
 
                                             </td>
                                             <td class="small" dmx-text="nom"></td>
@@ -284,17 +299,15 @@
                                             <td class="small" class="d-flex">
 
                                                 <button id="correctBTN" class="btn btn-danger btn-group btn-sm" dmx-on:click="run([{run:{outputType:'text',action:`modifiedReleveIndex.addUniq($value.num_releve)`}},{runJS:{name:'releveToJson',outputType:'text',function:'releveToJson',args:[`$value`]}},{runJS:{name:'updateDataIndex',outputType:'text',function:'updateDataIndex',args:[`num_releve`]}}])" dmx-show="!modifiedReleveIndex.items.contains($value.num_releve)">Cloturer</button>
-                                                <button id="resetBTN" class="btn btn-group btn-sm btn-warning" dmx-on:click="run([{run:{outputType:'text',action:`modifiedReleveIndex.remove($value.num_releve);releveAnomaliList.remove(releveAnomaliList.items.where(\`num_releve\`,$value.num_releve,&quot;==&quot;)[0]);releveAnomaliList.addUniq(getreleve.data.getReleve.where(\`num_releve\`,$value.num_releve,&quot;==&quot;)[0])`}},{runJS:{name:'removeReleveFromJSON',outputType:'text',function:'removeReleveFromJSON',args:[`$value.num_releve`]}}])" dmx-show="modifiedReleveIndex.items.contains($value.num_releve)">Réinitialiser</button>
+                                                <button id="resetBTN" class="btn btn-group btn-sm btn-warning" dmx-on:click="run([{run:{outputType:'text',action:`modifiedReleveIndex.remove($value.num_releve);releveAnomaliList.remove(releveAnomaliList.items.where(\`num_releve\`,$value.num_releve,&quot;==&quot;)[0]);releveAnomaliList.addUniq(getreleve.data.getReleve.where(\`num_releve\`,$value.num_releve,&quot;==&quot;)[0]);releveAnomaliList.sort()`}},{runJS:{name:'removeReleveFromJSON',outputType:'text',function:'removeReleveFromJSON',args:[`$value.num_releve`]}}])" dmx-show="modifiedReleveIndex.items.contains($value.num_releve)">Réinitialiser</button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-between align-items-start" dmx-show="modifiedReleveIndex.count&gt;0">
-                                <div>
-                                    <button id="resetBtn" class="btn btn-sm btn-warning" dmx-on:click="run([{run:{outputType:'text',action:`modifiedReleveIndex.empty();modifiedReleve.empty()`}},{run:{outputType:'text',action:`getreleve.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau})`}},{runJS:{name:'resetAnomalieArray',outputType:'text',function:'resetAnomalieArray'}}])" dmx-show="getreleve.data.getReleve.length&gt;0">Reinitialiser</button>
-                                    <button id="correctBtn" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#confirmCorrectReleve" dmx-on:click="run({runJS:{name:'showModifiedReleveIndex',outputType:'text',disabled:true,function:'showModifiedReleveIndex',args:[`releveAnomaliList.items`]}})">Enregistrer</button>
-                                </div>
+                            <div class="mt-5">
+
+                                <button id="correctBtn" class="btn btn-sm btn-success" data-bs-target="#confirmCorrectReleve" dmx-on:click="run({condition:{outputType:'boolean',if:`modifiedReleveIndex.items.length&gt;0`,then:{steps:{run:{outputType:'text',action:`confirmCorrectReleve.toggle()`}}}}})">Enregistrer</button>
                             </div>
                         </div>
 
@@ -412,11 +425,8 @@
 
 <script>
     function releveToJson(value){
-
-        // var array = dmx.app.data.content.releveAnomaliList.items;
-                console.log('Avant ajout: ',dmx.app.data.content.modifiedReleve.items)
-
-            dmx.app.data.content.modifiedReleve.items.push( 
+        dmx.app.data.content.modifiedReleveArray.items.push
+            ( 
                         {
                         "num_releve" : value.num_releve,
                         "index_a" : value.pre_index_a,
@@ -424,92 +434,63 @@
                         "anomalie" : value.anomalie
                         }
             )
-                console.log('Apres ajout: ',dmx.app.data.content.modifiedReleve.items)
+                        
 
-        
-         dmx.app.data.content.jsonReleveCorrection.items = JSON.stringify(dmx.app.data.content.modifiedReleve.items);
-        
+        dmx.app.data.content.jsonReleveCorrection.items = JSON.stringify(dmx.app.data.content.modifiedReleveArray.items);
+
     }
 
-    function removeReleveFromJSON (num_releve){
+    function selectAll() {
+        dmx.app.data.content.loadingTable.value = true;
+        dmx.app.data.content.releveAnomaliList.items.forEach((releve=>{
+            if(dmx.app.data.content.modifiedReleveIndex.items.indexOf(releve.num_releve)==-1){
+            dmx.app.data.content.modifiedReleveIndex.items.push(releve.num_releve);
 
-                console.log('Avant remove: ',dmx.app.data.content.modifiedReleve.items)
-            const filteredArray = dmx.app.data.content.modifiedReleve.items.filter((r)=>{return r.num_releve!==num_releve})
+            this.releveToJson(releve)
 
-        dmx.app.data.content.modifiedReleve.items =  filteredArray;
-                console.log('Apres remove: ',dmx.app.data.content.modifiedReleve.items)
-         dmx.app.data.content.jsonReleveCorrection.items = JSON.stringify(dmx.app.data.content.modifiedReleve.items);
+            this.updateDataIndex(releve.num_releve)
+
+            }
+        }))
+        const temp = dmx.app.data.content.releveAnomaliList.items;
+        dmx.app.data.content.releveAnomaliList.items = [];
+        const tempIndex = dmx.app.data.content.modifiedReleveIndex.items;
+        dmx.app.data.content.modifiedReleveIndex.items = [];
+        setTimeout(()=>{
+            dmx.app.data.content.releveAnomaliList.items = temp;
+            dmx.app.data.content.loadingTable.value = false;
+            dmx.app.data.content.modifiedReleveIndex.items = tempIndex;
+
+        },1000)
+
     }
 
-    function updateDataIndex(num_releve){
+    function removeReleveFromJSON (num_releve){  //deselectionner les releves 
+
+            const filteredArray = dmx.app.data.content.modifiedReleveArray.items.filter((r)=>{return r.num_releve!==num_releve})
+
+         dmx.app.data.content.jsonReleveCorrection.items = JSON.stringify(dmx.app.data.content.modifiedReleveArray.items);
+    }
+
+    function updateDataIndex(num_releve){ // c'est pour mettre a jour l'index et mettre l'ancien
         var index = dmx.app.data.content.releveAnomaliList.items.findIndex(a=> a.num_releve==num_releve);
         dmx.app.data.content.releveAnomaliList.items[index].index_a = dmx.app.data.content.releveAnomaliList.items[index].pre_index_a;
+
     }
 
     function resetAnomalieArray(){
         
-        dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.getreleve.data.getReleve.filter(x=>x.anomalie=="PE");
+        dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.getreleve.data.getReleve.filter(x=>{return (x.anomalie!=="PE")&&(x.anomalie!=="PA")&&(x.anomalie!=="VC")});
         dmx.app.data.content.modifiedReleveIndex.items.length=0;
     }
-    // function updateAllDataIndex(){
-    //     var index = dmx.app.data.content.releveAnomaliList.items.findIndex(a=> a.num_releve==num_releve);
-    //         for(var i=0;i<dmx.app.data.content.releveAnomaliList.count;i++){
-    //             if(!dmx.app.data.content.modifiedReleveIndex.items[i].includes(dmx.app.data.content.releveAnomaliList.items[i])){
-    //                 dmx.app.data.content.releveAnomaliList.items[i].index_a=pre_index_a
-    //             }
-    //         }
-    //     dmx.app.data.content.releveAnomaliList.items[index].index_a = pre_index_a;
-    // }
+ 
 
-    function addToSelectedReleveArray(value){
-                
-        const el = document.getElementById(value.NumReleve)
-        var array = dmx.app.data.content.selectedReleve.items;
-        const index = array.indexOf(value)
-        if(index== -1 ){
-            array.push(value)
-            el.classList.add("table-success")
-        } 
-
-
-    }
-    function removeToSelectedReleveArray(value){
-        const el = document.getElementById(value.NumReleve)
-
-        var array = dmx.app.data.content.selectedReleve.items;
-
-        const index = array.indexOf(value)
-
-        if(index !== -1 ){
-      
-          array.splice(index,1);
-
-          el.classList.remove("table-success")
-
-        }
-
-    }
+   
 
 
 
-    function updateDataAnomalie(value,index,newAnomalie){
-        var array = dmx.app.data.content.selectedReleveCorrection.items;
-        var checkedArray = dmx.app.data.content.selectedReleve.items;
-      
-         for(var i=0; i<checkedArray.length;i++){       
-            for(var y=0; y<array.length;y++){
-                if(array[y].NumReleve == checkedArray[i].NumReleve){
-                    console.log("  index"+y+ " value= "+ array[y].AnomalieC)
-                    array[y].AnomalieC = newAnomalie;
-                    console.log( array[y].AnomalieC)
-                }
-            }
-                         
 
-           
-         }
-        
-    }
+
 
     function convertImage(bynariData){
         try{
