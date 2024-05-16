@@ -1,5 +1,7 @@
 /* GENERAL */
-
+body{
+  background-color: #f3f3f3 !important;
+}
 :root {
   --green-color: #036306;
   --blue-color: #3b71ca;
@@ -187,7 +189,7 @@ select {
 }
 
 .pagination > .active > a {
-  color: white;
+  color: white !important;
   background-color: var(--green-color) !important;
   border: 1px solid var(--green-color) !important;
 }
@@ -224,4 +226,14 @@ select {
   width: 100%;
   top: 0;
   z-index: 1;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: var(--bs-nav-pills-link-active-color);
+  background-color: #0ff117;
+}
+.nonattribTable{
+  max-height: 300px !important;
+  overflow-y: scroll;
+  border: solid 1px red;
 }

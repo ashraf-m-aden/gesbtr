@@ -41,12 +41,14 @@
               {
                 "name": ":P1",
                 "value": "{{$_GET.periode}}",
-                "test": "491"
+                "test": "491",
+                "recid": 1
               },
               {
                 "name": ":P2",
                 "value": "{{$_GET.num_lotfac}}",
-                "test": "10"
+                "test": "10",
+                "recid": 2
               }
             ]
           }
@@ -241,221 +243,35 @@
         "type": "dbcustom_query"
       },
       {
-        "name": "getReleve_copy",
+        "name": "getTournee",
         "module": "dbupdater",
         "action": "custom",
         "options": {
           "connection": "edbdev",
           "sql": {
-            "query": "SELECT   VCI.*, RV.INDEX_A AS PRE_INDEX_A, RV.DATE_RELEVE AS PRE_DATE_RELEVE, VCI.DATE_RELEVE - RV.DATE_RELEVE AS PERIODE_DUREE FROM VIEW_CORRECTION_INDEX VCI, RELEVE RV  WHERE VCI.ID_PERIODE_PREC = RV.NUM_RELEVE   AND VCI.ID_PERIODE = ? AND VCI.NUM_TOURNE = ? AND VCI.NUM_BORDEREAUX = ? ORDER BY VCI.NUM_ORDRE_PL, VCI.CODEPL ",
+            "query": "select distinct tournee from suiviebordereau where periode=:P1 and num_lot_fac=:P2 order by tournee",
             "params": [
               {
                 "name": ":P1",
                 "value": "{{$_GET.periode}}",
-                "test": "491"
+                "test": "497"
               },
               {
                 "name": ":P2",
-                "value": "{{$_GET.tournee}}",
-                "test": "1170"
-              },
-              {
-                "name": ":P3",
-                "value": "{{$_GET.bordereau}}",
-                "test": "10"
+                "value": "{{$_GET.num_lotfac}}",
+                "test": "95"
               }
             ]
           }
         },
-        "output": false,
+        "output": true,
         "meta": [
           {
-            "name": "nom",
-            "type": "text"
-          },
-          {
-            "name": "adr_physique",
-            "type": "text"
-          },
-          {
-            "name": "id_pl",
+            "name": "tournee",
             "type": "number"
-          },
-          {
-            "name": "num_tourne",
-            "type": "number"
-          },
-          {
-            "name": "id_periode",
-            "type": "number"
-          },
-          {
-            "name": "codepl",
-            "type": "text"
-          },
-          {
-            "name": "num_ordre_pl",
-            "type": "number"
-          },
-          {
-            "name": "etat_pl",
-            "type": "number"
-          },
-          {
-            "name": "acces_compteur",
-            "type": "number"
-          },
-          {
-            "name": "num_cpteur",
-            "type": "number"
-          },
-          {
-            "name": "index_a",
-            "type": "number"
-          },
-          {
-            "name": "date_releve",
-            "type": "datetime"
-          },
-          {
-            "name": "num_releve",
-            "type": "number"
-          },
-          {
-            "name": "matricule",
-            "type": "number"
-          },
-          {
-            "name": "consommation",
-            "type": "number"
-          },
-          {
-            "name": "moy_consommation",
-            "type": "number"
-          },
-          {
-            "name": "anomalie",
-            "type": "text"
-          },
-          {
-            "name": "coment",
-            "type": "text"
-          },
-          {
-            "name": "libelle",
-            "type": "text"
-          },
-          {
-            "name": "accescompteur",
-            "type": "text"
-          },
-          {
-            "name": "etatpl",
-            "type": "text"
-          },
-          {
-            "name": "id_periode_prec",
-            "type": "number"
-          },
-          {
-            "name": "index_r",
-            "type": "number"
-          },
-          {
-            "name": "ipm_releve",
-            "type": "text"
-          },
-          {
-            "name": "reactive",
-            "type": "text"
-          },
-          {
-            "name": "num_bordereaux",
-            "type": "number"
-          },
-          {
-            "name": "chkbox",
-            "type": "text"
-          },
-          {
-            "name": "qualite",
-            "type": "text"
-          },
-          {
-            "name": "affichable",
-            "type": "text"
-          },
-          {
-            "name": "index_a2",
-            "type": "number"
-          },
-          {
-            "name": "date_releve2",
-            "type": "datetime"
-          },
-          {
-            "name": "index_r2",
-            "type": "number"
-          },
-          {
-            "name": "ipm_releve2",
-            "type": "text"
-          },
-          {
-            "name": "max_index",
-            "type": "number"
-          },
-          {
-            "name": "code_cpteur",
-            "type": "text"
-          },
-          {
-            "name": "id_contrat",
-            "type": "number"
-          },
-          {
-            "name": "fmontant",
-            "type": "text"
-          },
-          {
-            "name": "num_cpteur_r",
-            "type": "number"
-          },
-          {
-            "name": "code_cpteur_r",
-            "type": "text"
-          },
-          {
-            "name": "max_index_r",
-            "type": "number"
-          },
-          {
-            "name": "cons_r",
-            "type": "number"
-          },
-          {
-            "name": "ps_atteinte",
-            "type": "number"
-          },
-          {
-            "name": "coeff_mult_ipm",
-            "type": "number"
-          },
-          {
-            "name": "pre_index_a",
-            "type": "number"
-          },
-          {
-            "name": "pre_date_releve",
-            "type": "datetime"
-          },
-          {
-            "name": "periode_duree",
-            "type": "text"
           }
         ],
-        "type": "dbcustom_query",
-        "disabled": true
+        "type": "dbcustom_query"
       }
     ]
   }

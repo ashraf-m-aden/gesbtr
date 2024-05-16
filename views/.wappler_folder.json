@@ -1,6 +1,6 @@
 {
-  "test.ejs": {
-    "layoutPage": "deconnected",
+  "index2.ejs": {
+    "layoutPage": "main",
     "description": ""
   }
 }

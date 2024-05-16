@@ -1,0 +1,81 @@
+
+.title-card{
+    font-weight: 100;
+}
+
+.wrapper-select{
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+margin-right: 20px;
+}
+
+.icon-wrapper{
+    background-color: green;
+    width: 50px;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+.icon{
+    color: white;
+    margin: auto;
+}
+
+
+
+
+.nav-item{
+    font-size: large;
+    background-color: rgba(212, 212, 212, 0.164);
+    margin-right: 3px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: solid 1px rgba(212, 212, 212, 0.164);
+    border-bottom: none;
+z-index: 99;
+}
+
+.nav-link .active{
+    border: solid 1px green !important;
+}
+
+.tab-pane{
+    border: solid 1px green;
+    border-top: none;
+}
+
+.nav-item:has(.active){
+    border: solid 1px green;
+    border-bottom: none;
+
+}
+
+
+
+.list-card{
+    background: #84bd91;
+    padding: 5px;
+    border-radius: 10px;
+    border: solid 1px green;
+}
+
+.list-card-text{
+    color: white;
+}
+.list-card-background{
+   background-color: transparent !important;
+   background: transparent !important;
+   color: white !important;
+   border: solid  1px 0 1px 0 white;
+   font-weight: 800;
+
+}
+
+
+.bordereau-selected .list-card-background{
+    background-color: yellow !important;
+    color: black !important;
+}

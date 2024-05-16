@@ -34,9 +34,9 @@
       "exec": "/api/globals/isConnected"
     },
     {
-      "path": "/test",
-      "page": "test",
-      "layout": "deconnected"
+      "path": "/index2",
+      "page": "index2",
+      "layout": "main"
     },
     {
       "path": "/views/rapport",
@@ -46,6 +46,11 @@
         "title": "Rapport"
       },
       "exec": "/api/globals/isConnected"
+    },
+    {
+      "path": "/views/releve_cloture",
+      "page": "views/releve_cloture",
+      "layout": "main"
     }
   ],
   "layouts": {

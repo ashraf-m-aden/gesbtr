@@ -30,6 +30,17 @@
   "exec": {
     "steps": [
       {
+        "name": "updateProcedure",
+        "module": "dbconnector",
+        "action": "select",
+        "options": {
+          "connection": "edbdev"
+        },
+        "output": true,
+        "meta": [],
+        "outputType": "array"
+      },
+      {
         "name": "list",
         "module": "core",
         "action": "setvalue",
@@ -73,7 +84,8 @@
           }
         ],
         "outputType": "array",
-        "output": true
+        "output": false,
+        "disabled": true
       },
       {
         "name": "repeat",
@@ -116,17 +128,15 @@
                 "options": {
                   "connection": "edbdev",
                   "sql": {
-                    "query": "update releve set index_a=:p1,anomalie='VC' where num_releve=:p2",
+                    "query": "update releve set index_a=:p1 where num_releve=:p2",
                     "params": [
                       {
                         "name": ":p1",
-                        "value": "{{index_a}}",
-                        "recid": 1
+                        "value": "{{index_a}}"
                       },
                       {
                         "name": ":p2",
-                        "value": "{{num_releve}}",
-                        "recid": 2
+                        "value": "{{num_releve}}"
                       }
                     ]
                   }
@@ -210,7 +220,8 @@
             "type": "text"
           }
         ],
-        "outputType": "array"
+        "outputType": "array",
+        "disabled": true
       }
     ]
   }

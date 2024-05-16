@@ -22,5 +22,9 @@
   "rapport.ejs": {
     "layoutPage": "main",
     "description": ""
+  },
+  "releve_cloture.ejs": {
+    "layoutPage": "main",
+    "description": ""
   }
 }

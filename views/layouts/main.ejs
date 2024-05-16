@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <title><%=_('title')%></title>
 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="/bootstrap/5/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/css/style.css" />
@@ -45,18 +45,22 @@
   <script src="/dmxAppConnect/dmxLazyLoad/dmxLazyLoad.js" defer></script>
   <script src="/dmxAppConnect/dmxLazyLoad/lazysizes.min.js" defer></script>
   <script src="/dmxAppConnect/dmxBootstrap5Theme/dmxBootstrap5Theme.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.9/build/pdfmake.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.9/build/vfs_fonts.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/html-to-pdfmake@2.5.2/browser.min.js" defer></script>
+  <script src="/dmxAppConnect/dmxPdfCreator/dmxPdfCreator.js" defer></script>
 </head>
 
 <body id="main">
-  <div class="wappler-block pt-2 container-fluid bg-body-secondary" dmx-style:min-height="'100vh'">
+  <div class="wappler-block pt-2 container-fluid " dmx-style:min-height="'100vh'">
 
     <div class="row">
       <div class="col">
         <%- await include('/partials/main/navbar', Object.assign({}, locals)) %>
       </div>
     </div>
-    <div class="row bg-body-secondary mb-5 pt-4">
-      <div class="col-12  bg-body-secondary">
+    <div class="row  mb-5 pt-4">
+      <div class="col-12  ">
         <div is="dmx-view" id="content">
           <%- await include(content, locals); %>
         </div>

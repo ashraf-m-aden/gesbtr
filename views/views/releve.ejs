@@ -242,6 +242,7 @@
 
 
                             </div>
+                            <p dmx-text="'Nombre total des releves: '+releveAnomaliList.items.length"></p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead class="table-header">
@@ -430,7 +431,7 @@
                         {
                         "num_releve" : value.num_releve,
                         "index_a" : value.pre_index_a,
-                        "index_ancien" : value.index_a,
+                        "index_ancien" : value.index_a != null? value.index_a: 0,
                         "anomalie" : value.anomalie
                         }
             )
@@ -460,7 +461,7 @@
             dmx.app.data.content.releveAnomaliList.items = temp;
             dmx.app.data.content.loadingTable.value = false;
             dmx.app.data.content.modifiedReleveIndex.items = tempIndex;
-
+            console.log(dmx.app.data.content.modifiedReleveArray.items)
         },1000)
 
     }

@@ -3,7 +3,7 @@
 <dmx-serverconnect id="getUserData" url="/api/globals/getUserData" noload="true" dmx-on:success="notifies1.success('Vous êtes connecté');browser1.goto('/');connectedUser.set('matricule',getUserData.data.query[0].matricule);connectedUser.set('nom',getUserData.data.query[0].nom)"></dmx-serverconnect>
 <div class="container wappler-block mt-5 pt-5 pb-5">
     <div class="row justify-content-center align-items-center">
-        <div class="col-12 col-md-5 text-success-emphasis border rounded border-success">
+        <div class="col-12 col-md-5 text-success-emphasis border rounded border-success bg-white">
 
             <div class="d-flex justify-content-center align-items-center flex-column mt-2 mb-2 text-white text-bg-success">
                 <h1>Connection</h1>

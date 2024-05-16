@@ -1,0 +1,526 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="releve_cloture" appConnect="local" components="{dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5Navigation:{},dmxPdfCreator:{}}" -->
+<dmx-pdf-creator id="pdfcreator1"></dmx-pdf-creator>
+
+
+
+
+<div class="modal" id="showIMAGEmODAL" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-fullscreen-md-down modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Numero du compteur: {{selectedReleve.value.num_cpteur}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+
+                <p dmx-bind:title="releveImage" dmx-text="releveImage.value"></p>
+                <i class="fas fa-circle-notch fa-2x fa-spin " dmx-show="getReleveImage.state.executing"></i><img id="releveImage" height="700px" class="rounded align-self-center">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="confirmCorrectReleve" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Clôture de {{modifiedReleveIndex.items.length}} releve(s)?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center row justify-content-center">
+                    <div class="col">
+                        <p>Voulez vous confirmer cette opération?</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <i class="fas fa-circle-notch fa-2x fa-spin text-success" dmx-show="sendCorrectedReleveForm.state.executing"></i>
+                <form id="sendCorrectedReleveForm" is="dmx-serverconnect-form" method="post" action="/api/releve/post/correctReleve" dmx-on:success="notifies1.success('Toutes les releves ont été cloturées');modifiedReleveIndex.empty();releveAnomaliList.empty();jsonReleveCorrection.empty();getreleve.load({periode: periode1.value, num_lotfac: lotfac1.value},true);confirmCorrectReleve.toggle()" dmx-on:error="notifies1.danger(lastError.response.message)">
+                    <input id="userCreaInput" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
+                    <input id="correctedReleveArray" name="correctedReleve" type="hidden" class="form-control" dmx-bind:value="jsonReleveCorrection.items">
+
+                    <button class="btn btn-primary btn-sm" type="submit" dmx-hide="correctReleveUpdate.state.executing">Confirmer</button>
+                </form>
+                <button type="button" class="btn btn-sm btn-warning" data-bs-dismiss="modal" dmx-hide="correctReleveUpdate.state.executing">Annuler</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-serverconnect id="correctReleveUpdate" url="/api/releve/post/correctReleve" noload="true" dmx-on:success="notifies1.success('Les releves selectionnées ont été corrigées');modifiedReleveIndex.empty();releveAnomaliList.empty();jsonReleveCorrection.empty();getreleve.load({periode: periode1.value, num_lotfac: lotfac1.value},true);confirmCorrectReleve.toggle()" dmx-on:error="notifies1.danger(lastError.response.message)"></dmx-serverconnect>
+<dmx-serverconnect id="getReleveurs" url="/api/releve/get/getReleveurs" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getReleveImage" url="/api/releve/get/getReleveImage" noload="true" dmx-on:success="run([{runJS:{name:'convertImage',outputType:'text',function:'convertImage',args:[`getReleveImage.data.releveImage[0].image.data`]}},{run:{outputType:'text',action:`showIMAGEmODAL.update();showIMAGEmODAL.show()`}}])"></dmx-serverconnect>
+<dmx-serverconnect id="getLogReleve" noload="true" url="/api/releve/get/getLogReleve"></dmx-serverconnect>
+
+
+<dmx-serverconnect id="correctReleve" url="/api/releve/post/updateReleve" noload="true" dmx-on:success="notifies1.success('Correction effectuée')" dmx-on:error="notifies1.danger(lastError.response.message)"></dmx-serverconnect>
+<dmx-serverconnect id="getAnomalies" url="/api/globals/getAnomalies"></dmx-serverconnect>
+<dmx-serverconnect id="getreleve" url="/api/releve/get/getReleveBordereau" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getSuiviBordereau" url="/api/bordereaux/get/getSuivieBordereau" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getPeriod" url="/api/globals/getPeriods"></dmx-serverconnect>
+<dmx-serverconnect id="getLotFac" url="/api/globals/getLotFac" noload="true"></dmx-serverconnect>
+<meta name="ac:route" content="/views/releve_cloture">
+<dmx-value id="allCheckBoxChecked" dmx-bind:value="false"></dmx-value>
+<dmx-value id="loadingTable" dmx-bind:value="false"></dmx-value>
+
+
+
+<dmx-data-view id="releveView" dmx-bind:data="getreleve.data.getReleve" pagesize="5"></dmx-data-view>
+<dmx-data-view id="releveLog" dmx-bind:data="getLogReleve.data.query" pagesize="5"></dmx-data-view>
+<dmx-data-view id="releveErreur" dmx-bind:data="releveAnomaliList.items" pagesize="5"></dmx-data-view>
+
+<dmx-data-view id="logBordereauView" dmx-bind:data="lotsuivibordereau.data" pageSize="5"></dmx-data-view>
+<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="matriculeSearch.value?getSuiviBordereau.data.getSuivieBordereau.where(`matricule`,matriculeSearch.value,&quot;==&quot;):getSuiviBordereau.data.getSuivieBordereau" pagesize="5"></dmx-data-view>
+<div class="modal" id="RESETBordereau" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title heading-text">Réinitialisation du bordereau</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i>
+                    Etes vous sûr de vouloir réinitialiser ce bordereau?</p>
+
+                <form is="dmx-api-form" id="resetForm" method="post" action="http://localhost:5243/api/suiviBorderau/resetBordereau" dmx-on:error="notifies1.danger(lastError.message)" dmx-on:success="notifies1.success('Bordereau reinitialiser avec succés');suiviBordereauApi.load({});bordereauNonAttribu.load({});showlotbordereau.setValue(false)" dmx-header:authorization="connectedUser.data.token">
+                    <input id="userCreaReset" name="userCrea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" />
+
+                    <input id="bordereauReset" name="bordereau" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.Bordereau">
+                    <input id="tourneeReset" name="tournee" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.Tournee">
+                    <input id="periodeReset" name="periode" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.Periode"><button id="btn4" class="btn btn-sm btn-danger" type="submit">
+                        Reinitialiser
+                    </button>
+
+                </form>
+            </div>
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Fermer</button>
+        </div>
+    </div>
+</div>
+
+
+<div is="dmx-browser" id="browser1"></div>
+<dmx-notifications id="notifies1"></dmx-notifications>
+
+
+
+
+
+
+<dmx-array id="modifiedReleveIndex"></dmx-array>
+<dmx-array id="modifiedReleveArray"></dmx-array>
+<dmx-array id="releveAnomaliList" dmx-bind:items="getreleve.data.getReleve.where(`anomalie`, ['PE','PA','VC'], 'notInArray')"></dmx-array>
+<dmx-array id="jsonReleveCorrection"></dmx-array>
+<dmx-array id="listTournee"></dmx-array>
+<dmx-array id="listBordereau"></dmx-array>
+<dmx-value id="loopIndexCorrection" dmx-bind:value="0"></dmx-value>
+<dmx-value id="selectedBordereau"></dmx-value>
+<dmx-value id="selectedReleve"></dmx-value>
+<dmx-value id="indexReleve"></dmx-value>
+<dmx-value id="numLotFac"></dmx-value>
+<dmx-value id="releveurloading" dmx-bind:value="false"></dmx-value>
+<dmx-value id="lotfacLoading" dmx-bind:value="false"></dmx-value>
+<dmx-value id="periodeLoading" dmx-bind:value="true"></dmx-value>
+
+<dmx-api-action id="updateReleve" noload="true" url="http://localhost:5243/api/releve" method="post" dmx-data:jsonrelevecorrection="jsonReleveCorrection.value" dmx-data:matricule="connectedUser.data.matricule" data-type="json" dmx-on:success="notifies1.success('Corrections effectuées')" dmx-on:error="notifies1.danger(lastError.response)"></dmx-api-action>
+<dmx-local-manager id="connectedUser"></dmx-local-manager>
+<div class="wappler-block container-fluid">
+    <div class="row ">
+        <div class=" col-12 col-md-4">
+            <div class="card">
+                <h6 class="heading-text">Recuperer les bordereaux avec les filtres ci-dessous</h6>
+                <div class="form-group row">
+                    <label for="periodeReset" class="form-label col-6 col-form-label">Période:</label>
+                    <div class="col-6 align-self-center">
+                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="getPeriod.data.getPeriod" optiontext="nom_periode" optionvalue="id_periode" dmx-on:changed="releveAnomaliList.empty();lotfacApi.load({});getLotFac.load({idperiod: value},true)">
+                            <option selected="" value="">Aucune periode</option>
+                        </select>
+                        <button id="btn11" class="btn" dmx-show="getPeriod.state.executing">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="lotfac" class="form-label col-6 col-form-label">Lot facturation:</label>
+
+                    <div class="col-6 align-self-center">
+                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="getLotFac.data.getLotFac" optiontext="libelle" optionvalue="num_lot_fac" dmx-on:changed="releveAnomaliList.empty();numLotFac.setValue(value);getreleve.load({periode: periode1.value, bordereau: 0, num_lotfac: value},true)">
+                            <option selected="" value="">Aucune cellule</option>
+                        </select>
+                        <button id="btn21" class="btn" dmx-show="getLotFac.state.executing">
+                            <span class="spinner-border spinner-border-sm" role="status"></span>
+                        </button>
+                    </div>
+
+                </div>
+                <!-- <div class="form-group mb-3 row">
+                    <label for="matriculeSearch" class="form-label col-6 col-form-label">Recherche par matricule</label>
+                    <div class="col-6 align-self-center">
+                        <select id="matriculeSearch" class="form-select" dmx-bind:options="getReleveurs.data.getReleveurs" optiontext="matricule+'-'+nom" optionvalue="matricule">
+                            <option selected="" value="">Tous</option>
+                        </select>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class=" col-12 col-md-4">
+            <div class="card">
+                <h6 class="heading-text">Filtrer par tournée et par bordereau</h6>
+                <div class="form-group row">
+                    <label for="periodeReset" class="form-label col-6 col-form-label">Tournée:</label>
+                    <div class="col-6 align-self-center">
+                        <select id="selectTournee" class="form-select form-control form-select-sm" dmx-bind:options="getreleve.data.getTournee" optiontext="tournee" optionvalue="tournee" dmx-on:updated="run({runJS:{name:'filterReleveAnomalieByTournee',outputType:'text',function:'filterReleveAnomalieByTournee',args:[`value`]}})">
+                            <option selected="" value="">Toutes les tournées</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group row">
+                    <label for="lotfac" class="form-label col-6 col-form-label">Bordereau</label>
+
+                    <div class="col-6 align-self-center">
+                        <select id="selectBordereau" class="form-select form-select-sm" dmx-bind:options="listBordereau.items" optiontext="$value" optionvalue="$value" dmx-on:changed="run({runJS:{name:'filterReleveAnomalieByBordereau',outputType:'text',function:'filterReleveAnomalieByBordereau',args:[`selectTournee.value`,`value`]}})">
+                        </select>
+                    </div>
+
+                </div>
+                <!-- <div class="form-group mb-3 row">
+                    <label for="matriculeSearch" class="form-label col-6 col-form-label">Recherche par matricule</label>
+                    <div class="col-6 align-self-center">
+                        <select id="matriculeSearch" class="form-select" dmx-bind:options="getReleveurs.data.getReleveurs" optiontext="matricule+'-'+nom" optionvalue="matricule">
+                            <option selected="" value="">Tous</option>
+                        </select>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- <div class=" col-12  col-md-8 " id="attribue">
+
+            <div class="card">
+                <h6 class=" heading-text">
+                    Liste des bordereaux
+                </h6>
+
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="small">
+                                <th class="small">Tournee</th>
+                                <th class="small">Periode</th>
+                                <th class="small">Bordereau</th>
+                            </tr>
+                        </thead>
+                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="suiviebOrdereauView.data" id="tableRepeat2">
+                            <tr dmx-on:click="selectedBordereau.setValue($value);getreleve.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau&amp;&amp;tournee==selectedBordereau.value.tournee" class="table-row ">
+                                <td class="small" dmx-text="tournee"></td>
+                                <td class="small" dmx-text="periode"></td>
+                                <td class="small" dmx-text="bordereau"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ul class="pagination pagination-sm" dmx-dataview="suiviebOrdereauView" dmx-generator="bs5paging">
+                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == 1" aria-label="First">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+                    </li>
+                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == 1" aria-label="Previous">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+                    </li>
+                    <li class="page-item" dmx-class:active="title == suiviebOrdereauView.page" dmx-class:disabled="!active" dmx-repeat="suiviebOrdereauView.getDataViewPagination(2,1,'...')">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.select(page)">{{title)}}</a>
+                    </li>
+                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == suiviebOrdereauView.pages" aria-label="Next">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.next()"><span aria-hidden="true">&rsaquo;</span></a>
+                    </li>
+                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == suiviebOrdereauView.pages" aria-label="Last">
+                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+    <div class="row">
+
+        <div class=" col-12  pt-2">
+            <div class="card"><span dmx-show="content.getreleve.state.executing" class="spinner-border spinner-border-sm text-success-emphasis" role="status"></span>
+
+
+                <ul class="nav nav-tabs" id="anomaliNav" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="avec_tab" data-bs-toggle="tab" href="#" data-bs-target="#Avec" role="tab" aria-controls="navTabs1_2" aria-selected="false">Avec Anomalies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " id="sans_tab" data-bs-toggle="tab" href="#" data-bs-target="#Sans" role="tab" aria-controls="navTabs1_1" aria-selected="true">Toutes les releves</a>
+                    </li>
+
+
+                </ul>
+                <div class="tab-content" id="navTabs1_content">
+                    <div class="tab-pane fade active show" id="Avec" role="tabpanel">
+                        <div class="d-flex flex-column table-container" dmx-show="getreleve.data.getReleve.length&gt;0">
+                            <h6 class="heading-text">Toutes les releves avec anomalies de:</h6>
+
+                            <div class="d-flex flex-column justify-content-start">
+                                <p dmx-text="'Cellule: '+lotfac1.selectedText"></p>
+                                <p dmx-text="selectTournee.value?'Tournée: '+selectTournee.value:'Tournée: Toutes les tournées'" dmx-show="lotfac1.value"></p>
+                                <p dmx-text="selectBordereau.value?'Bordereau: '+selectBordereau.value:'Bordereau: Tous les bordereaux'" dmx-show="selectTournee.value"></p>
+                                <p dmx-text="'Nombre total des releves: '+releveAnomaliList.items.length"></p>
+                            </div>
+
+
+
+
+                            <div class="d-flex justify-content-between align-items-center flex-row mt-1 mb-3">
+                                <div class="d-flex">
+                                    <i class="fas fa-circle-notch fa-spin text-success fa-lg" dmx-show="loadingTable.value==true"></i>
+                                </div>
+                                <div class="d-flex">
+                                    <button id="resetBtn" class="btn btn-sm btn-warning text-end" dmx-on:click="run([{run:{outputType:'text',action:`modifiedReleveIndex.empty();modifiedReleveArray.empty()`}},{run:{outputType:'text',action:`getreleve.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau})`}},{runJS:{name:'resetAnomalieArray',outputType:'text',function:'resetAnomalieArray'}}])" dmx-show="modifiedReleveIndex.items.length&gt;0">Reinitialiser</button>
+                                    <button id="clotureAll" class="btn btn-sm btn-danger text-end" dmx-show="releveAnomaliList.items.length!==modifiedReleveIndex.items.length" dmx-on:click="run([{runJS:{name:'selectAll',outputType:'text',function:'selectAll'}},{run:{outputType:'text',action:`releveAnomaliList.sort()`}}])">Tous cloturer</button>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="table-header">
+                                        <tr class="small">
+                                            <th class="small">Modifié</th>
+                                            <th class="small">Nom</th>
+                                            <th class="small">Addresse</th>
+                                            <th class="small">Numero PL</th>
+                                            <th class="small">Numéro Compteur</th>
+                                            <th class="small">Index Precedent</th>
+                                            <th class="small">Date Releve Precedente</th>
+                                            <th class="small">Durée Periode</th>
+                                            <th class="small">Consommation</th>
+                                            <th class="small">Index Active</th>
+                                            <th class="small">Date releve</th>
+                                            <th class="small">Anomalie</th>
+                                            <th class="small">Releveur</th>
+                                            <th class="small">Consommation Moyenne</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveAnomaliList.items" id="tableANOMALIERepeat" class="text-sm">
+                                        <tr dmx-bind:id="NumReleve" dmx-on:click="getLogReleve.load({num_releve: $value.num_releve})" class="small">
+                                            <td class="small" dmx-bind:id="num_releve">
+                                                <i class="fas fa-check-circle" dmx-show="modifiedReleveIndex.items.contains($value.num_releve)"></i>
+
+                                            </td>
+                                            <td class="small" dmx-text="nom"></td>
+                                            <td class="small" dmx-text="adr_physique"></td>
+                                            <td class="small" dmx-text="codepl"></td>
+                                            <td class="small" dmx-text="num_cpteur"></td>
+                                            <td class="small" dmx-text="pre_index_a"></td>
+                                            <td class="small" dmx-text="pre_date_releve.formatDate('dd-MMM-yyyy')"></td>
+                                            <td class="small" dmx-text="periode_duree.days"></td>
+                                            <td class="small" dmx-text="consommation"></td>
+
+                                            <td class="small" class="text-danger" dmx-text="index_a"></td>
+
+                                            <!-- <td class="small">
+
+                                                <input id="index_a" name="index_a" type="text" class="form-control correct-input" dmx-bind:value="index_a" dmx-on:updated="run({runJS:{function:'updateDataIndex',args:[`$index`,`value`],name:'updateData',outputType:'text'}})" dmxorgdomid="d128772">
+                                            </td> -->
+                                            <td class="small" dmx-text="date_releve.formatDate('dd-MMM-yyyy')"></td>
+
+                                            <td class="small" dmx-text="anomalie"></td>
+                                            <td class="small" dmx-text="matricule"></td>
+
+
+                                            <td class="small" dmx-text="moy_consommation"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-5">
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="tab-pane fade show" id="Sans" role="tabpanel">
+                        <div class="d-flex flex-column table-container">
+                            <h6 class="heading-text">Toutes les releves du bordereau</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="table-head">
+
+                                            <th class="small">Nom</th>
+                                            <th class="small">Addresse</th>
+                                            <th class="small">Numero PL</th>
+                                            <th class="small">Numéro Compteur</th>
+                                            <th class="small">Index Precedent</th>
+                                            <th class="small">Date Releve Precedente</th>
+                                            <th class="small">Durée Periode</th>
+                                            <th class="small">Consommation</th>
+                                            <th class="small">Index Active</th>
+                                            <th class="small">Date releve</th>
+                                            <th class="small">Anomalie</th>
+                                            <th class="small">Releveur</th>
+                                            <th class="small">Consommation Moyenne</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getreleve.data.getReleve" id="tableSANSANOMALIERepeat5">
+                                        <tr dmx-on:click="selectedReleve.setValue($value);getLogReleve.load({num_releve: num_releve},true)" class="small" dmx-class:table-success="$value==selectedReleve.value">
+
+                                            <td class="small" dmx-text="nom"></td>
+                                            <td class="small" dmx-text="adr_physique"></td>
+                                            <td class="small" dmx-text="codepl"></td>
+                                            <td class="small" dmx-text="num_cpteur"></td>
+                                            <td class="small" dmx-text="pre_index_a"></td>
+                                            <td class="small" dmx-text="pre_date_releve.formatDate('dd-MMM-yyyy')"></td>
+                                            <td class="small" dmx-text="periode_duree.days"></td>
+                                            <td class="small" dmx-text="consommation"></td>
+                                            <td class="small" dmx-text="index_a"></td>
+                                            <td class="small" dmx-text="date_releve.formatDate('dd-MM-yyyy')"></td>
+                                            <td class="small" dmx-text="anomalie"></td>
+                                            <td class="small" dmx-text="matricule"></td>
+                                            <td class="small" dmx-text="moy_consommation"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function releveToJson(value){
+        dmx.app.data.content.modifiedReleveArray.items.push
+            ( 
+                        {
+                        "num_releve" : value.num_releve,
+                        "index_a" : value.pre_index_a,
+                        "index_ancien" : value.index_a != null? value.index_a: 0,
+                        "anomalie" : value.anomalie
+                        }
+            )
+                        
+
+        dmx.app.data.content.jsonReleveCorrection.items = JSON.stringify(dmx.app.data.content.modifiedReleveArray.items);
+
+    }
+
+    function selectAll() {
+        dmx.app.data.content.loadingTable.value = true;
+        dmx.app.data.content.releveAnomaliList.items.forEach((releve=>{
+            if(dmx.app.data.content.modifiedReleveIndex.items.indexOf(releve.num_releve)==-1){
+            dmx.app.data.content.modifiedReleveIndex.items.push(releve.num_releve);
+
+            this.releveToJson(releve)
+
+            this.updateDataIndex(releve.num_releve)
+
+            }
+        }))
+        const temp = dmx.app.data.content.releveAnomaliList.items;
+        dmx.app.data.content.releveAnomaliList.items = [];
+        const tempIndex = dmx.app.data.content.modifiedReleveIndex.items;
+        dmx.app.data.content.modifiedReleveIndex.items = [];
+        setTimeout(()=>{
+            dmx.app.data.content.releveAnomaliList.items = temp;
+            dmx.app.data.content.loadingTable.value = false;
+            dmx.app.data.content.modifiedReleveIndex.items = tempIndex;
+            console.log(dmx.app.data.content.modifiedReleveArray.items)
+        },1000)
+
+    }
+
+    function removeReleveFromJSON (num_releve){  //deselectionner les releves 
+
+            const filteredArray = dmx.app.data.content.modifiedReleveArray.items.filter((r)=>{return r.num_releve!==num_releve})
+
+         dmx.app.data.content.jsonReleveCorrection.items = JSON.stringify(dmx.app.data.content.modifiedReleveArray.items);
+    }
+
+    function updateDataIndex(num_releve){ // c'est pour mettre a jour l'index et mettre l'ancien
+        var index = dmx.app.data.content.releveAnomaliList.items.findIndex(a=> a.num_releve==num_releve);
+        dmx.app.data.content.releveAnomaliList.items[index].index_a = dmx.app.data.content.releveAnomaliList.items[index].pre_index_a;
+
+    }
+
+    function resetAnomalieArray(){
+        
+        dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.getreleve.data.getReleve.filter(x=>{return (x.anomalie!=="PE")&&(x.anomalie!=="PA")&&(x.anomalie!=="VC")});
+        dmx.app.data.content.modifiedReleveIndex.items.length=0;
+    }
+ 
+
+function filterReleveAnomalieByTournee(tournee){
+        dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.getreleve.data.getReleve.filter(x=>{return x.num_tourne==tournee}); // je filtre les releves par tournée
+        dmx.app.data.content.listBordereau.items = ['Tous les bordereaux']; // je reinitialise la liste des bordereaux
+        (dmx.app.data.content.releveAnomaliList.items).forEach(t=>{  // je remplis la liste des bordereau par tournée
+            if((dmx.app.data.content.listBordereau.items).indexOf(t.num_bordereaux)==-1){
+                (dmx.app.data.content.listBordereau.items).push(t.num_bordereaux)
+            }
+        })
+    }
+
+    function filterReleveAnomalieByBordereau(tournee,bordereau){
+        if(bordereau != 'Tous les bordereaux'){
+            dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.getreleve.data.getReleve.filter(x=>{return x.num_tourne==tournee});
+            dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.releveAnomaliList.items.filter(x=>{return x.num_bordereaux==bordereau}); // je filtre les releves par bordereau
+            
+        }else{
+            dmx.app.data.content.releveAnomaliList.items = dmx.app.data.content.getreleve.data.getReleve.filter(x=>{return x.num_tourne==tournee});
+        }
+        
+       
+    }
+ 
+
+   
+
+
+
+
+
+
+    function convertImage(bynariData){
+        try{
+            var strAscii = String.fromCodePoint(...bynariData);
+        var strBase64 = btoa(strAscii);
+        document.getElementById('releveImage').src = 'data:image/jpeg;base64,'+strBase64
+        console.log('data:image/png;base64,'+strBase64)
+        } catch(err){
+            document.getElementById('releveImage').src = '/assets/no-image.png';
+
+        }
+        // return btoa(String.fromCodePoint(...bynariData));
+    }
+
+    function showModifiedReleveIndex(array){
+        console.log(array)
+    }
+
+    function showStatus(index, numreleve,releveArray){
+        console.log("l'index est: "+index);
+        console.log(numreleve)
+        console.log(releveArray)
+    }
+</script>
