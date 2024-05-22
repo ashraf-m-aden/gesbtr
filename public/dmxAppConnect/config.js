@@ -2075,5 +2075,157 @@ dmx.config({
         "name": "nom"
       }
     ]
+  },
+  "test": {
+    "suiviebOrdereauView": {
+      "meta": null,
+      "outputType": "text"
+    },
+    "nonAttribBordereauDataView": {
+      "meta": [
+        {
+          "name": "tournee",
+          "type": "number"
+        },
+        {
+          "name": "periode",
+          "type": "number"
+        },
+        {
+          "name": "bordereau",
+          "type": "number"
+        },
+        {
+          "name": "nbr_cpteur",
+          "type": "number"
+        },
+        {
+          "name": "compteurrelevee",
+          "type": "number"
+        },
+        {
+          "name": "reste",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_maj",
+          "type": "number"
+        },
+        {
+          "name": "date_maj",
+          "type": "datetime"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "numtsp",
+          "type": "number"
+        },
+        {
+          "name": "num_lot_fac",
+          "type": "number"
+        },
+        {
+          "name": "suivie_anomalie",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "user_st",
+          "type": "number"
+        },
+        {
+          "name": "date_st",
+          "type": "datetime"
+        }
+      ],
+      "outputType": "text"
+    },
+    "nonAttribBordereauTable": {
+      "meta": [
+        {
+          "name": "tournee",
+          "type": "number"
+        },
+        {
+          "name": "periode",
+          "type": "number"
+        },
+        {
+          "name": "bordereau",
+          "type": "number"
+        },
+        {
+          "name": "nbr_cpteur",
+          "type": "number"
+        },
+        {
+          "name": "compteurrelevee",
+          "type": "number"
+        },
+        {
+          "name": "reste",
+          "type": "number"
+        },
+        {
+          "name": "user_crea",
+          "type": "number"
+        },
+        {
+          "name": "date_crea",
+          "type": "datetime"
+        },
+        {
+          "name": "user_maj",
+          "type": "number"
+        },
+        {
+          "name": "date_maj",
+          "type": "datetime"
+        },
+        {
+          "name": "matricule",
+          "type": "number"
+        },
+        {
+          "name": "numtsp",
+          "type": "number"
+        },
+        {
+          "name": "num_lot_fac",
+          "type": "number"
+        },
+        {
+          "name": "suivie_anomalie",
+          "type": "text"
+        },
+        {
+          "name": "statut",
+          "type": "number"
+        },
+        {
+          "name": "user_st",
+          "type": "number"
+        },
+        {
+          "name": "date_st",
+          "type": "datetime"
+        }
+      ],
+      "outputType": "text"
+    }
   }
 });

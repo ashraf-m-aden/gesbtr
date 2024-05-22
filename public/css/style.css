@@ -1,22 +1,37 @@
 /* GENERAL */
 body{
-  background-color: #f3f3f3 !important;
+  background-color: var(--background)!important;
 }
 :root {
-  --green-color: #036306;
-  --blue-color: #3b71ca;
+  --primary:#0067C6;
+  --secondary:#caf0f8;
+  --tertiary:#F02233;
+  --quaternary:#43C4B7;
+  --warning:#f3de64;
   --custom-pink: #dedaeb;
-  --white: #ffffff;
+  --background: #f3f3f3;
 }
 
+.btn-warning{
+  background: var(--warning);
+  color: var(--quaternary);
+}
+.btn-success{
+  background: var(--primary);
+  color: white;
+}
+.btn-success:hover{
+  background: var(--quaternary);
+
+}
 .navbar-nav > a:link{
   color: var(--white) !important;
 }
 a:link{
-  color: var(--green-color) !important;
+  color: var(--primary) !important;
 }
 .navbar-footer{
-  border: solid 1px green;
+  border: solid 1px var(--primary);
 }
 .clicked {
   background: var(--custom-pink) !important;
@@ -59,7 +74,7 @@ a:link{
 }
 
 .checkbox{
-  outline: 1px solid green;
+  outline: 1px solid var(--primary);
 }
 input {
   border: 1px solid gainsboro !important;
@@ -67,12 +82,10 @@ input {
 
 .heading-text {
   margin-bottom: 20px;
-  color: var(--green-color);
+  color: var(--primary);
 }
 
-.nav-item {
-  color: white !important;
-}
+
 .table-row,
 .table-head {
   font-size: small;
@@ -97,32 +110,32 @@ input {
 }
 
 .app-sidebar {
-  border: 1px solid var(--green-color);
+  border: 1px solid var(--primary);
   background-color: white !important;
   padding-top: 15px;
   padding-bottom: 15px;
   border-radius: 5px;
-  color: var(--green-color);
+  color: var(--primary);
 }
 .list-group-item-action,
 .form-check-input {
-  color: var(--green-color);
+  color: var(--primary);
 }
 select {
-  color: var(--green-color);
+  color: var(--primary);
 }
 /* .bootstrap-select.btn-group .dropdown-menu li a:hover {
-    color: var(--green-color) !important;
+    color: var(--primary) !important;
     background: white !important;
 } */
 .correct-input {
-  color: var(--green-color) !important;
+  color: var(--primary) !important;
   background: white !important;
-  border: 1px solid var(--green-color);
+  border: 1px solid var(--primary);
 }
 
 .card {
-  border: 1px solid var(--green-color);
+  border: 1px solid var(--primary);
   background-color: white;
   padding-top: 15px;
   border-radius: 5px;
@@ -154,7 +167,7 @@ select {
 }
 
 .header {
-  background: var(--green-color) !important;
+  color: var(--primary) !important;
 }
 
 /* MODEL */
@@ -176,7 +189,7 @@ select {
 
 .pagination > li > a {
   background-color: white;
-  color: var(--green-color);
+  color: var(--primary);
 }
 
 .pagination > li > a:focus,
@@ -190,33 +203,19 @@ select {
 
 .pagination > .active > a {
   color: white !important;
-  background-color: var(--green-color) !important;
-  border: 1px solid var(--green-color) !important;
+  background-color: var(--primary) !important;
+  border: 1px solid var(--primary) !important;
 }
 
 .pagination > .active > a:hover {
-  background-color: var(--green-color) !important;
-  border: 1px solid var(--green-color);
+  background-color: var(--primary) !important;
+  border: 1px solid var(--primary);
 }
 
 .bg-success{
-    background-color: var(--green-color);
+    background-color: var(--primary);
 }
 
-.login-header{
-  text-align: center;
-  background-color: var(--green-color);
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
-}
-.login-form{
-  text-align: center;
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
-  margin: auto;
-}
 
 .table-container{
   max-height: 500px !important;
@@ -229,11 +228,16 @@ select {
 }
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  color: var(--bs-nav-pills-link-active-color);
-  background-color: #0ff117;
+  color: white !important;
+  background-color:  var(--secondary);
 }
-.nonattribTable{
-  max-height: 300px !important;
-  overflow-y: scroll;
-  border: solid 1px red;
+.nav-link{
+  color: var(--primary) !important;
+}
+
+
+.translucent{
+  background-color: var(--secondary);
+  backdrop-filter: blur(20px);
+
 }

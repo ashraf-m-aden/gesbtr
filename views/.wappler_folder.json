@@ -1,5 +1,9 @@
 {
-  "index2.ejs": {
+  "index3.ejs": {
+    "layoutPage": "deconnected",
+    "description": ""
+  },
+  "index.ejs": {
     "layoutPage": "main",
     "description": ""
   }

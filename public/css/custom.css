@@ -6,13 +6,13 @@
 .wrapper-select{
 display: flex;
 flex-direction: row;
-align-items: center;
 justify-content: space-between;
 margin-right: 20px;
+align-items: center;
 }
 
 .icon-wrapper{
-    background-color: green;
+    background-color: var(--primary);
     width: 50px;
     justify-content: center;
     text-align: center;
@@ -35,47 +35,84 @@ margin-right: 20px;
     border-top-right-radius: 10px;
     border: solid 1px rgba(212, 212, 212, 0.164);
     border-bottom: none;
-z-index: 99;
 }
+
 
 .nav-link .active{
-    border: solid 1px green !important;
+    border: solid 1px var(--primary) !important;
 }
+.nav-item:not(:has(.active)):hover{
+    background-color: var(--quaternary);
+}
+.nav-item:not(:has(.active)):hover>.nav-link{
+    color: white !important;
 
+}
 .tab-pane{
-    border: solid 1px green;
+    border: solid 1px var(--primary);
     border-top: none;
 }
 
 .nav-item:has(.active){
-    border: solid 1px green;
+    border: solid 1px var(--primary);
     border-bottom: none;
 
 }
 
 
 
+
 .list-card{
-    background: #84bd91;
+    background: var(--secondary);
     padding: 5px;
     border-radius: 10px;
-    border: solid 1px green;
+    border: solid 1px var(--primary);
 }
 
 .list-card-text{
-    color: white;
+    color: var(--primary);
 }
 .list-card-background{
    background-color: transparent !important;
    background: transparent !important;
-   color: white !important;
+   color: black;
    border: solid  1px 0 1px 0 white;
-   font-weight: 800;
 
+}
+dt{
+    font-weight: unset;
 }
 
 
 .bordereau-selected .list-card-background{
-    background-color: yellow !important;
-    color: black !important;
+    background-color: var(--quaternary) !important;
+    color: white !important;
+}
+
+.form-affect{
+    display: flex;
+    justify-content: space-between;
+}
+.form-affect select{
+    width: 70%;
+}
+
+.logo{
+    height: 50px;
+}
+
+.navbar-footer{
+    color: var(--primary);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+}
+.navbar-text{
+    color: var(--primary);
+
 }

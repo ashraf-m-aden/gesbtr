@@ -12,81 +12,170 @@
       {
         "type": "text",
         "name": "dir"
-      }
-    ],
-    "$_POST": [
+      },
+      {
+        "type": "array",
+        "name": "updatedbordereaux"
+      },
       {
         "type": "text",
-        "fieldName": "user_crea",
         "name": "user_crea"
-      },
-      {
-        "type": "text",
-        "fieldName": "periode",
-        "name": "periode"
-      },
-      {
-        "type": "text",
-        "fieldName": "bordereau",
-        "name": "bordereau"
-      },
-      {
-        "type": "text",
-        "fieldName": "tournee",
-        "name": "tournee"
-      },
-      {
-        "type": "text",
-        "fieldName": "matricule",
-        "name": "matricule"
-      },
-      {
-        "type": "number",
-        "name": "num_lot_fac"
       }
     ]
   },
   "exec": {
     "steps": {
-      "name": "updateBordereaux",
-      "module": "dbupdater",
-      "action": "custom",
+      "name": "repeat",
+      "module": "core",
+      "action": "repeat",
       "options": {
-        "connection": "edbdev",
-        "sql": {
-          "query": "UPDATE suiviebordereau set matricule=:p1,user_crea=:p5,statut=174 where bordereau=:p2 and tournee=:p3 and periode=:p4 and num_lot_fac=:p6",
-          "params": [
+        "repeat": "{{$_GET.updatedbordereaux.parseJSON()}}",
+        "outputFields": [],
+        "exec": {
+          "steps": [
             {
-              "name": ":p1",
-              "value": "{{$_POST.matricule}}"
+              "name": "updateBordereaux",
+              "module": "dbupdater",
+              "action": "custom",
+              "options": {
+                "connection": "edbdev",
+                "sql": {
+                  "query": "UPDATE suiviebordereau set matricule=:p1,user_crea=:p5,statut=174 where bordereau=:p2 and tournee=:p3 and periode=:p4 and num_lot_fac=:p6",
+                  "params": [
+                    {
+                      "name": ":p1",
+                      "value": "{{$value.matricule}}",
+                      "recid": 1
+                    },
+                    {
+                      "name": ":p2",
+                      "value": "{{$value.bordereau}}",
+                      "recid": 2
+                    },
+                    {
+                      "name": ":p3",
+                      "value": "{{$value.tournee}}",
+                      "recid": 3
+                    },
+                    {
+                      "name": ":p4",
+                      "value": "{{$value.periode}}",
+                      "recid": 4
+                    },
+                    {
+                      "name": ":p5",
+                      "value": "{{$_GET.user_crea}}",
+                      "recid": 5
+                    },
+                    {
+                      "name": ":p6",
+                      "value": "{{$value.num_lot_fac}}",
+                      "recid": 6
+                    }
+                  ]
+                }
+              },
+              "output": true,
+              "meta": [],
+              "outputType": "array",
+              "type": "dbcustom_query"
             },
             {
-              "name": ":p2",
-              "value": "{{$_POST.bordereau}}"
+              "name": "getMaxIdLof",
+              "module": "dbupdater",
+              "action": "custom",
+              "options": {
+                "connection": "edbdev",
+                "sql": {
+                  "query": "select (MAX(id_ligne)+1) as max from log_suiviebordereau",
+                  "params": []
+                }
+              },
+              "output": true,
+              "meta": [
+                {
+                  "name": "max",
+                  "type": "number"
+                }
+              ],
+              "type": "dbcustom_query"
             },
             {
-              "name": ":p3",
-              "value": "{{$_POST.tournee}}"
-            },
-            {
-              "name": ":p4",
-              "value": "{{$_POST.periode}}"
-            },
-            {
-              "name": ":p5",
-              "value": "{{$_POST.user_crea}}"
-            },
-            {
-              "name": ":p6",
-              "value": "{{$_POST.num_lot_fac}}"
+              "name": "insertLog",
+              "module": "dbupdater",
+              "action": "custom",
+              "options": {
+                "connection": "edbdev",
+                "sql": {
+                  "query": "insert into log_suiviebordereau (\"bordereau\", \"id_ligne\", \"mat\", \"periode\", \"statut\", \"statut_ano\", \"supprimer\", \"tournee\", \"user_crea\") values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning \"id_ligne\"",
+                  "params": [
+                    {
+                      "name": "?",
+                      "value": "{{$value.bordereau}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{getMaxIdLof[0].max}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{$value.matricule}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{$value.periode}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{$value.statut}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{$value.suivie_anomalie}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "N"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{$value.tournee}}"
+                    },
+                    {
+                      "name": "?",
+                      "value": "{{$_GET.user_crea}}"
+                    }
+                  ]
+                }
+              },
+              "output": true,
+              "meta": [],
+              "outputType": "array",
+              "type": "dbcustom_query"
             }
           ]
         }
       },
       "output": true,
-      "meta": [],
-      "outputType": "array",
-      "type": "dbcustom_query"
+      "meta": [
+        {
+          "name": "$index",
+          "type": "number"
+        },
+        {
+          "name": "$number",
+          "type": "number"
+        },
+        {
+          "name": "$name",
+          "type": "text"
+        },
+        {
+          "name": "$value",
+          "type": "object"
+        }
+      ],
+      "outputType": "array"
     }
   }
 }

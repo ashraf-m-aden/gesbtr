@@ -1,10 +1,10 @@
 {
   "routes": [
     {
-      "path": "/",
-      "page": "index",
+      "path": "/index3",
+      "page": "index3",
       "routeType": "page",
-      "layout": "main",
+      "layout": "deconnected",
       "data": {
         "title": "Bordereaux"
       },
@@ -34,8 +34,8 @@
       "exec": "/api/globals/isConnected"
     },
     {
-      "path": "/index2",
-      "page": "index2",
+      "path": "/",
+      "page": "index",
       "layout": "main"
     },
     {

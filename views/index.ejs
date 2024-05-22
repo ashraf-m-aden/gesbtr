@@ -1,15 +1,17 @@
-<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxBrowser:{},dmxDataTraversal:{},dmxNotifications:{},dmxStateManagement:{},dmxBootstrap5Modal:{},dmxBootstrap5TableGenerator:{},dmxBootstrap5PagingGenerator:{},dmxFormatter:{},dmxFormRepeat:{},dmxSockets:{}}" dmx-on:load="selectedAnomalies.empty()" style="" -->
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="test" appconnect="local" components="{dmxBootstrap5Navigation:{},dmxFormatter:{}}" -->
+<dmx-serverconnect id="postUpdateBordereauNonAttrib" url="/api/bordereaux/post/updateBordereaux" dmx-on:success="notifies1.success('Bordereau affecté avec succés');selectedNonAttribBordereau.empty();getSuivieBordereauNonAttrib.load({id_periode: periodeSelect.value, num_lot_fac: celluleSelect.value},true)" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getreleve" url="/api/releve/get/getReleveBordereau" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="postLogSuivieBordereau" url="/api/bordereaux/post/postLogSuiviBordereaux" noload="true" dmx-on:success="getMaxId.load({})"></dmx-serverconnect>
-<dmx-serverconnect id="getMaxId" url="/api/bordereaux/get/getMaxiIdLogSuivi"></dmx-serverconnect>
+<dmx-serverconnect id="getMaxId" url="/api/bordereaux/get/getMaxiIdLogSuivi" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getLotSuivieBordereau" url="/api/bordereaux/get/getLotSuivieBordereau" noload="true"></dmx-serverconnect>
 <dmx-serverconnect id="getSuivieBordereau" url="/api/bordereaux/get/getSuivieBordereau" noload="true"></dmx-serverconnect>
-<dmx-serverconnect id="getSuivieBordereauNonAttrib" url="/api/bordereaux/get/getSuivieBordereauNonAttrib" noload="true"></dmx-serverconnect>
+<dmx-serverconnect id="getSuivieBordereauNonAttrib" url="/api/bordereaux/get/getSuivieBordereauNonAttrib" noload="true" dmx-on:success="run({runJS:{name:'resetCheckbox',outputType:'text',function:'resetCheckbox'}})"></dmx-serverconnect>
 <dmx-serverconnect id="getReleveurs" url="/api/bordereaux/get/getReleveurs"></dmx-serverconnect>
 <dmx-serverconnect id="getAnomalies" url="/api/rapports/getAnomalies"></dmx-serverconnect>
 <dmx-serverconnect id="getPeriods" url="/api/globals/getPeriods"></dmx-serverconnect>
 <dmx-serverconnect id="getLotFac" url="/api/globals/getLotFac" noload="true"></dmx-serverconnect>
 <dmx-data-view id="historiqueReleve" dmx-bind:data="logReleveCorrection.data" pageSize="5"></dmx-data-view>
-
+<dmx-array id="releveAnomaliList" dmx-bind:items="bordereauSelect.value?getreleve.data.getReleve.where(`anomalie`, ['PE','PA','VC'], 'notInArray').where(`num_tourne`, tourneeSelect.value, '==').where(`num_bordereaux`, bordereauSelect.value, '=='):(tourneeSelect.value?getreleve.data.getReleve.where(`anomalie`, ['PE','PA','VC'], 'notInArray').where(`num_tourne`, tourneeSelect.value, '=='):getreleve.data.getReleve.where(`anomalie`, ['PE','PA','VC'], 'notInArray'))"></dmx-array>
 
 
 
@@ -22,29 +24,42 @@
 <dmx-data-view id="releveErreur" dmx-bind:data="selectedReleveCorrection.items" pagesize="5"></dmx-data-view>
 
 <dmx-data-view id="logBordereauView" dmx-bind:data="getLotSuivieBordereau.data.getLotSuivieBordereau" pagesize="5"></dmx-data-view>
-<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="getSuivieBordereau.data.getSuivieBordereau" pagesize="5"></dmx-data-view>
+<dmx-data-view id="suiviebOrdereauView" dmx-bind:data="bordereauSelect.value?getSuivieBordereau.data.getSuivieBordereau.where(`tournee`, tourneeSelect.value, '==').where(`bordereau`, bordereauSelect.value, '=='):(tourneeSelect.value?getSuivieBordereau.data.getSuivieBordereau.where(`tournee`, tourneeSelect.value, '=='):getSuivieBordereau.data.getSuivieBordereau)" pagesize="10"></dmx-data-view>
 <div class="modal" id="RESETBordereau" is="dmx-bs5-modal" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title heading-text">Réinitialisation du bordereau</h6>
+                <h3 class="modal-title heading-text text-center">Réinitialisation du bordereau</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p><i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i>
+            <div class="modal-body text-center">
+                <h4 class="text-danger"><i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i>
 
-                    Etes vous sûr de vouloir réinitialiser ce bordereau?<i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i></p>
+                    Etes vous sûr de vouloir réinitialiser ce bordereau?<i class="fas fa-exclamation-triangle" dmx-style:color="'red'"></i></h4>
 
                 <form is="dmx-serverconnect-form" id="resetForm" method="post" action="/api/bordereaux/post/resetBordereaux" dmx-on:error="notifies1.danger(lastError.response.message)" dmx-on:success="notifies1.success('Bordereau reinitialiser avec succés');getSuivieBordereauNonAttrib.load({id_periode: selectedBordereau.value.periode, num_lot_fac: selectedBordereau.value.num_lot_fac});getSuivieBordereau.load({id_periode: selectedBordereau.value.periode, num_lot_fac: selectedBordereau.value.num_lot_fac});getLotSuivieBordereau.load({tournee: selectedBordereau.value.tournee, periode: selectedBordereau.value.periode, bordereau: selectedBordereau.value.bordereau});RESETBordereau.toggle();postLogSuivieBordereau.load({periode: selectedBordereau.value.periode, tournee: selectedBordereau.value.tournee, bordereau: selectedBordereau.value.bordereau, mat: selectedBordereau.value.matricule, statut: selectedBordereau.value.statut, user_crea: connectedUser.data.matricule, statut_ano: selectedBordereau.value.suivie_anomalie, supprimer: 'N', max: 1, id_ligne: getMaxId.data.getMax[0].max!=null?getMaxId.data.getMax[0].max:1},true);getMaxId.load({})" dmx-header:authorization="connectedUser.data.token">
                     <input id="userCreaReset" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule">
 
                     <input id="bordereauReset" name="bordereau" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.bordereau">
                     <input id="tourneeReset" name="tournee" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.tournee">
-                    <input id="periodeReset" name="periode" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.periode"><button id="btn4" class="btn btn-sm btn-danger" type="submit">
-                        Reinitialiser
-                    </button>
+                    <input id="periodeReset" name="periode" type="hidden" class="form-control" dmx-bind:value="selectedBordereau.value.periode"><button id="btn4" class="btn btn-danger btn-lg" type="submit">OUI, REINITIALISER</button>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="updateBordereau" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title heading-text fw-bolder">Affectation des bordereaux</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p dmx-text="'Vous êtes sur le point d\'affecter au releveur: '+releveurBordereauNonAttribList.selectedText+', '+selectedNonAttribBordereau.count+' bordereaux. Confirmez-vous cette action?'"></p>
+
+                <button id="updateBordereauButn" class="btn btn-sm fw-bolder btn-success" type="submit" dmx-on:click="postUpdateBordereauNonAttrib.load({updatedbordereaux: selectedNonAttribBordereau.items, user_crea: connectedUser.data.matricule},true);getSuivieBordereau.load({id_periode: periodeSelect.value, num_lot_fac: celluleSelect.value},true);getreleve.load({periode: periodeSelect.value, num_lotfac: celluleSelect.value},true);updateBordereau.toggle()">Affecter</button>
             </div>
         </div>
     </div>
@@ -59,7 +74,7 @@
 
 
 
-<dmx-array id="selectedNonAttribBordereau" dmx-on:updated="nonAttribBordereauCheckBox.setValue(items.contains(nonAttribBordereauTable.$value)?true:false)"></dmx-array>
+<dmx-array id="selectedNonAttribBordereau"></dmx-array>
 <dmx-array id="selectedReleveCorrection1" dmx-bind:items="getReleve.data.where(`Anomalie`, 'PA', '!==')"></dmx-array>
 <dmx-value id="jsonReleveCorrection"></dmx-value>
 <dmx-value id="selectedBordereau"></dmx-value>
@@ -70,255 +85,389 @@
 <dmx-api-action id="updateReleve" noload="true" url="http://localhost:5243/api/releve" method="post" dmx-data:jsonrelevecorrection="jsonReleveCorrection.value" dmx-data:matricule="connectedUser.data.matricule" data-type="json" dmx-on:success="notifies1.success('Corrections effectuées')" dmx-on:error="notifies1.danger(lastError.response)"></dmx-api-action>
 <dmx-api-datasource id="getReleve" is="dmx-fetch" url="http://localhost:5243/api/releve" dmx-header:authorization="connectedUser.data.token" dmx-param:num_tourne="selectedBordereau.value.tournee" dmx-param:id_periode="selectedBordereau.value.periode" dmx-param:num_bordereaux="selectedBordereau.value.bordereau" noload="true"></dmx-api-datasource>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
-<dmx-api-action id="updateaffectBordereau" noload="true" url="http://localhost:5243/api/suiviBorderau/affecteBordereau" dmx-param:matricule="bodyNonAttribue[$index].releveurBordereauNonAttribList.value" dmx-param:periode="bodyNonAttribue[$index].Periode" dmx-param:tournee="bodyNonAttribue[$index].Tournee" dmx-param:bordereau="bodyNonAttribue[$index].Bordereau" dmx-header:authorization="connectedUser.data.token" dmx-on:success="bordereauNonAttribu.load({});suiviBordereauApi.load({});notifies1.success('Bordereau Affecté')" dmx-on:error="notifies1.danger('Une erreur est survenue')"></dmx-api-action>
-<div class="wappler-block container-fluid">
-    <div class="row ">
-        <div class=" col-12 col-md-5 ">
-            <div class="card">
-                <h6 class="heading-text">Recuperer les bordereaux avec les filtres ci-dessous</h6>
-                <div class="form-group row">
-                    <label for="periodeReset" class="form-label col-sm-2 col-form-label">Période:</label>
-                    <div class="col-sm-10 align-self-center">
-                        <select id="periode1" class="form-select form-control form-select-sm" dmx-bind:options="getPeriods.data.getPeriod" optiontext="nom_periode" optionvalue="id_periode" dmx-on:changed="getLotFac.load({idperiod: selectedValue},true);showlotbordereau.setValue(false);showBordereau.setValue(false);releveurs.setValue()">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="card wrapper-select col-lg-2 col-md-3">
+                    <div class="d-flex flex-column">
+                        <h5 class="header">Période</h5><select id="periodeSelect" class="form-select" dmx-bind:options="getPeriods.data.getPeriod" optiontext="nom_periode" optionvalue="id_periode" dmx-on:changed="getLotFac.load({idperiod: selectedValue},true);getSuivieBordereau.load({id_periode: 0, num_lot_fac: 0},true);selectedBordereau.setValue(null);selectedNonAttribBordereau.empty()">
                             <option selected="" value="">Aucune periode</option>
                         </select>
-                        <button id="btn11" class="btn" dmx-show="getPeriods.state.executing">
-                            <span class="spinner-border spinner-border-sm" role="status"></span>
-                        </button>
+                        <span dmx-show="getPeriods.state.executing" class="spinner-border spinner-border-sm" role="status"></span>
                     </div>
 
+                    <div class="icon-wrapper">
+                        <i class="far fa-calendar-alt fa-2x icon"></i>
+                    </div>
                 </div>
-                <div class="form-group row">
-                    <label for="lotfac" class="form-label col-sm-2 col-form-label">Lot facturation:</label>
 
-                    <div class="col-sm-10 align-self-center">
-                        <select id="lotfac1" class="form-select form-select-sm" dmx-bind:options="getLotFac.data.getLotFac" optiontext="libelle" optionvalue="num_lot_fac" dmx-on:changed="numLotFac.setValue(value);getSuivieBordereau.load({id_periode: periode1.value, num_lot_fac: value});getSuivieBordereauNonAttrib.load({id_periode: periode1.value, num_lot_fac: value})">
+                <div class="card wrapper-select col-lg-2 col-md-3">
+                    <div class="d-flex flex-column">
+                        <h5 class="header">Cellule</h5><select id="celluleSelect" class="form-select" dmx-bind:options="getLotFac.data.getLotFac" optiontext="libelle" optionvalue="num_lot_fac" dmx-on:changed="numLotFac.setValue(value);getSuivieBordereau.load({id_periode: periodeSelect.value, num_lot_fac: value},true);getSuivieBordereauNonAttrib.load({id_periode: periodeSelect.value, num_lot_fac: value},true);selectedBordereau.setValue(null);selectedNonAttribBordereau.empty();getreleve.load({periode: periodeSelect.value, num_lotfac: value},true)">
                             <option selected="" value="">Aucune cellule</option>
                         </select>
-                        <button id="btn21" class="btn" dmx-show="getLotFac.state.executing">
-                            <span class="spinner-border spinner-border-sm" role="status"></span>
-                        </button>
+
+                        <span dmx-show="getLotFac.state.executing" class="spinner-border spinner-border-sm" role="status"></span>
+
                     </div>
 
+                    <div class="icon-wrapper">
+                        <i class="fas fa-map-marker-alt fa-2x icon"></i>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class=" col-12 col-md-7 " id="nonATTRIBUE">
-            <div class="card">
-                <h6 class="heading-text">
-                    Liste de tous les bordereaux non attribués
-                </h6>
-                <div class="nonattribTable ">
-                    <table class="table table-hover table-sm">
-                        <thead class="table-header">
-                            <tr class="table-head">
-                                <th>Periode</th>
-                                <th>Tournee</th>
-                                <th>Bordereau</th>
-                                <th>Statut</th>
-                                <th>Date</th>
-                                <th>Attribué à</th>
-                                <th>Confirmer?</th>
-                            </tr>
-                        </thead>
-                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="getSuivieBordereauNonAttrib.data.getSuivieBordereau" id="nonAttribBordereauTable">
+                <div class="card wrapper-select col-lg-2 col-md-3">
+                    <div class="d-flex flex-column">
+                        <h5 class="header">Tournée</h5><select id="tourneeSelect" class="form-select" dmx-bind:options="getSuivieBordereau.data.getSuivieBordereau.unique(`tournee`).sort()" dmx-bind:disabled="!celluleSelect.value">
+                            <option selected="" value="">Toutes les tournées</option>
+                        </select>
+                    </div>
 
-                            <tr class="table-row">
-                                <td dmx-text="periode"></td>
-                                <td dmx-text="tournee"></td>
-                                <td dmx-text="bordereau"></td>
-                                <td dmx-text="statut"></td>
-                                <td dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
-                                <td>
-                                    <select id="releveurBordereauNonAttribList" class="form-select" dmx-bind:options="getReleveurs.data.getReleveurList" optiontext="$value.nom+', '+$value.matricule" optionvalue="$value.matricule" dmx-on:changed="bordereauForm.text1.setValue(bodyNonAttribue[$index].Periode+'; '+bodyNonAttribue[$index].Tournee+'; '+bodyNonAttribue[$index].releveurBordereauNonAttribList.value+'; '+bodyNonAttribue[$index].Bordereau)" dmxorgdomid="d10960">
-                                        <option selected="" value="" dmxorgdomid="d10961">
-                                            Personne
-                                        </option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <form is="dmx-serverconnect-form" id="updateBordereauForm" method="post" action="/api/bordereaux/post/updateBordereaux" dmx-on:success="notifies1.success('Bordereau affecté');getSuivieBordereauNonAttrib.load({id_periode: periode, num_lot_fac: num_lot_fac},true);getSuivieBordereau.load({id_periode: periode, num_lot_fac: num_lot_fac},true);postLogSuivieBordereau.load({periode: periode, tournee: tournee, bordereau: bordereau, mat: matricule, statut: statut, user_crea: connectedUser.data.matricule, statut_ano: 'P', supprimer: 'N', id_ligne: getMaxId.data.getMax[0].max!=null?getMaxId.data.getMax[0].max:1})" dmx-on:error="notifies1.danger(lastError.response.message)" dmxorgdomid="d10963">
-                                        <input id="userCreaUpdate" name="user_crea" type="hidden" class="form-control" dmx-bind:value="connectedUser.data.matricule" dmxorgdomid="d10964">
-                                        <input id="numLotFacForm    " name="num_lot_fac" type="hidden" class="form-control" dmx-bind:value="num_lot_fac" dmxorgdomid="d10964">
-                                        <input id="periodeUpdate" name="periode" type="hidden" class="form-control" dmx-bind:value="periode" dmxorgdomid="d10965">
-                                        <input id="bordereauUpdate" name="bordereau" type="hidden" class="form-control" dmx-bind:value="bordereau" dmxorgdomid="d10966">
-                                        <input id="tourneeUpdate" name="tournee" type="hidden" class="form-control" dmx-bind:value="tournee" dmxorgdomid="d10967">
-                                        <input id="matriculeUpdate" name="matricule" type="hidden" class="form-control" dmx-bind:value="releveurBordereauNonAttribList.value" dmxorgdomid="d10968">
-                                        <button id="btn5" class="btn btn-primary btn-sm" dmx-show="releveurBordereauNonAttribList.value" type="submit" dmxorgdomid="d10969">
-                                            Confirmer
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="icon-wrapper">
+                        <i class="fas fa-drafting-compass fa-2x icon"></i>
+                    </div>
                 </div>
-                <div class="table-responsive" dmx-show="!getSuivieBordereauNonAttrib.data.getSuivieBordereau.hasItems()">
-                    <table class="table table-hover table-sm">
-                        <tbody>
-                            <tr>
-                                <td colspan="7">Aucune données</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card wrapper-select col-lg-2 col-md-3">
+                    <div class="d-flex flex-column">
+                        <h5 class="header">Bordereau</h5><select id="bordereauSelect" class="form-select" dmx-bind:options="getSuivieBordereau.data.getSuivieBordereau.where(`tournee`, tourneeSelect.value, '==').unique(`bordereau`).sort()" dmx-bind:disabled="!tourneeSelect.value">
+                            <option selected="" value="">Tous les bordereaux</option>
+                        </select>
+                    </div>
+
+                    <div class="icon-wrapper">
+                        <i class="fas fa-list-alt fa-2x icon"></i>
+                    </div>
                 </div>
+
             </div>
+
         </div>
+
     </div>
     <div class="row">
-        <div class=" col-12 col-lg-4  pt-2 pb-3" id="attribue">
-
-            <div class="card">
-                <h6 class=" heading-text">
-                    Liste des bordereaux
-                </h6>
-
-                <div class="table-responsive">
-                    <table class="table table-sm small" dmx-class="">
-                        <thead class="small">
-                            <tr class="table-head small">
-                                <th class="small">Bordereau</th>
-                                <th>Tournée</th>
-                                <th>Statut</th>
-                            </tr>
-                        </thead>
-                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="suiviebOrdereauView.data" id="bordereauxRow" class="small">
-                            <tr dmx-on:click="selectedBordereau.setValue($value);getLotSuivieBordereau.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:table-success="bordereau==selectedBordereau.value.bordereau&amp;&amp;tournee==selectedBordereau.value.tournee&amp;&amp;num_lot_fac==selectedBordereau.value.num_lot_fac" class="table-row">
-                                <td dmx-text="bordereau"></td>
-                                <td dmx-text="tournee"></td>
-                                <td dmx-text="statut"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <ul class="pagination pagination-sm" dmx-dataview="suiviebOrdereauView" dmx-generator="bs5paging">
-                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == 1" aria-label="First">
-                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                    </li>
-                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == 1" aria-label="Previous">
-                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
-                    </li>
-                    <li class="page-item" dmx-class:active="title == suiviebOrdereauView.page" dmx-class:disabled="!active" dmx-repeat="suiviebOrdereauView.getDataViewPagination(2,1,'...')">
-                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.select(page)">{{title)}}</a>
-                    </li>
-                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == suiviebOrdereauView.pages" aria-label="Next">
-                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.next()"><span aria-hidden="true">&rsaquo;</span></a>
-                    </li>
-                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == suiviebOrdereauView.pages" aria-label="Last">
-                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class=" col-12 col-lg-8  pt-2 pb-3">
-            <div class="row">
-                <div class="col-6">
-
-                    <div class="card">
-                        <h6 class="heading-text">Details du bordereau</h6>
-                        <div class="d-flex justify-content-between">
-                            <dl class="small">
-                                <dt>Tournee</dt>
-                                <dd>{{selectedBordereau.value.tournee}}</dd>
-                                <dt>Periode</dt>
-
-                                <dd>{{selectedBordereau.value.periode}}</dd>
-                                <dt>Bordereau</dt>
-                                <dd>{{selectedBordereau.value.bordereau}}</dd>
+        <div class="col-12 mt-2 ms-0 me-0 ps-0 pe-0">
+            <ul class="nav nav-tabs" id="navTabs1_tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active " id="tabBordereau" data-bs-toggle="tab" href="#" data-bs-target="#panBordereau" role="tab" aria-controls="navTabs1_1" aria-selected="true">Tous les bordereaux</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="TabBordereauNonAttrib" data-bs-toggle="tab" href="#" data-bs-target="#panBordereauNonAttrib" role="tab" aria-controls="navTabs1_2" aria-selected="false">Tous les bordereaux non attribués</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="TabReleveAnomalie" data-bs-toggle="tab" href="#" data-bs-target="#panReleveAnomalie" role="tab" aria-controls="navTabs1_2" aria-selected="false">Toutes les releves avec anomalies</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="navTabs1_content">
+                <div class="tab-pane show active fade" id="panBordereau" role="tabpanel">
+                    <div class="row">
+                        <div class=" col-12 col-md-4" id="attribue">
+                            <div class="list-card ">
+                                <div class="d-flex justify-content-start flex-row align-items-stretch"><i class="far fa-list-alt fa-2x list-card-text"></i>
+                                    <h5 class="heading-text list-card-text ms-2">
+                                        Liste des bordereaux
+                                    </h5>
+                                </div>
 
 
+                                <div class="table-responsive text-white bg-transparent">
+                                    <table class="table table-sm small text-white list-card-background" dmx-class="">
+                                        <thead class="small list-card-background">
+                                            <tr class="table-head small list-card-background">
+                                                <th class="list-card-background">Tournée</th>
+                                                <th class="small list-card-background">Bordereau</th>
 
+                                                <th class="list-card-background">Statut</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="suiviebOrdereauView.data" id="bordereauxRow" class="small">
+                                            <tr dmx-on:click="selectedBordereau.setValue($value);getLotSuivieBordereau.load({tournee: tournee, periode: periode, bordereau: bordereau})" dmx-class:bordereau-selected="bordereau==selectedBordereau.value.bordereau&amp;&amp;tournee==selectedBordereau.value.tournee&amp;&amp;num_lot_fac==selectedBordereau.value.num_lot_fac" class="table-row">
+                                                <td dmx-text="tournee" class=" list-card-background"></td>
+                                                <td dmx-text="bordereau" class=" list-card-background"></td>
 
-                            </dl>
-                            <dl class="small">
-                                <dt>Agent</dt>
-                                <dd>{{selectedBordereau.value.nom+', '+selectedBordereau.value.matricule}}</dd>
-                                <dt>Date</dt>
-                                <dd>{{selectedBordereau.value.date_crea.formatDate('dd-MM-yyyy')}}</dd>
-                                <dt>Statut</dt>
-                                <dd>{{selectedBordereau.value.statut}}</dd>
-
-
-
-                            </dl>
+                                                <td dmx-text="statut" class=" list-card-background"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <ul class="pagination pagination-sm" dmx-dataview="suiviebOrdereauView" dmx-generator="bs5paging">
+                                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == 1" aria-label="First">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+                                    </li>
+                                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == 1" aria-label="Previous">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+                                    </li>
+                                    <li class="page-item" dmx-class:active="title == suiviebOrdereauView.page" dmx-class:disabled="!active" dmx-repeat="suiviebOrdereauView.getDataViewPagination(2,1,'...')">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.select(page)">{{title)}}</a>
+                                    </li>
+                                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == suiviebOrdereauView.pages" aria-label="Next">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.next()"><span aria-hidden="true">&rsaquo;</span></a>
+                                    </li>
+                                    <li class="page-item" dmx-class:disabled="suiviebOrdereauView.page == suiviebOrdereauView.pages" aria-label="Last">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="suiviebOrdereauView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="d-flex">
-                            <button id="btn1" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#RESETBordereau" dmx-show="selectedBordereau.value">
-                                Reinitialiser
-                            </button>
-                        </div>
+                        <div class="col-12 col-md-3">
 
+                            <div class="list-card ">
+                                <div class="d-flex justify-content-start flex-row align-items-stretch"><i class="fas fa-info-circle list-card-text fa-2x"></i>
+                                    <h5 class="heading-text list-card-text ms-2">
+                                        Détails du bordereau
+                                    </h5>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <dl class="list-card-background">
+                                        <dt class="fw-bolder">Tournee</dt>
+                                        <dd>{{selectedBordereau.value.tournee}}</dd>
+                                        <dt class="fw-bolder">Periode</dt>
+
+                                        <dd>{{selectedBordereau.value.periode}}</dd>
+                                        <dt class="fw-bolder">Bordereau</dt>
+                                        <dd>{{selectedBordereau.value.bordereau}}</dd>
+
+
+
+
+                                    </dl>
+                                    <dl class="list-card-background">
+                                        <dt class="fw-bolder">Agent</dt>
+                                        <dd>{{selectedBordereau.value.nom+', '+selectedBordereau.value.matricule}}</dd>
+                                        <dt class="fw-bolder">Date</dt>
+                                        <dd>{{selectedBordereau.value.date_crea.formatDate('dd-MM-yyyy')}}</dd>
+                                        <dt>Statut</dt>
+                                        <dd class="fw-bolder">{{selectedBordereau.value.statut}}</dd>
+
+
+
+                                    </dl>
+                                </div>
+                                <div class="d-flex">
+                                    <button id="btn1" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#RESETBordereau" dmx-show="selectedBordereau.value">
+                                        Reinitialiser
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="list-card ">
+                                <div class="d-flex justify-content-start flex-row align-items-stretch"><i class="fas fa-history fa-2x list-card-text"></i>
+                                    <h5 class="heading-text list-card-text ms-2">
+                                        Historique du bordereau
+                                    </h5>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-sm">
+                                        <thead class="table-head">
+                                            <tr>
+                                                <th class="list-card-background">Statut</th>
+                                                <th class="list-card-background">Date crea</th>
+                                                <th class="list-card-background">Agent</th>
+                                                <th class="list-card-background">Attribué par</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="logBordereauView.data" id="tableRepeat2">
+                                            <tr>
+                                                <td dmx-text="statut" class="list-card-background"></td>
+                                                <td dmx-text="date_crea.formatDate('dd-MM-yyyy')" class="list-card-background"></td>
+                                                <td dmx-text="mat" class="list-card-background"></td>
+                                                <td dmx-text="user_crea" class="list-card-background"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <ul class="pagination pagination-sm" dmx-dataview="logBordereauView" dmx-generator="bs5paging">
+                                    <li class="page-item" dmx-class:disabled="logBordereauView.page == 1" aria-label="First">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
+                                    </li>
+                                    <li class="page-item" dmx-class:disabled="logBordereauView.page == 1" aria-label="Previous">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
+                                    </li>
+                                    <li class="page-item" dmx-class:active="title == logBordereauView.page" dmx-class:disabled="!active" dmx-repeat="logBordereauView.getDataViewPagination(2,1,'...')">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.select(page)">{{title}}</a>
+                                    </li>
+                                    <li class="page-item" dmx-class:disabled="logBordereauView.page == logBordereauView.pages" aria-label="Next">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.next()"><span aria-hidden="true">&rsaquo;</span></a>
+                                    </li>
+                                    <li class="page-item" dmx-class:disabled="logBordereauView.page == logBordereauView.pages" aria-label="Last">
+                                        <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-                <div class="col-6">
-                    <div class="card">
-                        <h6 class="modal-title heading-text">Historique du bordereau</h6>
-                        <div class="table-responsive">
-                            <table class="table table-hover table-sm">
-                                <thead class="table-head">
-                                    <tr>
-                                        <th>Statut</th>
-                                        <th>Date crea</th>
-                                        <th>Agent</th>
-                                        <th>Attribué par</th>
-                                    </tr>
-                                </thead>
-                                <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="logBordereauView.data" id="tableRepeat2">
-                                    <tr>
-                                        <td dmx-text="statut"></td>
-                                        <td dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
-                                        <td dmx-text="mat"></td>
-                                        <td dmx-text="user_crea"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <div class="tab-pane fade" id="panBordereauNonAttrib" role="tabpanel">
+                    <div class="row">
+                        <div class=" col-12 col-md-6 " id="nonATTRIBUE">
+                            <div class="list-card">
+                                <div class="d-flex justify-content-start flex-row align-items-stretch"><i class="far fa-folder-open list-card-text fa-2x"></i>
+                                    <h5 class="heading-text list-card-text ms-2">
+                                        Liste de tous les bordereaux non attribués
+                                    </h5>
+                                </div>
+                                <table class="table table-hover table-sm">
+                                    <thead class="table-header">
+                                        <tr class="table-head">
+
+                                            <th class="list-card-background">Tournee</th>
+                                            <th class="list-card-background">Bordereau</th>
+                                            <th class="list-card-background">Statut</th>
+                                            <th class="list-card-background">Date</th>
+                                            <th class="list-card-background">Selectionné</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="bordereauSelect.value?getSuivieBordereauNonAttrib.data.getSuivieBordereau.where(`tournee`, tourneeSelect.value, '==').where(`bordereau`, bordereauSelect.value, '=='):(tourneeSelect.value?getSuivieBordereauNonAttrib.data.getSuivieBordereau.where(`tournee`, tourneeSelect.value, '=='):getSuivieBordereauNonAttrib.data.getSuivieBordereau)" id="nonAttribBordereauTable">
+
+                                        <tr class="table-row">
+
+                                            <td class="list-card-background" dmx-text="tournee"></td>
+                                            <td class="list-card-background" dmx-text="bordereau"></td>
+                                            <td class="list-card-background" dmx-text="statut"></td>
+                                            <td class="list-card-background" dmx-text="date_crea.formatDate('dd-MM-yyyy')"></td>
+                                            <td class="list-card-background">
+                                                <div class="checkbox-wrapper-8">
+                                                    <input class="tgl tgl-skewed" dmx-bind:id="$value.tournee+$value.periode+$value.bordereau" type="checkbox" style="" dmx-on:checked="selectedNonAttribBordereau.addUniq($value)" dmx-on:unchecked="selectedNonAttribBordereau.remove($value)">
+                                                    <label class="tgl-btn" data-tg-off="NON" data-tg-on="OUI" dmx-bind:for="$value.tournee+$value.periode+$value.bordereau"></label>
+                                                </div>
+
+
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="table-responsive" dmx-show="!getSuivieBordereauNonAttrib.data.getSuivieBordereau.hasItems()">
+                                    <table class="table table-hover table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="7" class="list-card-background">Aucune données</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <ul class="pagination pagination-sm" dmx-dataview="logBordereauView" dmx-generator="bs5paging">
-                            <li class="page-item" dmx-class:disabled="logBordereauView.page == 1" aria-label="First">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.first()"><span aria-hidden="true">&lsaquo;&lsaquo;</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="logBordereauView.page == 1" aria-label="Previous">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.prev()"><span aria-hidden="true">&lsaquo;</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:active="title == logBordereauView.page" dmx-class:disabled="!active" dmx-repeat="logBordereauView.getDataViewPagination(2,1,'...')">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.select(page)">{{title}}</a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="logBordereauView.page == logBordereauView.pages" aria-label="Next">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.next()"><span aria-hidden="true">&rsaquo;</span></a>
-                            </li>
-                            <li class="page-item" dmx-class:disabled="logBordereauView.page == logBordereauView.pages" aria-label="Last">
-                                <a href="javascript:void(0)" class="page-link" dmx-on:click="logBordereauView.last()"><span aria-hidden="true">&rsaquo;&rsaquo;</span></a>
-                            </li>
-                        </ul>
+                        <div class=" col-12 col-md-3 " id="affectReleveur">
+                            <div class="list-card">
+                                <div class="d-flex justify-content-start flex-row align-items-stretch">
+
+                                    <i class="fas fa-user-plus fa-2x list-card-text"></i>
+                                    <h5 class="heading-text list-card-text ms-2">
+                                        Liste de tous les releveurs
+                                    </h5>
+                                </div>
+                                <div class="d-flex"><select id="releveurBordereauNonAttribList" class="form-select" dmx-bind:options="getReleveurs.data.getReleveurList" optiontext="$value.nom+', '+$value.matricule" optionvalue="$value.matricule" dmxorgdomid="d10960">
+                                        <option selected="" value="" dmxorgdomid="d10961">
+                                            Aucun releveur selectionné
+                                        </option>
+                                    </select><button id="confirmUpdate" class="btn btn-primary btn-sm" type="submit" dmxorgdomid="d10969" dmx-bind:disabled="!releveurBordereauNonAttribList.value" dmx-on:click="run([{runJS:{name:'updateBordereau',outputType:'text',function:'updateBordereau',args:[`releveurBordereauNonAttribList.value`]}},{run:{outputType:'text',action:`updateBordereau.toggle()`}}])">
+                                        Confirmer
+                                    </button></div>
+
+                                <div class="list-card-background">
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="panReleveAnomalie" role="tabpanel">
+                    <div class="d-flex justify-content-center" dmx-show="getSuivieBordereau.state.executing">
+                        <div class="spinner-border text-success" role="status">
+                        </div>
+                        <h1 class="text-success">Chargement...</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                            <button id="btnProcedure" class="btn btn-success" dmx-show="!getreleve.data.getReleve.isEmpty()"><i class="fas fa-hand-sparkles"></i>
+                                Lancer la procédure de cloture des relèves</button>
+                        </div>
+                        <div class=" col-12" id="releveAnomalie">
+                            <div class="d-flex flex-column table-container" dmx-show="getreleve.data.getReleve.length&gt;0">
+
+
+
+
+
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="table-header">
+                                            <tr class="small">
+                                                <th class="small">Nom</th>
+                                                <th class="small">Addresse</th>
+                                                <th class="small">Numero PL</th>
+                                                <th class="small">Numéro Compteur</th>
+                                                <th class="small">Index Precedent</th>
+                                                <th class="small">Date Releve Precedente</th>
+                                                <th class="small">Durée Periode</th>
+                                                <th class="small">Consommation</th>
+                                                <th class="small">Index Active</th>
+                                                <th class="small">Date releve</th>
+                                                <th class="small">Anomalie</th>
+                                                <th class="small">Releveur</th>
+                                                <th class="small">Consommation Moyenne</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="releveAnomaliList.items" id="tableANOMALIERepeat" class="text-sm">
+                                            <tr dmx-bind:id="NumReleve" dmx-on:click="getLogReleve.load({num_releve: $value.num_releve})" class="small">
+                                                <td class="small" dmx-text="nom"></td>
+                                                <td class="small" dmx-text="adr_physique"></td>
+                                                <td class="small" dmx-text="codepl"></td>
+                                                <td class="small" dmx-text="num_cpteur"></td>
+                                                <td class="small" dmx-text="pre_index_a"></td>
+                                                <td class="small" dmx-text="pre_date_releve.formatDate('dd-MMM-yyyy')"></td>
+                                                <td class="small" dmx-text="periode_duree.days"></td>
+                                                <td class="small" dmx-text="consommation"></td>
+
+                                                <td class="small" class="text-danger" dmx-text="index_a"></td>
+
+
+                                                <td class="small" dmx-text="date_releve.formatDate('dd-MMM-yyyy')"></td>
+
+                                                <td class="small" dmx-text="anomalie"></td>
+                                                <td class="small" dmx-text="matricule"></td>
+
+
+                                                <td class="small" dmx-text="moy_consommation"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-5">
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
 <script>
-    function allBordereauNonAttrib(array){
-        if(dmx.app.data.content.selectedNonAttribBordereau.items == array){
-dmx.app.data.content.selectedNonAttribBordereau.items=[]
-        } else{
-    dmx.app.data.content.selectedNonAttribBordereau.items  = array;
-        }
-        console.log(dmx.app.data.content.selectedNonAttribBordereau.items)
+    function updateBordereau(matricule){
+        (dmx.app.data.content.selectedNonAttribBordereau.items).forEach((bordereau)=>{
+            bordereau.matricule=matricule;
+        });
+        const json =   JSON.stringify(dmx.app.data.content.selectedNonAttribBordereau.items);
+        dmx.app.data.content.selectedNonAttribBordereau.items = json;
     }
 
-    function addBordereau(value){
-        console.log(value)
-  if(dmx.app.data.content.selectedNonAttribBordereau.items.includes(value)){
-dmx.app.data.content.selectedNonAttribBordereau.items=dmx.app.data.content.selectedNonAttribBordereau.items.filter(bordereau=> bordereau!==value)
-        } else{
-    dmx.app.data.content.selectedNonAttribBordereau.items.push(value);
-        }
-        console.log(dmx.app.data.content.selectedNonAttribBordereau.items)
-     
+    function resetCheckbox(){
+        $('input[type=checkbox]').prop('checked', false);
+        $('#releveurBordereauNonAttribList').prop('selectedIndex',-1);
     }
-
-  
+    function resetListBordereau(){
+        dmx.app.data.content.nonAttribBordereauDataView.items = [];
+    }
 </script>

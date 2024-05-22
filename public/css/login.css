@@ -1,0 +1,19 @@
+.login-wrapper{
+    border: solid 1px var(--primary);
+    padding: 10px;
+}
+.login-header{
+    text-align: center;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .login-form{
+    text-align: center;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+  }
+  

@@ -4,13 +4,15 @@
 <dmx-serverconnect id="logout" url="/api/globals/logout" noload="true"></dmx-serverconnect>
 <dmx-local-manager id="connectedUser"></dmx-local-manager>
 <header class="placeholder-glow header">
-    <nav class="navbar header d-flex navbar-expand-lg bg-body ps-2 pe-2 flex-row align-items-center justify-content-between">
+    <nav class="navbar translucent d-flex navbar-expand-lg bg-body ps-2 pe-2 flex-row align-items-center justify-content-between">
 
 
 
         <div class="d-flex align-items-center">
-            <a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/"></a>
-            <h5 class="text-justify text-light">Application de Gestion des Bordereaux</h5>
+            <a class="navbar-brand ms-auto d-flex flex-column align-item-center" href="/">
+                <img src="/assets/images/edd.png" class="logo">
+            </a>
+            <h5 class="text-justify header fw-bolder lh-base">Application de Gestion des Bordereaux</h5>
         </div>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnavges" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,11 +23,10 @@
             <div class="navbar-nav text-white justify-content-sm-start nav-pills">
 
 
-                <a class="nav-item nav-link text-center text-white" href="/">Bordereaux</a>
-                <a class="nav-item nav-link text-center text-white" href="/index2">Bordereaux2</a>
-                <a class="nav-item nav-link text-white text-center" href="/views/tournee">Tournees</a>
-                <a class="nav-item nav-link text-white text-center" href="/views/releve_cloture">Releves</a>
-                <button id="logOut" class="btn btn-sm btn-light text-danger ps-0 pe-0" dmx-on:click="logout.load({});notifies1.warning('Vous êtes déconnecté');browser1.goto('/auth/login')">Deconnexion</button>
+                <a class="nav-item nav-link text-center text-success" href="/">Bordereaux</a>
+                <a class="nav-item nav-link text-center text-success" href="/views/tournee">Tournees</a>
+                <button id="logOut" class="btn btn-sm btn-light text-danger ms-3 ps-3 pe-3" dmx-on:click="logout.load({});notifies1.warning('Vous êtes déconnecté');browser1.goto('/auth/login')">
+                    <i class="fa fa-power-off fa-2x"></i></button>
 
 
             </div>

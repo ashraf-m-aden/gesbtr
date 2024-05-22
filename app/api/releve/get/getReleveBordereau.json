@@ -3,15 +3,7 @@
     "$_GET": [
       {
         "type": "text",
-        "name": "tournee"
-      },
-      {
-        "type": "text",
         "name": "periode"
-      },
-      {
-        "type": "text",
-        "name": "bordereau"
       },
       {
         "type": "text",
